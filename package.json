@@ -1,0 +1,56 @@
+{
+    "name": "devspace",
+    "displayName": "Dev Space",
+    "description": "Snippets, Themes, And More!",
+    "version": "0.0.1",
+    "author": "Slash",
+    "publisher": "SlashDEV",
+    "license": "MIT",
+    "repository": "https://github.com/zer0less/devspace",
+    "icon": "img/logo.png",
+    "engines": {
+        "vscode": "^1.56.0"
+    },
+    "categories": [
+        "Snippets", "Themes"
+    ],
+    "contributes": {
+        "snippets": [
+            {
+                "language": "javascript",
+                "path": "./snippets/js.code-snippets"
+            },
+            {
+                "language": "javascript",
+                "path": "./snippets/react.code-snippets"
+            },
+            {
+                "language": "python",
+                "path": "./snippets/py.code-snippets"
+            },
+            {
+                "language": "html",
+                "path": "./snippets/ht.code-snippets"
+            },
+            {
+                "language": "css",
+                "path": "./snippets/css.code-snippets"
+            },
+            {
+                "language": "scss",
+                "path": "./snippets/scss.code-snippets"
+            },
+            {
+                "language": "shellscript",
+                "path": "./snippets/bash.code-snippets"
+            }
+        ],
+        "themes": [
+            {
+                "label": "Super Dark Red",
+                "uiTheme": "vs-dark",
+                "path": "./themes/super-darkred.json"
+            }
+        ]
+    }
+}
