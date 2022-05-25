@@ -12,7 +12,7 @@
         "vscode": "^1.56.0"
     },
     "categories": [
-        "Snippets", "Themes"
+        "Snippets", "Themes", "Keymaps"
     ],
     "contributes": {
         "snippets": [
@@ -50,6 +50,18 @@
                 "label": "Super Dark Red",
                 "uiTheme": "vs-dark",
                 "path": "./themes/super-darkred.json"
+            }
+        ],
+        "keybindings": [
+            {
+                "key": "ctrl+.",
+                "command": "workbench.action.showCommands"
+            }
+        ],
+        "commands": [
+            {
+              "command": "myExtension.sayHello",
+              "title": "Snippets - DevSpace"
             }
         ]
     }
