@@ -6,63 +6,85 @@
     "author": "Slash",
     "publisher": "SlashDEV",
     "license": "MIT",
-    "repository": "https://github.com/zer0less/devspace",
+    "homepage": "-",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/zer0less/devspace.git"
+    },
+    "bugs": {
+        "url": "https://github.com/zer0less/devspace/issues"
+    },
     "icon": "img/logo.png",
     "engines": {
         "vscode": "^1.56.0"
     },
     "categories": [
-        "Snippets", "Themes", "Keymaps"
+        "Snippets", "Themes", "Keymaps", "Other"
     ],
+    "keywords": [
+        "snippet", "dev", "devspace", "vscode"
+    ],
+    "activationEvents": [
+        "onCommand:devspace.snippets",
+        "onView:npmProjects"
+    ],
+  	"main": "./out/extension.js",
     "contributes": {
-        "snippets": [
-            {
-                "language": "javascript",
-                "path": "./snippets/js.code-snippets"
-            },
-            {
-                "language": "javascript",
-                "path": "./snippets/react.code-snippets"
-            },
-            {
-                "language": "python",
-                "path": "./snippets/py.code-snippets"
-            },
-            {
-                "language": "html",
-                "path": "./snippets/ht.code-snippets"
-            },
-            {
-                "language": "css",
-                "path": "./snippets/css.code-snippets"
-            },
-            {
-                "language": "scss",
-                "path": "./snippets/scss.code-snippets"
-            },
-            {
-                "language": "shellscript",
-                "path": "./snippets/bash.code-snippets"
+        "configuration": {
+            "title": "Dev Space",
+            "properties": {
+                "devspace.snippet_langs": {
+                    "default": ["javascript", "javascriptreact", "python", "html", "css", "scss", "shellscript"],
+                    "title": "Activate snippets for those languages",
+                    "type": "array",
+                    "markdownDescription": "Configure a list of the languages where the snippets will work and can be used. Caution: ot all languages have snippets, look at https://github.com/zer0less/devspace#snippets to see all available languages."
+                },
+                "devspace.allow_snippets": {
+                    "default": true,
+                    "title": "Enable snippets in VS Code from Dev Space",
+                    "type": "boolean",
+                    "markdownDescription": "Enable the use of the snippets from Dev Space in VS Code as a whole. If you only want some langauges to be desactivated, go to the language configuration"
+                }
             }
+        },
+        "snippets": [
+            { "language": "javascript", "path": "./snippets/js.code-snippets" },
+            { "language": "javascript", "path": "./snippets/react.code-snippets" },
+            { "language": "python", "path": "./snippets/py.code-snippets" },
+            { "language": "html", "path": "./snippets/ht.code-snippets" },
+            { "language": "css", "path": "./snippets/css.code-snippets" },
+            { "language": "scss", "path": "./snippets/scss.code-snippets" },
+            { "language": "shellscript", "path": "./snippets/bash.code-snippets" }
         ],
         "themes": [
-            {
-                "label": "Super Dark Red",
-                "uiTheme": "vs-dark",
-                "path": "./themes/super-darkred.json"
-            }
+            { "label": "Super Dark Red", "uiTheme": "vs-dark", "path": "./themes/super-darkred.json" }
         ],
         "keybindings": [
-            {
-                "key": "ctrl+.",
-                "command": "workbench.action.showCommands"
-            }
+            { "key": "ctrl+.", "command": "workbench.action.showCommands" }
         ],
         "commands": [
-            {
-              "command": "myExtension.sayHello",
-              "title": "Snippets - DevSpace"
-            }
+            { "command": "devspace.snippets", "title": "snippets" }
         ]
-    }
+    },
+    "scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"pretest": "npm run compile && npm run lint",
+		"lint": "eslint src --ext ts",
+		"test": "node ./out/test/runTest.js"
+	},
+	"devDependencies": {
+		"@types/vscode": "^1.67.0",
+		"@types/glob": "^7.1.3",
+		"@types/mocha": "^8.0.4",
+		"@types/node": "^12.11.7",
+		"eslint": "^7.19.0",
+		"@typescript-eslint/eslint-plugin": "^4.14.1",
+		"@typescript-eslint/parser": "^4.14.1",
+		"glob": "^7.1.6",
+		"mocha": "^8.2.1",
+		"typescript": "^4.1.3",
+		"vscode-test": "^1.5.0"
+	}
 }
