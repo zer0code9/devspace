@@ -1,5 +1,5 @@
-import { config, getConfig } from './lib/config';
-import { window, commands } from 'vscode';
+import { config, getConfig } from './src/lib/config';
+import { window, commands, Position } from 'vscode';
 
 let config = {
     // Snippets
@@ -28,18 +28,10 @@ class SnippetHandler {
 
 function activate(context) {
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "test" is now active!');
-
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with  registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = commands.registerCommand('test.helloWorld', function () {
-		// The code you place here will be executed every time your command is executed
-
-		// Display a message box to the user
-		window.showInformationMessage('Hello World from test!');
+	let disposable = commands.registerCommand('devspace.snippets', function () {
+		commands.executeCommand('vscode.open', Uri.file('settings.json'));
+		commands.executeCommand('vscode.editorScroll', 'devspace.snippet_langs')
+		window.showInformationMessage('Getting your snippets.');
 	});
 
 	context.subscriptions.push(disposable);

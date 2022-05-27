@@ -25,8 +25,7 @@
         "snippet", "dev", "devspace", "vscode", "theme"
     ],
     "activationEvents": [
-        "onCommand:devspace.snippets",
-        "onView:npmProjects"
+        "*"
     ],
   	"main": "./src/extension.js",
     "contributes": {

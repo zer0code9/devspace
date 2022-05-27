@@ -5,7 +5,17 @@
 <p align="center">
     <img src="https://img.shields.io/badge/slashDEV-devspace-red">
     <img alt="GitHub" src="https://img.shields.io/github/license/zer0less/devspace">
+    <img alt="Issues" src="https://img.shields.io/github/issues/zer0less/devspace?logo=github">
+    <img alt="Commit Activity" src="https://img.shields.io/github/commit-activity/m/zer0less/devspace?logo=github">
+    <img alt="Lastest Commit" src="https://img.shields.io/github/last-commit/zer0less/devspace?logo=github">
 </p>
+<p align="center">
+    <img alt="Extension Installs" src="https://img.shields.io/visual-studio-marketplace/i/SlashDEV.devspace?logo=visual%20studio%20code">
+    <img alt="Version" src="https://img.shields.io/visual-studio-marketplace/v/SlashDEV.devspace?logo=visual%20studio%20code">
+    <img alt="Last Updated" src="https://img.shields.io/visual-studio-marketplace/last-updated/SlashDEV.devspace?label=updated">
+</p>
+
+**Still in development**
 
 An extension full of wonderful stuff to kame your programming experience better! It contains snippets, themes, and keymaps. Notebooks will be coming.
 
