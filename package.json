@@ -59,7 +59,11 @@
             { "label": "Super Dark Red", "uiTheme": "vs-dark", "path": "./themes/super-darkred.json" }
         ],
         "keybindings": [
-            { "key": "ctrl+.", "command": "workbench.action.showCommands" }
+            { "key": "alt+.", "command": "workbench.action.showCommands" },
+            { "key": "alt+p", "command": "workbench.actions.view.problems", "when": "editorTextFocus" },
+            { "key": "alt+d", "command": "editor.action.marker.nextInFiles", "when": "editorTextFocus" },
+            { "key": "alt+a", "command": "editor.action.marker.prevInFiles", "when": "editorTextFocus" },
+            { "key": "alt+d", "command": "editor.action.deleteLines", "when": "editorTextFocus"}
         ],
         "commands": [
             { "command": "devspace.snippets", "title": "snippets" }
