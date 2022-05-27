@@ -1,5 +1,5 @@
 {
-    "name": "devspace",
+	"name": "devspace",
     "displayName": "Dev Space",
     "description": "Snippets, Themes, And More!",
     "version": "0.0.1",
@@ -22,13 +22,13 @@
         "Snippets", "Themes", "Keymaps", "Other"
     ],
     "keywords": [
-        "snippet", "dev", "devspace", "vscode"
+        "snippet", "dev", "devspace", "vscode", "theme"
     ],
     "activationEvents": [
         "onCommand:devspace.snippets",
         "onView:npmProjects"
     ],
-  	"main": "./out/extension.js",
+  	"main": "./src/extension.js",
     "contributes": {
         "configuration": {
             "title": "Dev Space",
@@ -66,25 +66,21 @@
             { "command": "devspace.snippets", "title": "snippets" }
         ]
     },
-    "scripts": {
-		"vscode:prepublish": "npm run compile",
-		"compile": "tsc -p ./",
-		"watch": "tsc -watch -p ./",
-		"pretest": "npm run compile && npm run lint",
-		"lint": "eslint src --ext ts",
-		"test": "node ./out/test/runTest.js"
+	"scripts": {
+		"lint": "eslint .",
+		"pretest": "npm run lint",
+		"test": "node ./test/runTest.js"
 	},
 	"devDependencies": {
-		"@types/vscode": "^1.67.0",
-		"@types/glob": "^7.1.3",
-		"@types/mocha": "^8.0.4",
-		"@types/node": "^12.11.7",
-		"eslint": "^7.19.0",
-		"@typescript-eslint/eslint-plugin": "^4.14.1",
-		"@typescript-eslint/parser": "^4.14.1",
-		"glob": "^7.1.6",
-		"mocha": "^8.2.1",
-		"typescript": "^4.1.3",
-		"vscode-test": "^1.5.0"
-	}
+        "@types/vscode": "^1.67.0",
+        "@types/glob": "^7.1.3",
+        "@types/mocha": "^8.0.4",
+        "@types/node": "^12.11.7",
+        "eslint": "^7.19.0",
+        "glob": "^7.1.6",
+        "mocha": "^8.2.1",
+        "typescript": "^4.1.3",
+        "vscode-test": "^1.5.0"
+    }
+
 }
