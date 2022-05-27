@@ -1,5 +1,7 @@
 import { config, getConfig } from './src/lib/config';
-import { window, commands, Position } from 'vscode';
+import { window, commands, Position, TreeItem, DiagnosticCollection, Diagnostic, Uri } from 'vscode';
+import fs from 'fs';
+import path from 'path';
 
 let config = {
     // Snippets
@@ -24,6 +26,56 @@ class SnippetHandler {
         this.status.tooltip = message;
         this.status.show();
     }
+}
+
+export class ProblemDependenciesProvider {
+	workspaceRoot;
+
+	constructor(workspaceRoot) {
+		this.workspaceRoot = workspaceRoot;
+	}
+
+	getTreeItem(element) {
+		return element;
+	}
+
+	getChildren(element) {
+		if(!this.workspaceRoot) {
+			getVSCodeDownloadUrl.window.showInformationMessage('Empty workspace')
+			return Promise.resolve([]);
+		}
+
+		if (element) {
+			return Promise.resolve(
+				this.getFileProblems(
+					path.join(this.workspaceRoot, element.label)
+				)
+			);
+		}
+	}
+
+	getFiles() {
+		return Promise.resolve(
+			this.getFileProblems(
+				path.join()
+			)
+		)
+	}
+
+	getFileProblems() {
+		DiagnosticCollection.forEach((call) => {
+			var uri = call.uri.fsPath
+			return new ProblemHandler(uri.substring(), )
+		})
+	}
+}
+
+class ProblemHandler extends TreeItem {
+	constructor(label, rPath, collapse) {
+		super(label, collapse);
+		this.tooltip = `${label}-${rPath}`;
+		this.description = rPath;
+	}
 }
 
 function activate(context) {

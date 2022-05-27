@@ -46,6 +46,14 @@
                 }
             }
         },
+        "views": {
+            "explorer": [
+                {
+                    "id": "problemDependencies",
+                    "name": "Problems"
+                }
+            ]
+        },
         "snippets": [
             { "language": "javascript", "path": "./snippets/js.code-snippets" },
             { "language": "javascript", "path": "./snippets/react.code-snippets" },
