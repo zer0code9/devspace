@@ -1,13 +1,17 @@
 import { config, getConfig } from './config';
-import { window, commands, Position, TreeItem, DiagnosticCollection, Diagnostic, Uri } from 'vscode';
+import { window, commands, Position, TreeItem, EventEmitter, Uri } from 'vscode';
 import fs from 'fs';
 import path from 'path';
 
 class MonoExplorerProvider {
 	workspaceRoot;
+	_onDidChange;
+	onDidChange;
 
 	constructor(workspaceRoot) {
 		this.workspaceRoot = workspaceRoot;
+		this._onDidChange = new EventEmitter<SpaceHandler>(workspaceRoot);
+		this.onDidChange = this._onDidChange.event;
 	}
 
 	getTreeItem(element) {
@@ -48,6 +52,10 @@ class MonoExplorerProvider {
         }
         return true;
     }
+
+	refresh() {
+		this._onDidChange.fire();
+	}
 }
 
 class SpaceHandler extends TreeItem {

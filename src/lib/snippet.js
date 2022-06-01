@@ -11,12 +11,10 @@ let config = {
 
 // SNIPPETS
 class SnippetHandler {
-    editor;
     status;
 
     constructor() {
-        this.editor = window.activeTextEditor;
-        this.status = window.createStatusBarItem(StatusBarAlignment.Right);
+        this.status = window.createStatusBarItem(StatusBarAlignment.Right, 100);
     }
 
     updateStatus(active) {
@@ -24,6 +22,7 @@ class SnippetHandler {
         const message = active ? "Snippets are enabled" : "Snippets are not enabled";
         this.status.text = `${icon} DevSpace`
         this.status.tooltip = message;
-        this.status.show();
+        if (active) this.status.show(); else this.status.hide();
+        return this.status;
     }
 }

@@ -7,20 +7,21 @@ import path from 'path';
 
 function activate(context) {
 
+	// Snippet
 	let Snippet = new SnippetHandler();
 	Snippet.updateStatus(getConfig()[1]);
 
-	const roothPath = getConfig()[2];
-	window.createTreeView('monoExplorer', {
-		treeDataProvider: new MonoExplorerProvider(roothPath)
-	});
-
-	let disposable = commands.registerCommand('devspace.snippets', function () {
+	commands.registerCommand('devspace.snippet.go', async () => {
 		commands.executeCommand('vscode.open', Uri.file('settings.json'));
-		commands.executeCommand('vscode.editorScroll', 'devspace.snippet_langs')
+		commands.executeCommand('vscode.editorScroll', 'devspace.snippet.languages')
 		window.showInformationMessage('Getting your snippets.');
 	});
-	context.subscriptions.push(disposable);
+
+	// Mono
+	const roothPath = getConfig()[2];
+	let Mono = new MonoExplorerProvider(roothPath);
+	window.createTreeView('monoExplorer', {treeDataProvider: Mono});
+	commands.registerCommand('devspace.mono.refresh', async () => {Mono.refresh();});
 }
 
 // this method is called when your extension is deactivated
@@ -29,6 +30,4 @@ function deactivate() {}
 export default {
 	activate,
 	deactivate,
-    SnippetHandler,
-    config
 }

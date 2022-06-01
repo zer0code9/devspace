@@ -34,19 +34,19 @@
         "configuration": {
             "title": "Dev Space",
             "properties": {
-                "devspace.snippet_langs": {
+                "devspace.snippet.languages": {
                     "default": ["javascript", "javascriptreact", "python", "html", "css", "scss", "shellscript"],
                     "title": "Activate snippets for those languages",
                     "type": "array",
                     "markdownDescription": "Configure a list of the languages where the snippets will work and can be used. Caution: ot all languages have snippets, look at https://github.com/zer0less/devspace#snippets to see all available languages."
                 },
-                "devspace.allow_snippets": {
+                "devspace.snippet.allow": {
                     "default": true,
                     "title": "Enable snippets in VS Code from Dev Space",
                     "type": "boolean",
                     "markdownDescription": "Enable the use of the snippets from Dev Space in VS Code as a whole. If you only want some langauges to be desactivated, go to the language configuration"
                 },
-                "devspace.monoworkspace": {
+                "devspace.mono.workspace": {
                     "default": "",
                     "title": "Workspace in Mono Explorer",
                     "type": "string",
@@ -56,24 +56,29 @@
         },
         "views": {
             "explorer": [
-                { "id": "problemDependencies", "name": "Problems" }
+                { "id": "devspace.probem.explorer", "name": "Problems" }
             ],
-            "mono-exp": [
-                { "id": "monoExplorer", "name": "Mono Explorer", "icon": "img/monoIcon.png", "contextualTitle": "MonoSpace Explorer"}
+            "monoexplorer": [
+                { "id": "devspace.mono.explorer", "name": "Mono Explorer", "icon": "img/monoIcon.png", "contextualTitle": "MonoSpace Explorer"}
             ]
         },
         "viewsContainers": {
             "activitybar": [
-                { "id": "mono-exp", "title": "Mono Explorer", "icon": "img/monoIcon.png" }
+                { "id": "monoexplorer", "title": "Mono Explorer", "icon": "img/monoIcon.png" }
             ]
         },
         "viewsWelcome": [
             {
-                "view": "mono-exp",
+                "view": "monoexplorer",
                 "contents": "To use Mono Explorer from Dev Space, you must select a workspace: can be any forlder (files won't work). \n[Open Folder](command:vscode.openFolder)\nMono Space where only one folder is opened so that your full attention is directed to that one folder only.",
                 "when": "workbenchState == empty"
             }
         ],
+        "menus": {
+            "view/title": [
+                {"command": "devspace.mono.refresh","when": "view == monoexplorer","group": "navigation"},
+            ]
+        },        
         "snippets": [
             { "language": "javascript", "path": "./snippets/js.code-snippets" },
             { "language": "javascript", "path": "./snippets/react.code-snippets" },
@@ -95,7 +100,8 @@
             { "key": "alt+d", "command": "editor.action.deleteLines", "when": "editorTextFocus"}
         ],
         "commands": [
-            { "command": "devspace.snippets", "title": "snippets" }
+            { "command": "devspace.snippet,go", "title": "Snippets" }
+            { "command": "devspace.mono.refresh", "title": "Refresh Mono"}
         ]
     },
 	"scripts": {
