@@ -15,9 +15,7 @@
     <img alt="Last Updated" src="https://img.shields.io/visual-studio-marketplace/last-updated/SlashDEV.devspace?label=updated">
 </p>
 
-**Still in development**
-
-An extension full of wonderful stuff to kame your programming experience better! It contains snippets, themes, and keymaps. Notebooks will be coming.
+An extension full of wonderful stuff to make your programming experience better! It contains snippets, themes, and keymaps. Notebooks will be coming.
 
 ## Snippets
 

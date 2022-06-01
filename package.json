@@ -2,7 +2,7 @@
 	"name": "devspace",
     "displayName": "Dev Space",
     "description": "Snippets, Themes, And More!",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "author": "Slash",
     "publisher": "SlashDEV",
     "license": "MIT",
@@ -64,7 +64,8 @@
             { "language": "shellscript", "path": "./snippets/bash.code-snippets" }
         ],
         "themes": [
-            { "label": "Super Dark Red", "uiTheme": "vs-dark", "path": "./themes/super-darkred.json" }
+            { "label": "Super Dark Red", "uiTheme": "vs-dark", "path": "./themes/super-darkred.json" },
+            { "label": "Super Light Blue", "uiTheme": "hc-light", "path": "./themes/super-lightblue.json" }
         ],
         "keybindings": [
             { "key": "alt+.", "command": "workbench.action.showCommands" },
