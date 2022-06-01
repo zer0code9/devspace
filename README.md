@@ -12,7 +12,7 @@
 <p align="center">
     <img alt="Extension Installs" src="https://img.shields.io/visual-studio-marketplace/i/SlashDEV.devspace?logo=visual%20studio%20code">
     <img alt="Version" src="https://img.shields.io/visual-studio-marketplace/v/SlashDEV.devspace?logo=visual%20studio%20code">
-    <img alt="Last Updated" src="https://img.shields.io/visual-studio-marketplace/last-updated/SlashDEV.devspace?label=updated">
+    <img alt="Last Updated" src="https://img.shields.io/visual-studio-marketplace/last-updated/SlashDEV.devspace?label=updated&logo=visual%20studio%20code">
 </p>
 
 An extension full of wonderful stuff to make your programming experience better! It contains snippets, themes, and keymaps. Notebooks will be coming.

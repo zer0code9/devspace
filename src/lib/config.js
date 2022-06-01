@@ -2,7 +2,8 @@ const vscode = require('vscode');
 
 const config = {
     snippetsLanguages,
-    allowSnippets
+    allowSnippets,
+    workspace
 }
 
 function getConfig() {
@@ -11,7 +12,8 @@ function getConfig() {
 
     return {
         snippetsLanguages,
-        allowSnippets: config.get('allow_snippets')
+        allowSnippets: config.get('allow_snippets'),
+        workspace: config.get('monoworkspace')
     }
 }
 

@@ -25,7 +25,9 @@
         "snippet", "dev", "devspace", "vscode", "theme"
     ],
     "activationEvents": [
-        "*"
+        "onCommand:devspace.snippets",
+        "onView:problemDependencies",
+        "onView:"
     ],
   	"main": "./src/extension.js",
     "contributes": {
@@ -43,17 +45,35 @@
                     "title": "Enable snippets in VS Code from Dev Space",
                     "type": "boolean",
                     "markdownDescription": "Enable the use of the snippets from Dev Space in VS Code as a whole. If you only want some langauges to be desactivated, go to the language configuration"
+                },
+                "devspace.monoworkspace": {
+                    "default": "",
+                    "title": "Workspace in Mono Explorer",
+                    "type": "string",
+                    "markdownDescription": "The workspace that will be available in the Mono Explorer Provider"
                 }
             }
         },
         "views": {
             "explorer": [
-                {
-                    "id": "problemDependencies",
-                    "name": "Problems"
-                }
+                { "id": "problemDependencies", "name": "Problems" }
+            ],
+            "mono-exp": [
+                { "id": "monoExplorer", "name": "Mono Explorer", "icon": "img/monoIcon.png", "contextualTitle": "MonoSpace Explorer"}
             ]
         },
+        "viewsContainers": {
+            "activitybar": [
+                { "id": "mono-exp", "title": "Mono Explorer", "icon": "img/monoIcon.png" }
+            ]
+        },
+        "viewsWelcome": [
+            {
+                "view": "mono-exp",
+                "contents": "To use Mono Explorer from Dev Space, you must select a workspace: can be any forlder (files won't work). \n[Open Folder](command:vscode.openFolder)\nMono Space where only one folder is opened so that your full attention is directed to that one folder only.",
+                "when": "workbenchState == empty"
+            }
+        ],
         "snippets": [
             { "language": "javascript", "path": "./snippets/js.code-snippets" },
             { "language": "javascript", "path": "./snippets/react.code-snippets" },

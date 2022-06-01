@@ -40,11 +40,3 @@ export class ProblemDependenciesProvider {
 		})
 	}
 }
-
-export class ProblemHandler extends TreeItem {
-	constructor(label, rPath, collapse) {
-		super(label, collapse);
-		this.tooltip = `${label}-${rPath}`;
-		this.description = rPath;
-	}
-}
