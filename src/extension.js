@@ -12,9 +12,9 @@ function activate(context) {
 	Snippet.updateStatus(getConfig()[1]);
 
 	commands.registerCommand('devspace.snippet.go', async () => {
+		window.showInformationMessage('Getting your snippets.');
 		commands.executeCommand('vscode.open', Uri.file('settings.json'));
 		commands.executeCommand('vscode.editorScroll', 'devspace.snippet.languages')
-		window.showInformationMessage('Getting your snippets.');
 	});
 	context.subscriptions.push(Snippet.getStatus());
 	context.subscriptions.push(window.onDidChangeActiveTextEditor(Snippet.updateStatus(getConfig()[1])));

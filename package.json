@@ -55,15 +55,15 @@
         },
         "views": {
             "explorer": [
-                { "id": "devspace.probem.explorer", "name": "Problems" }
+                { "id": "devspace.probem.explorer", "name": "Problems", "visibility": "hidden" }
             ],
             "monoexplorer": [
-                { "id": "devspace.mono.explorer", "name": "Mono Explorer", "icon": "img/monoIcon.png", "contextualTitle": "MonoSpace Explorer" }
+                { "id": "devspace.mono.explorer", "name": "Mono Explorer", "icon": "img/monoIcon.png", "contextualTitle": "Mono Explorer (Ctrl+Shift+M)" }
             ]
         },
         "viewsContainers": {
             "activitybar": [
-                { "id": "monoexplorer", "title": "Mono Explorer", "icon": "img/monoIcon.png" }
+                { "id": "monoexplorer", "title": "Mono Explorer (Ctrl+Shift+M)", "icon": "img/monoIcon.png" }
             ]
         },
         "viewsWelcome": [
@@ -97,7 +97,7 @@
             { "key": "alt+p", "command": "workbench.actions.view.problems", "when": "editorTextFocus" },
             { "key": "alt+d", "command": "editor.action.marker.nextInFiles", "when": "editorTextFocus" },
             { "key": "alt+a", "command": "editor.action.marker.prevInFiles", "when": "editorTextFocus" },
-            { "key": "alt+d", "command": "editor.action.deleteLines", "when": "editorTextFocus"},
+            { "key": "alt+x", "command": "editor.action.deleteLines", "when": "editorTextFocus"},
             { "key": "ctrl+shift+m", "command": "workbench.view.monoexplorer" }
         ],
         "commands": [

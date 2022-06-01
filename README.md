@@ -39,9 +39,22 @@ More Snippets will be coming! (Originally from Snippets Master)
 There are a few themes you can choose from made with love
 
 - Super Dark Red
-- Super Light Red
+- Super Light Blue
 
 More Themes will be coming!
+
+## Keybindings
+
+Use the useful and fast keybindings of Dev Space
+
+<table>
+    <tr><th>Keys</th><th>Command</th></tr>
+    <tr><td>Alt+.</td><td>Opens command prompt</td></tr>
+    <tr><td>Alt+p</td><td>Shows all the problems</td></tr>
+    <tr><td>Alt+a</td><td>Goes to the previous error</td></tr>
+    <tr><td>Alt+d</td><td>Goes to the next error</td></tr>
+    <tr><td>Alt+x</td><td>Deletes current line</td></tr>
+</table>
 
 ## Bug/Bad Syntax
 
