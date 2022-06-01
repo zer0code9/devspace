@@ -25,9 +25,8 @@
         "snippet", "dev", "devspace", "vscode", "theme"
     ],
     "activationEvents": [
-        "onCommand:devspace.snippets",
-        "onView:problemDependencies",
-        "onView:"
+        "onCommand:devspace.snippet.go", "onCommand:devspace.mono.refresh",
+        "onView:devspace.problem.explorer","onView:devspace.mono.explorer"
     ],
   	"main": "./src/extension.js",
     "contributes": {
@@ -59,7 +58,7 @@
                 { "id": "devspace.probem.explorer", "name": "Problems" }
             ],
             "monoexplorer": [
-                { "id": "devspace.mono.explorer", "name": "Mono Explorer", "icon": "img/monoIcon.png", "contextualTitle": "MonoSpace Explorer"}
+                { "id": "devspace.mono.explorer", "name": "Mono Explorer", "icon": "img/monoIcon.png", "contextualTitle": "MonoSpace Explorer" }
             ]
         },
         "viewsContainers": {
@@ -76,7 +75,8 @@
         ],
         "menus": {
             "view/title": [
-                {"command": "devspace.mono.refresh","when": "view == monoexplorer","group": "navigation"},
+                {"command": "devspace.mono.refresh","when": "view == monoexplorer","group": "navigation" },
+                {"command": "devspace.mono.change","when": "view == monoexplorer" }
             ]
         },        
         "snippets": [
@@ -97,11 +97,21 @@
             { "key": "alt+p", "command": "workbench.actions.view.problems", "when": "editorTextFocus" },
             { "key": "alt+d", "command": "editor.action.marker.nextInFiles", "when": "editorTextFocus" },
             { "key": "alt+a", "command": "editor.action.marker.prevInFiles", "when": "editorTextFocus" },
-            { "key": "alt+d", "command": "editor.action.deleteLines", "when": "editorTextFocus"}
+            { "key": "alt+d", "command": "editor.action.deleteLines", "when": "editorTextFocus"},
+            { "key": "ctrl+shift+m", "command": "workbench.view.monoexplorer" }
         ],
         "commands": [
-            { "command": "devspace.snippet,go", "title": "Snippets" }
-            { "command": "devspace.mono.refresh", "title": "Refresh Mono"}
+            { "command": "devspace.snippet.go", "title": "Snippets" },
+            { "command": "devspace.mono.refresh", "title": "Refresh Mono"},
+            { "command": "devspace.mono.change", "title": "Change Mono"}
+        ],
+        "walkthroughs": [
+            {
+                "id": "devspace.mono.walkthrough",
+                "title": "Mono Explorer",
+                "description": "",
+                "steps": []
+            }
         ]
     },
 	"scripts": {

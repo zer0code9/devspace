@@ -25,4 +25,8 @@ class SnippetHandler {
         if (active) this.status.show(); else this.status.hide();
         return this.status;
     }
+
+    getStatus() {
+        return this.status;
+    }
 }

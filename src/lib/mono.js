@@ -56,6 +56,10 @@ class MonoExplorerProvider {
 	refresh() {
 		this._onDidChange.fire();
 	}
+
+	changePath(path) {
+		this.workspaceRoot = path;
+	}
 }
 
 class SpaceHandler extends TreeItem {
