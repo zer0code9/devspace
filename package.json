@@ -2,7 +2,7 @@
 	"name": "devspace",
     "displayName": "Dev Space",
     "description": "Snippets, Themes, And More!",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "author": "Slash",
     "publisher": "SlashDEV",
     "license": "MIT",
@@ -28,7 +28,7 @@
         "onCommand:devspace.snippet.go", "onCommand:devspace.mono.refresh",
         "onView:devspace.problem.explorer","onView:devspace.mono.explorer"
     ],
-  	"main": "./src/extension.js",
+  	"main": "./out/extension",
     "contributes": {
         "configuration": {
             "title": "Dev Space",
