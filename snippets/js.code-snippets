@@ -28,6 +28,12 @@
         "body": ["\"use strict\";"],
         "description": "Use Strict statement"
     },
+    "JS Start": {
+        "scope": "javascript",
+        "prefix": "jsstart",
+        "body": ["(function() {", "\t$0", "})"],
+        "description": "A start function statement"
+    },
     "JS Import": {
         "scope": "javascript",
         "prefix": "jsin",
@@ -37,7 +43,7 @@
     "JS Export": {
         "scope": "javascript",
         "prefix": "jsex",
-        "body": "module.export = ${1:object} ;",
+        "body": "module.export = ${1:object};",
         "description": "An export statement"
     },
     "JS Import Array": {

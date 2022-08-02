@@ -5,11 +5,29 @@
         "body": ["<!--$1-->"],
         "description": "HTML Comment"
     },
-    "HTML Stylesheet": {
+    "HTML Link": {
         "scope": "html",
         "prefix": "htstyle",
-        "body": ["<link rel=\"stylesheet\" href=\"${1:path}\" />"],
-        "description": "A stylesheet tag"
+        "body": ["<link rel=\"${1:type}\" href=\"${2:path}\" type=\"${3:type}\"/>"],
+        "description": "A link tag"
+    },
+    "HTML Link Stylesheet": {
+        "scope": "html",
+        "prefix": "htstyle",
+        "body": ["<link rel=\"stylesheet\" href=\"${1:path}\" type=\"text/css\"/>"],
+        "description": "A stylesheet link tag"
+    },
+    "HTML Link Icon": {
+        "scope": "html",
+        "prefix": "hticon",
+        "body": ["<link rel=\"icon\" href=\"${1:path}\" type=\"image/x-icon\"/>"],
+        "description": "A icon link tag"
+    },
+    "HTML Link Preload": {
+        "scope": "html",
+        "prefix": "htload",
+        "body": ["<link rel=\"preload\" href=\"${1:path}\" as=\"$2\" type=\"$2/$3\"/>"],
+        "description": "A preload link tag"
     },
     "HTML JS Import": {
         "scope": "html",
@@ -17,7 +35,67 @@
         "body": ["<script src=\"${1:path}\"></script>"],
         "description": "A script source import tag"
     },
+    "HTML Meta": {
+        "scope": "html",
+        "prefix": "ht",
+        "body": ["<meta ${1:attribute}=\"${2:value}\" content=\"$3\">"],
+        "description": "A meta tag"
+    },
+    "HTML Meta Description": {
+        "scope": "html",
+        "prefix": "htdesc",
+        "body": ["<meta name=\"description\" content=\"$1\">"],
+        "description": "A description meta tag"
+    },
+    "HTML Meta Keywords": {
+        "scope": "html",
+        "prefix": "htkey",
+        "body": ["<meta name=\"keywords\" content=\"$1\">"],
+        "description": "A keywords meta tag"
+    },
+    "HTML Meta Author": {
+        "scope": "html",
+        "prefix": "htaut",
+        "body": ["<meta name=\"author\" content=\"$1\">"],
+        "description": "A author meta tag"
+    },
+    "HTML Meta Viewport": {
+        "scope": "html",
+        "prefix": "htview",
+        "body": ["<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">"],
+        "description": "A viewport meta tag"
+    },
+    "HTML Meta Security": {
+        "scope": "html",
+        "prefix": "htsec",
+        "body": ["<meta http-equiv=\"content-security-policy\" content=\"$1\">"],
+        "description": "A security meta tag"
+    },
+    "HTML Meta Type": {
+        "scope": "html",
+        "prefix": "httype",
+        "body": ["<meta http-equiv=\"content-type\" content=\"$1\">"],
+        "description": "A type meta tag"
+    },
+    "HTML Meta Style": {
+        "scope": "html",
+        "prefix": "htsty",
+        "body": ["<meta http-equiv=\"default-style\" content=\"$1\">"],
+        "description": "A style meta tag"
+    },
+    "HTML Meta Refresh": {
+        "scope": "html",
+        "prefix": "htref",
+        "body": ["<meta http-equiv=\"refresh\" content=\"$1\">"],
+        "description": "A refresh meta tag"
+    },
 
+    "HTML Tag": {
+        "scope": "html",
+        "prefix": "httag",
+        "body": ["<${1:name}>", "\t$0", "</$1>"],
+        "description": "A personalid tag"
+    },
     "HTML ul": {
         "scope": "html",
         "prefix": "htul",

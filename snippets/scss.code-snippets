@@ -22,7 +22,6 @@
         "body": ["${1:name}: {", "\t${2:property}: ${3:value};$0", "}"],
         "description": "A nested SCSS property"
     },
-
     "SCSS Import": {
         "scope": "scss",
         "prefix": "scin",
@@ -47,6 +46,7 @@
         "body": ["@include ${1:name}();"],
         "description": "A mixin statement"
     },
+    
     // String Functions
     "SCSS Quote Function": {
         "scope": "scss",

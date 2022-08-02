@@ -23,6 +23,30 @@
         "body": [".${1:name} {", "\t${2:property}: ${3:value};$0", "}"],
         "description": "CSS Style with Class"
     },
+    "CSS Keyword From/To": {
+        "scope": "css",
+        "prefix": "cskey",
+        "body": ["@keyframes ${1:name}", "\tfrom {${2:attribute}}", "\tto {${3:attribute}}", "}"],
+        "description": "CSS Keyword From/To form"
+    },
+    "CSS Keyword Percent": {
+        "scope": "css",
+        "prefix": "cskeyp",
+        "body": ["@keyframes ${1:name}", "\t0% {${2:attribute}}", "\t25% {${3:attribute}}", "\t50% {${4:attribute}}", "\t100% {${5:attribute}}", "}"],
+        "description": "CSS Keyword Percent form"
+    },
+    "CSS Namespace URL": {
+        "scope": "css",
+        "prefix": "csname",
+        "body": ["@namespace url(${1:url})"],
+        "description": "CSS Namespace URL form"
+    },
+    "CSS Namespace URL Prefix": {
+        "scope": "css",
+        "prefix": "csnamep",
+        "body": ["@namespace ${1:prefix} url(${2:url})"],
+        "description": "CSS Namespace URL form with prefix"
+    },
 
     "CSS Page": {
         "scope": "css",
