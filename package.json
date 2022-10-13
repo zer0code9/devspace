@@ -82,11 +82,12 @@
         "snippets": [
             { "language": "javascript", "path": "./snippets/js.code-snippets" },
             { "language": "javascript", "path": "./snippets/react.code-snippets" },
+            { "language": "java", "path": "./snippets/ja.code-snippets" },
             { "language": "python", "path": "./snippets/py.code-snippets" },
             { "language": "html", "path": "./snippets/ht.code-snippets" },
-            { "language": "css", "path": "./snippets/css.code-snippets" },
-            { "language": "scss", "path": "./snippets/scss.code-snippets" },
-            { "language": "shellscript", "path": "./snippets/bash.code-snippets" }
+            { "language": "css", "path": "./snippets/cs.code-snippets" },
+            { "language": "scss", "path": "./snippets/sc.code-snippets" },
+            { "language": "shellscript", "path": "./snippets/sh.code-snippets" }
         ],
         "themes": [
             { "label": "Super Dark Red", "uiTheme": "vs-dark", "path": "./themes/super-darkred.json" },

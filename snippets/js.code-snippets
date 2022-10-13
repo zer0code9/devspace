@@ -2,7 +2,7 @@
     "JS Long Comment": {
         "scope": "javascript",
         "prefix": "jscom",
-        "body": ["/*", "${1:value}", "*/"]
+        "body": ["/*", "\t${1:value}", "*/"]
     },
     "JS Variable": {
         "scope": "javascript",
