@@ -15,7 +15,8 @@
     <img alt="Last Updated" src="https://img.shields.io/visual-studio-marketplace/last-updated/SlashDEV.devspace?label=updated&logo=visual%20studio%20code">
 </p>
 
-An extension full of wonderful stuff to make your programming experience better! It contains snippets, themes, and keymaps. Notebooks will be coming.
+An extension full of wonderful stuff to make your programming experience on VS Code better! It contains snippets, themes, and keymaps.
+Notebooks will be coming.
 
 ## Snippets
 
@@ -26,6 +27,7 @@ Snippets start with...
     - `react` for Reactjs
     - `next` for Next.js
 - `py` for Python
+- `ja` for Java
 - `ht` for HTML
 - `cs` for CSS
 - `sc` for SCSS
@@ -42,6 +44,8 @@ There are a few themes you can choose from made with love
 - Super Light Blue
 
 More Themes will be coming!
+
+- next: Code Dark Blue
 
 ## Keybindings
 
@@ -60,7 +64,7 @@ Use the useful and fast keybindings of Dev Space
 
 Found a bug or a bad syntax? Email slashdev.mail@gmail.com with the the category, the name if possible, and where the bug/bad syntax is. Thanks for your help!
 
-Want credit? Write your name, username, or gamername in the email. Email addresses will not be sent for credits due to privacy privileges.
+Want credit? Write your name, username, or gamername in the email. Email addresses will not be sent for credits due to privacy reasons.
 
 ## Your Advice
 
