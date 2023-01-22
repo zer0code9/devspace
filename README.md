@@ -41,8 +41,9 @@ There are a few themes you can choose from:
 - Super Dark Red
 - Super Light Blue
 - Code Dark Blue
+- Simple Dark Red
 
-- next: Pink Paradise
+> next: Pink Paradise
 
 ## Keybindings
 

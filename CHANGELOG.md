@@ -4,6 +4,7 @@
 ## 0.0.5
 - Added:
     - themes: Code Dark Blue
+    - themes: Simple Dark Red
 
 ## Past
 
