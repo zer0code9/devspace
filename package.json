@@ -2,7 +2,7 @@
 	"name": "devspace",
     "displayName": "Dev Space",
     "description": "Snippets, Themes, And More!",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "author": "Slash",
     "publisher": "SlashDEV",
     "license": "MIT",
@@ -25,8 +25,7 @@
         "snippet", "dev", "devspace", "vscode", "theme"
     ],
     "activationEvents": [
-        "onCommand:devspace.snippet.go", "onCommand:devspace.mono.refresh",
-        "onView:devspace.problem.explorer","onView:devspace.mono.explorer"
+        "onCommand:devspace.snippet.go"
     ],
   	"main": "./src/extension",
     "contributes": {
@@ -50,6 +49,11 @@
         "viewsContainers": {
             "activitybar": [
                 { "id": "devspace-welcomer", "title": "Dev Space", "icon": "img/dsIcon.png" }
+            ]
+        },
+        "views": {
+            "devspace-welcomer": [
+                { "id": "dswelcome", "name": "Dev Space", "icon": "img/dsIcon.png", "contextualTitle": "Dev Space" }
             ]
         },
         "viewsWelcome": [

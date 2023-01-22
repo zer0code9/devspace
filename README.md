@@ -43,7 +43,7 @@ There are a few themes you can choose from:
 - Code Dark Blue
 - Simple Dark Red
 
-> next: Pink Paradise
+> next: Paradise Dark Pink
 
 ## Keybindings
 
