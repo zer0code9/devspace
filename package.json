@@ -44,41 +44,21 @@
                     "title": "Enable snippets in VS Code from Dev Space",
                     "type": "boolean",
                     "markdownDescription": "Enable the use of the snippets from Dev Space in VS Code as a whole. If you only want some langauges to be desactivated, go to the language configuration"
-                },
-                "devspace.mono.workspace": {
-                    "default": "",
-                    "title": "Workspace in Mono Explorer",
-                    "type": "string",
-                    "markdownDescription": "The workspace that will be available in the Mono Explorer Provider"
                 }
             }
         },
-        "views": {
-            "explorer": [
-                { "id": "devspace.probem.explorer", "name": "Problems", "visibility": "hidden" }
-            ],
-            "monoexplorer": [
-                { "id": "devspace.mono.explorer", "name": "Mono Explorer", "icon": "img/monoIcon.png", "contextualTitle": "Mono Explorer (Ctrl+Shift+M)" }
-            ]
-        },
         "viewsContainers": {
             "activitybar": [
-                { "id": "monoexplorer", "title": "Mono Explorer (Ctrl+Shift+M)", "icon": "img/monoIcon.png" }
+                { "id": "devspace-welcomer", "title": "Dev Space", "icon": "img/dsIcon.png" }
             ]
         },
         "viewsWelcome": [
             {
-                "view": "monoexplorer",
-                "contents": "To use Mono Explorer from Dev Space, you must select a workspace: can be any forlder (files won't work). \n[Open Folder](command:vscode.openFolder)\nMono Space where only one folder is opened so that your full attention is directed to that one folder only.",
+                "view": "devspace-welcomer",
+                "contents": "Welcome to Dev Space. Dev Space is full of snippets, themes, and keybindings. And you are free to use them!",
                 "when": "workbenchState == empty"
             }
-        ],
-        "menus": {
-            "view/title": [
-                {"command": "devspace.mono.refresh","when": "view == monoexplorer","group": "navigation" },
-                {"command": "devspace.mono.change","when": "view == monoexplorer" }
-            ]
-        },        
+        ],        
         "snippets": [
             { "language": "javascript", "path": "./snippets/js.code-snippets" },
             { "language": "javascript", "path": "./snippets/react.code-snippets" },
@@ -91,7 +71,8 @@
         ],
         "themes": [
             { "label": "Super Dark Red", "uiTheme": "vs-dark", "path": "./themes/super-darkred.json" },
-            { "label": "Super Light Blue", "uiTheme": "hc-light", "path": "./themes/super-lightblue.json" }
+            { "label": "Super Light Blue", "uiTheme": "hc-light", "path": "./themes/super-lightblue.json" },
+            { "label": "Code Dark Blue", "uiTheme": "vs-dark", "path": "./themes/code-darkblue.json" }
         ],
         "keybindings": [
             { "key": "alt+.", "command": "workbench.action.showCommands" },
@@ -99,20 +80,10 @@
             { "key": "alt+d", "command": "editor.action.marker.nextInFiles", "when": "editorTextFocus" },
             { "key": "alt+a", "command": "editor.action.marker.prevInFiles", "when": "editorTextFocus" },
             { "key": "alt+x", "command": "editor.action.deleteLines", "when": "editorTextFocus"},
-            { "key": "ctrl+shift+m", "command": "workbench.view.monoexplorer" }
+            { "key": "ctrl+shift+m", "command": "workbench.view.welcomer" }
         ],
         "commands": [
-            { "command": "devspace.snippet.go", "title": "Snippets" },
-            { "command": "devspace.mono.refresh", "title": "Refresh Mono"},
-            { "command": "devspace.mono.change", "title": "Change Mono"}
-        ],
-        "walkthroughs": [
-            {
-                "id": "devspace.mono.walkthrough",
-                "title": "Mono Explorer",
-                "description": "",
-                "steps": []
-            }
+            { "command": "devspace.snippet.go", "title": "Snippets" }
         ]
     },
 	"scripts": {

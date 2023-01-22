@@ -20,22 +20,7 @@ function activate(context) {
 	context.subscriptions.push(window.onDidChangeActiveTextEditor(Snippet.updateStatus(getConfig()[1])));
 	context.subscriptions.push(window.onDidChangeTextEditorSelection(Snippet.updateStatus(getConfig()[1])));
 
-	// Mono
-	const roothPath = getConfig()[2];
-	let Mono = new MonoExplorerProvider(roothPath);
-	window.createTreeView('monoexplorer', {treeDataProvider: Mono});
-	commands.registerCommand('devspace.mono.refresh', async () => {Mono.refresh();});
-
-	commands.registerCommand('devspace.mono.change', async () => {
-		const value = window.showInputBox({ prompt: 'Enter path to workspace' });
-		workspace.getConfiguration('devspace.mono').update('workspace', value);
-		Mono.changePath(value);
-	})
-
 	context.subscriptions.push(workspace.onDidChangeConfiguration(e => {
-		if (e.affectsConfiguration('devspace.mono.workspace')) {
-			commands.executeCommand('devspace.mono.change');
-		}
 		if (e.affectsConfiguration('devspace.snippet.allow')) {
 			Snippet.updateStatus(getConfig()[1]);
 		}

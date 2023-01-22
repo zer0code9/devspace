@@ -15,8 +15,8 @@
     <img alt="Last Updated" src="https://img.shields.io/visual-studio-marketplace/last-updated/SlashDEV.devspace?label=updated&logo=visual%20studio%20code">
 </p>
 
-An extension full of wonderful stuff to make your programming experience on VS Code better! It contains snippets, themes, and keymaps.
-Notebooks will be coming.
+An extension full of wonderful stuff to make your programming experience on VS Code better! It contains snippets, themes, and keybindings.
+It is updated with more content.
 
 ## Snippets
 
@@ -34,18 +34,15 @@ Snippets start with...
 
 See all the available snippets for a language by typing start prefix.
 
-More Snippets will be coming! (Originally from Snippets Master)
-
 ## Themes
 
-There are a few themes you can choose from made with love
+There are a few themes you can choose from:
 
 - Super Dark Red
 - Super Light Blue
+- Code Dark Blue
 
-More Themes will be coming!
-
-- next: Code Dark Blue
+- next: Pink Paradise
 
 ## Keybindings
 
