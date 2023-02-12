@@ -5,6 +5,8 @@
 <p align="center">
     <img src="https://img.shields.io/badge/slashDEV-devspace-red">
     <img alt="GitHub" src="https://img.shields.io/github/license/zer0less/devspace">
+</p>
+<p align="center">
     <img alt="Issues" src="https://img.shields.io/github/issues/zer0less/devspace?logo=github">
     <img alt="Commit Activity" src="https://img.shields.io/github/commit-activity/m/zer0less/devspace?logo=github">
     <img alt="Lastest Commit" src="https://img.shields.io/github/last-commit/zer0less/devspace?logo=github">
@@ -18,6 +20,15 @@
 An extension full of wonderful stuff to make your programming experience on VS Code better! It contains snippets, themes, and keybindings.
 It is updated with more content.
 
+Install:
+
+1) Open VS Code and click on `Extensions` active bar badge
+2) Type `Dev Space` by SlashDEV
+3) Click `Install`
+4) Click `Reload` so that the extension can work
+5) You are ready to go, use Dev Space!
+6) To use themes: click `Set Color Theme` and select the one you want
+
 ## Snippets
 
 In your editor, type the prefix for the snippets
@@ -29,6 +40,7 @@ Snippets start with...
 - `py` for Python
 - `ja` for Java
 - `ht` for HTML
+- `md` for Markdown
 - `cs` for CSS
 - `sc` for SCSS
 

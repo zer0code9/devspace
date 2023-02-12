@@ -22,7 +22,7 @@
         "Snippets", "Themes", "Keymaps", "Other"
     ],
     "keywords": [
-        "snippet", "dev", "devspace", "vscode", "theme"
+        "snippet", "theme", "devspace", "vscode", "slashdev"
     ],
     "activationEvents": [
         "onCommand:devspace.snippet.go"
@@ -71,7 +71,8 @@
             { "language": "html", "path": "./snippets/ht.code-snippets" },
             { "language": "css", "path": "./snippets/cs.code-snippets" },
             { "language": "scss", "path": "./snippets/sc.code-snippets" },
-            { "language": "shellscript", "path": "./snippets/sh.code-snippets" }
+            { "language": "shellscript", "path": "./snippets/sh.code-snippets" },
+            { "language": "markdown", "path": "./snippets/md.code-snippets" }
         ],
         "themes": [
             { "label": "Super Dark Red", "uiTheme": "vs-dark", "path": "./themes/super-darkred.json" },
