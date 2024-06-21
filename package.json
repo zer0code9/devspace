@@ -4,6 +4,7 @@
     "description": "Snippets, Themes, And More!",
     "version": "0.0.6",
     "author": "Slash",
+    "type": "commonjs",
     "publisher": "SlashDEV",
     "license": "MIT",
     "homepage": "-",
@@ -24,53 +25,53 @@
     "keywords": [
         "snippet", "theme", "devspace", "vscode", "slashdev"
     ],
-    "activationEvents": [
-        "onCommand:devspace.snippet.go"
-    ],
   	"main": "./src/extension",
+    "activationEvents": ["onStartupFinished"],
     "contributes": {
-        "configuration": {
-            "title": "Dev Space",
-            "properties": {
-                "devspace.snippet.languages": {
-                    "default": ["javascript", "javascriptreact", "python", "html", "css", "scss", "shellscript"],
-                    "title": "Activate snippets for those languages",
-                    "type": "array",
-                    "markdownDescription": "Configure a list of the languages where the snippets will work and can be used. Caution: ot all languages have snippets, look at https://github.com/zer0less/devspace#snippets to see all available languages."
-                },
-                "devspace.snippet.allow": {
-                    "default": true,
-                    "title": "Enable snippets in VS Code from Dev Space",
-                    "type": "boolean",
-                    "markdownDescription": "Enable the use of the snippets from Dev Space in VS Code as a whole. If you only want some langauges to be desactivated, go to the language configuration"
+        "configuration": [
+            {
+                "id": "dsSnippet",
+                "title": "Dev Space Snippets",
+                "properties": {
+                    "devspace.snippet.languages": {
+                        "default": ["js", "jsx", "py", "html", "css", "scss", "sh", "java"],
+                        "title": "Activate snippets for those languages",
+                        "type": "array",
+                        "markdownDescription": "Configure a list of the languages where the snippets will work and can be used. Caution: not all languages have snippets, look at https://github.com/zer0less/devspace#snippets to see all available languages."
+                    },
+                    "devspace.snippet.allow": {
+                        "type": "boolean",
+                        "default": true,
+                        "title": "Enable snippets in VS Code from Dev Space",
+                        "markdownDescription": "Enable the use of the snippets from Dev Space in VS Code as a whole. If you only want some langauges to be desactivated, go to the language configuration"
+                    }
                 }
             }
-        },
+        ],
         "viewsContainers": {
             "activitybar": [
-                { "id": "devspace-welcomer", "title": "Dev Space", "icon": "img/dsIcon.png" }
+                { "id": "devspace-tab", "title": "Dev Space", "icon": "img/dsIcon.png" }
             ]
         },
         "views": {
-            "devspace-welcomer": [
-                { "id": "dswelcome", "name": "Dev Space", "icon": "img/dsIcon.png", "contextualTitle": "Dev Space" }
+            "devspace-tab": [
+                { "id": "dsmain", "name": "Main", "icon": "img/dsIcon.png", "contextualTitle": "Dev Space" }
             ]
         },
         "viewsWelcome": [
             {
-                "view": "devspace-welcomer",
-                "contents": "Welcome to Dev Space. Dev Space is full of snippets, themes, and keybindings. And you are free to use them!",
-                "when": "workbenchState == empty"
+                "view": "dsmain",
+                "contents": "Welcome to Dev Space!\nDev Space is full of snippets, themes, and keybindings. And you are free to use them!\n\nHope that you enjoy and thank you for installing Dev Space -SlashDEV"
             }
         ],        
         "snippets": [
             { "language": "javascript", "path": "./snippets/js.code-snippets" },
-            { "language": "javascript", "path": "./snippets/react.code-snippets" },
-            { "language": "java", "path": "./snippets/ja.code-snippets" },
+            { "language": "javascript", "path": "./snippets/jsx.code-snippets" },
+            { "language": "java", "path": "./snippets/java.code-snippets" },
             { "language": "python", "path": "./snippets/py.code-snippets" },
             { "language": "html", "path": "./snippets/ht.code-snippets" },
-            { "language": "css", "path": "./snippets/cs.code-snippets" },
-            { "language": "scss", "path": "./snippets/sc.code-snippets" },
+            { "language": "css", "path": "./snippets/css.code-snippets" },
+            { "language": "scss", "path": "./snippets/scss.code-snippets" },
             { "language": "shellscript", "path": "./snippets/sh.code-snippets" },
             { "language": "markdown", "path": "./snippets/md.code-snippets" }
         ],
@@ -89,7 +90,8 @@
             { "key": "ctrl+shift+m", "command": "workbench.view.welcomer" }
         ],
         "commands": [
-            { "command": "devspace.snippet.go", "title": "Snippets" }
+            { "command": "devspace.hello", "title": "Hello Dev Space" },
+            { "command": "devspace.snippet.go", "title": "Go Snippets" }
         ]
     },
 	"scripts": {

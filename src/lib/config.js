@@ -1,18 +1,18 @@
 const vscode = require('vscode');
 
-const config = {
-    snippetsLanguages,
-    allowSnippets,
-}
-
 function getConfig() {
-    const config = vscode.workspace.getConfiguration('devspace');
-    const snippetsLanguages = Array.from(new Set(config.get('snippet.languages', [])));
+    vscode.window.showInformationMessage("hi");
+    const dsconfig = vscode.workspace.getConfiguration();
+
+    //Snippets
+    const snippetsLanguages = Array.from(new Set(dsconfig.get('devspace.snippet.languages', [])));
+    const allowSnippets = dsconfig.get('devspace.snippet.allow');
+    vscode.window.showInformationMessage(allowSnippets + "");
 
     return {
         snippetsLanguages,
-        allowSnippets: config.get('snippet.allow'),
+        allowSnippets,
     }
 }
 
-export { config, getConfig };
+module.exports = { getConfig };

@@ -1,32 +1,28 @@
-import { config, getConfig } from './config';
-import { window, commands, Position, TreeItem, DiagnosticCollection, Diagnostic, Uri } from 'vscode';
-import fs from 'fs';
-import path from 'path';
+const vscode = require('vscode');
 
-let config = {
-    // Snippets
-    snippetsLanguages: [],
-    allowSnippets: true
-}
-
-// SNIPPETS
 class SnippetHandler {
     status;
 
     constructor() {
-        this.status = window.createStatusBarItem(StatusBarAlignment.Right, 100);
+        this.status = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
     }
 
     updateStatus(active) {
         const icon = active ? '$(check)' : '$(circle-slash)'
-        const message = active ? "Snippets are enabled" : "Snippets are not enabled";
+        const message = active ? "Snippets are enabled" : "Snippets are disabled";
         this.status.text = `${icon} DevSpace`
         this.status.tooltip = message;
         if (active) this.status.show(); else this.status.hide();
         return this.status;
     }
 
+    check() {
+        
+    }
+
     getStatus() {
         return this.status;
     }
 }
+
+module.exports = { SnippetHandler };
