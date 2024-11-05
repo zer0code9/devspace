@@ -1,69 +1,19 @@
 {
-	"name": "devspace",
-    "displayName": "Dev Space",
-    "description": "Snippets, Themes, And More!",
-    "version": "0.0.6",
+	"name": "vscodine",
+    "displayName": "VSCodine",
+    "description": "An extension or something",
+    "version": "1.0.1",
     "author": "Slash",
-    "type": "commonjs",
     "publisher": "SlashDEV",
+    "engines": { "vscode": "^1.56.0" },
     "license": "MIT",
-    "homepage": "-",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/zer0less/devspace.git"
-    },
-    "bugs": {
-        "url": "https://github.com/zer0less/devspace/issues"
-    },
+    "repository": { "type": "git", "url": "https://github.com/zer0less/devspace.git" },
     "icon": "img/logo.png",
-    "engines": {
-        "vscode": "^1.56.0"
-    },
-    "categories": [
-        "Snippets", "Themes", "Keymaps", "Other"
-    ],
-    "keywords": [
-        "snippet", "theme", "devspace", "vscode", "slashdev"
-    ],
-  	"main": "./src/extension",
-    "activationEvents": ["onStartupFinished"],
-    "contributes": {
-        "configuration": [
-            {
-                "id": "dsSnippet",
-                "title": "Dev Space Snippets",
-                "properties": {
-                    "devspace.snippet.languages": {
-                        "default": ["js", "jsx", "py", "html", "css", "scss", "sh", "java"],
-                        "title": "Activate snippets for those languages",
-                        "type": "array",
-                        "markdownDescription": "Configure a list of the languages where the snippets will work and can be used. Caution: not all languages have snippets, look at https://github.com/zer0less/devspace#snippets to see all available languages."
-                    },
-                    "devspace.snippet.allow": {
-                        "type": "boolean",
-                        "default": true,
-                        "title": "Enable snippets in VS Code from Dev Space",
-                        "markdownDescription": "Enable the use of the snippets from Dev Space in VS Code as a whole. If you only want some langauges to be desactivated, go to the language configuration"
-                    }
-                }
-            }
-        ],
-        "viewsContainers": {
-            "activitybar": [
-                { "id": "devspace-tab", "title": "Dev Space", "icon": "img/dsIcon.png" }
-            ]
-        },
-        "views": {
-            "devspace-tab": [
-                { "id": "dsmain", "name": "Main", "icon": "img/dsIcon.png", "contextualTitle": "Dev Space" }
-            ]
-        },
-        "viewsWelcome": [
-            {
-                "view": "dsmain",
-                "contents": "Welcome to Dev Space!\nDev Space is full of snippets, themes, and keybindings. And you are free to use them!\n\nHope that you enjoy and thank you for installing Dev Space -SlashDEV"
-            }
-        ],        
+    "categories": [ "Snippets", "Themes", "Keymaps" ],
+    "keywords": [ "snippet", "theme", "keymaps", "slashDEV", "VSCodine" ],
+  	"main": "./extension",
+    "activationEvents": [ "onStartupFinished" ],
+    "contributes": {    
         "snippets": [
             { "language": "javascript", "path": "./snippets/js.code-snippets" },
             { "language": "javascript", "path": "./snippets/jsx.code-snippets" },
@@ -76,22 +26,32 @@
             { "language": "markdown", "path": "./snippets/md.code-snippets" }
         ],
         "themes": [
-            { "label": "Super Dark Red", "uiTheme": "vs-dark", "path": "./themes/super-darkred.json" },
-            { "label": "Super Light Blue", "uiTheme": "hc-light", "path": "./themes/super-lightblue.json" },
-            { "label": "Code Dark Blue", "uiTheme": "vs-dark", "path": "./themes/code-darkblue.json" },
-            { "label": "Simple Dark Red", "uiTheme": "vs-dark", "path": "./themes/simple-darkred.json" }
+            { "label": "Sonama", "uiTheme": "vs-dark", "path": "./themes/sonama-color-theme.json" },
+            { "label": "Padora", "uiTheme": "vs-dark", "path": "./themes/padora-color-theme.json" }
         ],
         "keybindings": [
             { "key": "alt+.", "command": "workbench.action.showCommands" },
             { "key": "alt+p", "command": "workbench.actions.view.problems", "when": "editorTextFocus" },
             { "key": "alt+d", "command": "editor.action.marker.nextInFiles", "when": "editorTextFocus" },
             { "key": "alt+a", "command": "editor.action.marker.prevInFiles", "when": "editorTextFocus" },
-            { "key": "alt+x", "command": "editor.action.deleteLines", "when": "editorTextFocus"},
-            { "key": "ctrl+shift+m", "command": "workbench.view.welcomer" }
+            { "key": "alt+x", "command": "editor.action.deleteLines", "when": "editorTextFocus"}
+        ],
+        "viewsContainers": {
+            "activitybar": [
+                { "id": "vscodine", "title": "VScodine", "icon": "img/icon.png" }
+            ]
+        },
+        "views": {
+            "vscodine": [
+                { "id": "vscodine.sideBar", "name": "VScodine", "contextualTitle": "VScodine" }
+            ]
+        },
+        "viewsWelcome": [
+            { "view": "vscodine.welcome", "contents": "Welcome to VSCodine" }
+            
         ],
         "commands": [
-            { "command": "devspace.hello", "title": "Hello Dev Space" },
-            { "command": "devspace.snippet.go", "title": "Go Snippets" }
+            { "command": "vscodine.open", "title": "Open VSCodine" }
         ]
     },
 	"scripts": {
@@ -110,5 +70,4 @@
         "typescript": "^4.1.3",
         "vscode-test": "^1.5.0"
     }
-
 }

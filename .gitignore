@@ -1,5 +1,8 @@
-.vscode
+/.vscode
+/.vscode-test
 .vscodeignore
-node_modules/
-test/
+/node_modules
+/test
 jsconfig.json
+.eslintrc.json
+.DS_Store
