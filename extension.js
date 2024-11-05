@@ -1,23 +1,29 @@
-import { config, getConfig } from './src/lib/config';
-import { window, commands, Position, TreeItem, DiagnosticCollection, Diagnostic, Uri } from 'vscode';
-import fs from 'fs';
-import path from 'path';
+const vscode = require('vscode');
 
+/**
+ * @param {vscode.ExtensionContext} context
+ */
 function activate(context) {
+	vscode.window.showInformationMessage('Hello from devspace!');
 
-	let disposable = commands.registerCommand('devspace.snippets', function () {
-		commands.executeCommand('vscode.open', Uri.file('settings.json'));
-		commands.executeCommand('vscode.editorScroll', 'devspace.snippet_langs')
-		window.showInformationMessage('Getting your snippets.');
-	});
+	context.subsrcriptions.push(vscode.commands.registerCommand('vscodine.open', () => {
+		vscode.window.showInformationMessage('Open VSCodine.');
+	}));
 
-	context.subscriptions.push(disposable);
+	let statusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
+	statusBar.text = 'VSCodine';
+	statusBar.tooltip = 'This does nothing';
+	statusBar.command = 'vscodine.open';
+	statusBar.show();
+
+	context.subscriptions.push(statusBar);
+	
+	vscode.window.showInformationMessage(statusBar.text);
 }
 
-// this method is called when your extension is deactivated
 function deactivate() {}
 
-export default {
+module.exports = {
 	activate,
-	deactivate,
+	deactivate
 }

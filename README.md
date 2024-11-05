@@ -1,15 +1,10 @@
 <p align="center">
     <img width="15%" src="./img/logo.png">
-  <h1 align="center">Dev Space</h1>
+  <h1 align="center">VSCodine</h1>
 </p>
 <p align="center">
     <img src="https://img.shields.io/badge/slashDEV-devspace-red">
     <img alt="GitHub" src="https://img.shields.io/github/license/zer0less/devspace">
-</p>
-<p align="center">
-    <img alt="Issues" src="https://img.shields.io/github/issues/zer0less/devspace?logo=github">
-    <img alt="Commit Activity" src="https://img.shields.io/github/commit-activity/m/zer0less/devspace?logo=github">
-    <img alt="Lastest Commit" src="https://img.shields.io/github/last-commit/zer0less/devspace?logo=github">
 </p>
 <p align="center">
     <img alt="Extension Installs" src="https://img.shields.io/visual-studio-marketplace/i/SlashDEV.devspace?logo=visual%20studio%20code">
@@ -17,17 +12,7 @@
     <img alt="Last Updated" src="https://img.shields.io/visual-studio-marketplace/last-updated/SlashDEV.devspace?label=updated&logo=visual%20studio%20code">
 </p>
 
-An extension full of wonderful stuff to make your programming experience on VS Code better! It contains snippets, themes, and keybindings.
-It is updated with more content.
-
-Install:
-
-1) Open VS Code and click on `Extensions` active bar badge
-2) Type `Dev Space` by SlashDEV
-3) Click `Install`
-4) Click `Reload` so that the extension can work
-5) You are ready to go, use Dev Space!
-6) To use themes: click `Set Color Theme` and select the one you want
+An extension for personal use but you can use it. It is a simple extension with snippets, themes, and keybindings.
 
 ## Snippets
 
@@ -50,12 +35,8 @@ See all the available snippets for a language by typing start prefix.
 
 There are a few themes you can choose from:
 
-- Super Dark Red
-- Super Light Blue
-- Code Dark Blue
+- Super Dark Red (original)
 - Simple Dark Red
-
-> next: Paradise Dark Pink
 
 ## Keybindings
 
@@ -70,18 +51,6 @@ Use the useful and fast keybindings of Dev Space
     <tr><td>Alt+x</td><td>Deletes current line</td></tr>
 </table>
 
-## Bug/Bad Syntax
+**Hope you enjoy VSCodine!**
 
-Found a bug or a bad syntax? Email slashdev.mail@gmail.com with the the category, the name if possible, and where the bug/bad syntax is. Thanks for your help!
-
-Want credit? Write your name, username, or gamername in the email. Email addresses will not be sent for credits due to privacy reasons.
-
-## Your Advice
-
-We need your advice to make Dev Space better, tell us what to add! We need to know your favorite snippets, themes, key bindings, etc.
-
-> We will try to add it ASAP
-
-**Hope Dev Space helps you!**
-
-By SlashDEV/Slash (slashdev.mail@gmail.com)
+By SlashDEV/Slash
