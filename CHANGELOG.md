@@ -3,13 +3,14 @@
 ## Current
 
 ## 1.0.1
+- Added:
+    - theme: Super Dark Punk
 - Deleted:
-    - theme: Code Dark Blue
     - theme: Super Light Blue
+    - theme: Code Dark Blue
 - Changed:
-    - theme: Super Dark Red -> Sonama
-    - theme: Simple Dark Red -> Padora
-    - name: SlashDev -> VSCodine
+    - theme: Simple Dark Red -> Classic Dark Red
+    - README
 
 ## Past
 

@@ -1,19 +1,19 @@
 {
-	"name": "vscodine",
-    "displayName": "VSCodine",
-    "description": "An extension or something",
+	"name": "devspace",
+    "displayName": "DevSpace",
+    "description": "Snippets, themes and keymaps for VSCode",
     "version": "1.0.1",
     "author": "Slash",
     "publisher": "SlashDEV",
     "engines": { "vscode": "^1.56.0" },
     "license": "MIT",
-    "repository": { "type": "git", "url": "https://github.com/zer0less/devspace.git" },
+    "repository": { "type": "git", "url": "https://github.com/zer0code9/devspace.git" },
     "icon": "img/logo.png",
     "categories": [ "Snippets", "Themes", "Keymaps" ],
-    "keywords": [ "snippet", "theme", "keymaps", "slashDEV", "VSCodine" ],
+    "keywords": [ "snippet", "theme", "keymaps", "slashDEV", "DevSpace" ],
   	"main": "./extension",
     "activationEvents": [ "onStartupFinished" ],
-    "contributes": {    
+    "contributes": {
         "snippets": [
             { "language": "javascript", "path": "./snippets/js.code-snippets" },
             { "language": "javascript", "path": "./snippets/jsx.code-snippets" },
@@ -26,8 +26,9 @@
             { "language": "markdown", "path": "./snippets/md.code-snippets" }
         ],
         "themes": [
-            { "label": "Sonama", "uiTheme": "vs-dark", "path": "./themes/sonama-color-theme.json" },
-            { "label": "Padora", "uiTheme": "vs-dark", "path": "./themes/padora-color-theme.json" }
+            { "label": "Super Dark Red", "uiTheme": "vs-dark", "path": "./themes/sdr-color-theme.json" },
+            { "label": "Classic Dark Red", "uiTheme": "vs-dark", "path": "./themes/cdr-color-theme.json" },
+            { "label": "Super Dark Punk", "uiTheme": "vs-dark", "path": "./themes/sdp-color-theme.json" }
         ],
         "keybindings": [
             { "key": "alt+.", "command": "workbench.action.showCommands" },
@@ -35,23 +36,6 @@
             { "key": "alt+d", "command": "editor.action.marker.nextInFiles", "when": "editorTextFocus" },
             { "key": "alt+a", "command": "editor.action.marker.prevInFiles", "when": "editorTextFocus" },
             { "key": "alt+x", "command": "editor.action.deleteLines", "when": "editorTextFocus"}
-        ],
-        "viewsContainers": {
-            "activitybar": [
-                { "id": "vscodine", "title": "VScodine", "icon": "img/icon.png" }
-            ]
-        },
-        "views": {
-            "vscodine": [
-                { "id": "vscodine.sideBar", "name": "VScodine", "contextualTitle": "VScodine" }
-            ]
-        },
-        "viewsWelcome": [
-            { "view": "vscodine.welcome", "contents": "Welcome to VSCodine" }
-            
-        ],
-        "commands": [
-            { "command": "vscodine.open", "title": "Open VSCodine" }
         ]
     },
 	"scripts": {

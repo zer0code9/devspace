@@ -1,10 +1,15 @@
 <p align="center">
     <img width="15%" src="./img/logo.png">
-  <h1 align="center">VSCodine</h1>
+  <h1 align="center">DevSpace</h1>
 </p>
 <p align="center">
     <img src="https://img.shields.io/badge/slashDEV-devspace-red">
-    <img alt="GitHub" src="https://img.shields.io/github/license/zer0less/devspace">
+    <img alt="GitHub" src="https://img.shields.io/github/license/zer0code9/devspace">
+</p>
+<p align="center">
+    <img alt="Issues" src="https://img.shields.io/github/issues/zer0code9/devspace?logo=github">
+    <img alt="Commit Activity" src="https://img.shields.io/github/commit-activity/m/zer0code9/devspace?logo=github">
+    <img alt="Lastest Commit" src="https://img.shields.io/github/last-commit/zer0code9/devspace?logo=github">
 </p>
 <p align="center">
     <img alt="Extension Installs" src="https://img.shields.io/visual-studio-marketplace/i/SlashDEV.devspace?logo=visual%20studio%20code">
@@ -12,7 +17,7 @@
     <img alt="Last Updated" src="https://img.shields.io/visual-studio-marketplace/last-updated/SlashDEV.devspace?label=updated&logo=visual%20studio%20code">
 </p>
 
-An extension for personal use but you can use it. It is a simple extension with snippets, themes, and keybindings.
+This is an extension to make VSCode better. It includes various snippets, themes, and keybindings.
 
 ## Snippets
 
@@ -35,8 +40,9 @@ See all the available snippets for a language by typing start prefix.
 
 There are a few themes you can choose from:
 
-- Super Dark Red (original)
-- Simple Dark Red
+- Super Dark Red
+- Classic Dark Red
+- Super Dark Punk from TheEdgesOfBen
 
 ## Keybindings
 
@@ -51,6 +57,6 @@ Use the useful and fast keybindings of Dev Space
     <tr><td>Alt+x</td><td>Deletes current line</td></tr>
 </table>
 
-**Hope you enjoy VSCodine!**
+**Hope you enjoy DevSpace!**
 
 By SlashDEV/Slash
