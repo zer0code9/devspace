@@ -1,6 +1,6 @@
 <p align="center">
     <img width="15%" src="./img/logo.png">
-  <h1 align="center">DevSpace</h1>
+  <h1 align="center">Dev Space</h1>
 </p>
 <p align="center">
     <img src="https://img.shields.io/badge/slashDEV-devspace-red">
@@ -17,7 +17,7 @@
     <img alt="Last Updated" src="https://img.shields.io/visual-studio-marketplace/last-updated/SlashDEV.devspace?label=updated&logo=visual%20studio%20code">
 </p>
 
-This is an extension to make VSCode better. It includes various snippets, themes, and keybindings.
+This is an extension to make VSCode better. It includes various snippets, themes, and keybindings. There might be more in the future!
 
 ## Snippets
 
@@ -42,7 +42,7 @@ There are a few themes you can choose from:
 
 - Super Dark Red
 - Classic Dark Red
-- Super Dark Punk from TheEdgesOfBen
+- Super Dark Punk
 
 ## Keybindings
 
@@ -57,6 +57,8 @@ Use the useful and fast keybindings of Dev Space
     <tr><td>Alt+x</td><td>Deletes current line</td></tr>
 </table>
 
-**Hope you enjoy DevSpace!**
+Also install [VSCodine](https://marketplace.visualstudio.com/items?itemName=SlashDEV.vscodine)!
 
-By SlashDEV/Slash
+**Hope you enjoy Dev Space!**
+
+By SlashDEV

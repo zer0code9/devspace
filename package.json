@@ -1,6 +1,6 @@
 {
 	"name": "devspace",
-    "displayName": "DevSpace",
+    "displayName": "Dev Space",
     "description": "Snippets, themes and keymaps for VSCode",
     "version": "1.0.1",
     "author": "Slash",
@@ -10,7 +10,7 @@
     "repository": { "type": "git", "url": "https://github.com/zer0code9/devspace.git" },
     "icon": "img/logo.png",
     "categories": [ "Snippets", "Themes", "Keymaps" ],
-    "keywords": [ "snippet", "theme", "keymaps", "slashDEV", "DevSpace" ],
+    "keywords": [ "snippet", "theme", "keymaps", "slashDEV", "Dev Space" ],
   	"main": "./extension",
     "activationEvents": [ "onStartupFinished" ],
     "contributes": {
@@ -35,7 +35,7 @@
             { "key": "alt+p", "command": "workbench.actions.view.problems", "when": "editorTextFocus" },
             { "key": "alt+d", "command": "editor.action.marker.nextInFiles", "when": "editorTextFocus" },
             { "key": "alt+a", "command": "editor.action.marker.prevInFiles", "when": "editorTextFocus" },
-            { "key": "alt+x", "command": "editor.action.deleteLines", "when": "editorTextFocus"}
+            { "key": "alt+x", "command": "editor.action.deleteLines", "when": "editorTextFocus" }
         ]
     },
 	"scripts": {
