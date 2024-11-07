@@ -2,7 +2,7 @@
 	"name": "devspace",
     "displayName": "Dev Space",
     "description": "Snippets, themes and keymaps for VSCode",
-    "version": "1.0.1",
+    "version": "1.2.1",
     "author": "Slash",
     "publisher": "SlashDEV",
     "engines": { "vscode": "^1.56.0" },
@@ -36,6 +36,20 @@
             { "key": "alt+d", "command": "editor.action.marker.nextInFiles", "when": "editorTextFocus" },
             { "key": "alt+a", "command": "editor.action.marker.prevInFiles", "when": "editorTextFocus" },
             { "key": "alt+x", "command": "editor.action.deleteLines", "when": "editorTextFocus" }
+        ],
+        "viewsContainers": {
+            "activitybar": [
+                { "id": "slashdev", "title": "SlashDEV", "icon": "img/icon.png" }
+            ]
+        },
+        "views": {
+            "slashdev": [
+                { "id": "devspace.sideBar", "name": "Dev Space", "contextualTitle": "Dev Space" }
+            ]
+        },
+        "viewsWelcome": [
+            { "view": "devspace.sideBar", "contents": "Welcome to Dev Space! Use the snippets, themes, and keymaps to your liking!" }
+            
         ]
     },
 	"scripts": {
