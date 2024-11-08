@@ -1,52 +1,51 @@
-const vscode = require('vscode');
-const NodeView = require('./src/nodeView');
+import * as vscode from 'vscode';
+import NodeStatus from './src/nodeStatus';
+import NodeViewProvider from './src/nodeView';
+import NodePath from './src/nodePath';
 
 /**
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
-	const initialNodePath = vscode.workspace ? vscode.workspace.workspaceFolders[0].uri.fsPath : undefined;
-	const initialNodeViewProvider = new NodeView(initialNodePath);
-	context.subscriptions.push(vscode.window.createTreeView('devspace.nodeView', { treeDataProvider: initialNodeViewProvider }));
+	let nodePath = new NodePath();
+	context.subscriptions.push(vscode.workspace.getConfiguration('devspace').update('nodeRoot', nodePath.getNodePathAsString(), true));
+	let nodeViewProvider = new NodeViewProvider(nodePath);
+	context.subscriptions.push(vscode.window.createTreeView('devspace.nodeView', { treeDataProvider: nodeViewProvider }));
 
-	let nodeStatusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
-	nodeStatusBar.text = 'Node View';
-	nodeStatusBar.tooltip = initialNodePath;
-	nodeStatusBar.show();
-	context.subscriptions.push(nodeStatusBar);
+	let nodeStatus = new NodeStatus(nodePath.getNodeRoot());
+	context.subscriptions.push(nodeStatus);
 
 	context.subscriptions.push(vscode.commands.registerCommand('devspace.refreshNodeView', () => {
-		const nodePath = vscode.workspace.getConfiguration('devspace').get('nodePath');
-		const nodeViewProvider = new NodeView(nodePath);
+		nodePath.setNodeRoot(vscode.workspace.getConfiguration('devspace').get('nodeRoot'));
+		nodeViewProvider.setNodePath(nodePath);
 		context.subscriptions.push(vscode.window.createTreeView('devspace.nodeView', { treeDataProvider: nodeViewProvider }));
-		NodeView.refresh(nodeViewProvider);
+		nodeStatus.update(vscode.workspace.getConfiguration('devspace').get('nodeRoot'));
+		nodeViewProvider.refresh();
 	}))
 
 	context.subscriptions.push(vscode.commands.registerCommand('devspace.deleteNodeItem', () => {
-		vscode.window.showInformationMessage('DDoes nothing yet');
-		//NodeView.delete(nodeViewProvider);
+		vscode.window.showInformationMessage('Does nothing yet');
+	}))
+
+	context.subscriptions.push(vscode.commands.registerCommand('devspace.deleteNodeItem', () => {
+		vscode.window.showInformationMessage('Does nothing yet');
 	}))
 
 	context.subscriptions.push(vscode.workspace.onDidChangeTextDocument(e => {
-		if (!vscode.workspace.workspaceFolders) {
+		if (!vscode.workspace.workspaceFolders || vscode.workspace.workspaceFolders.length === 0) {
 			vscode.window.showInformationMessage('No workspace folders. Node View is not available.');
+			vscode.workspace.getConfiguration('devspace').update('nodeRoot', null, true);
 		} else {
-			const filePath = e.uri.fsPath;
-
 			vscode.workspace.workspaceFolders.map(folder => {
-				if (filePath.startsWith(folder.uri.fsPath)) {
-					vscode.workspace.getConfiguration('devspace').update('nodePath', folder.uri.fsPath, true);
+				if (e.uri.fsPath.startsWith(folder.uri.fsPath)) {
+					vscode.workspace.getConfiguration('devspace').update('nodeRoot', folder.uri.fsPath, true);
 				}
 			});
 
-			if (!vscode.workspace.getConfiguration('devspace').get('nodePath')) {
-				vscode.window.showInformationMessage('Invalid node path. Node View is not available.');
+			if (!vscode.workspace.getConfiguration('devspace').get('nodeRoot')) {
+				vscode.window.showInformationMessage('Invalid node root (workspace folder). Node View is not available.');
 			} else {
 				vscode.commands.executeCommand('devspace.refreshNodeView');
-				const nodePath = vscode.workspace.getConfiguration('devspace').get('nodePath');
-		
-				nodeStatusBar.tooltip = nodePath;
-				context.subscriptions.push(nodeStatusBar);
 			}
 		}
 	}))

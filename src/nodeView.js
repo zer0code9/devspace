@@ -1,11 +1,14 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
+import NodePath from './nodePath';
 
-class NodeView {
-    constructor(nodeRoot) {
-        this.nodeRoot = nodeRoot;
-        this.getDepedencies(path.join(this.nodeRoot, "package.json"));
+// nodeArray = array of Dependencies
+
+class NodeViewProvider {
+    constructor(nodePath) {
+        this.nodePath = this.setNodePath(nodePath) ? this.nodePath : new NodePath();
+        this.getDepedencies();
         this.onChange = new vscode.EventEmitter();
     }
 
@@ -13,33 +16,39 @@ class NodeView {
         return element;
     }
 
-    getChildren(element) {
-        if (!this.nodeRoot) return Promise.resolve([]);
-
-        const packagePath = path.join(this.nodeRoot, "package.json");
-        if (!this.pathExists(packagePath)) return Promise.resolve([]);
-
-        return Promise.resolve(this.getDepedencies(packagePath));
+    getChildren() {
+        return this.nodePath.checkNodePath() ? Promise.resolve(this.getDepedencies()) : Promise.resolve([]);
     }
 
     onDidChangeTreeData() {
         return this.onChange.event;
     }
 
-    getDepedencies(packagePath) {
-        if (!this.pathExists(packagePath)) return [];
+    getDepedencies() {
+        if (!this.nodePath.checkNodePath()) return [];
     
-        const packageJSON = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
-    
-        this.nodeArray = packageJSON.devDependencies ? Object.keys(packageJSON.devDependencies).map(name => 
-            this.createDependency(name.toLowerCase(), packageJSON.devDependencies[name])
+        const nodeJSON = JSON.parse(fs.readFileSync(this.nodePath, 'utf8'));
+        return this.nodeArray = nodeJSON.devDependencies ? Object.keys(nodeJSON.devDependencies).map(name => 
+            this.createDependency(name.toLowerCase(), nodeJSON.devDependencies[name])
         ) : [];
+    }
 
+    getNodeViewProvider() {
+        return new NodeViewProvider(this.nodePath);
+    }
+
+    getNodeViewAsArray() {
         return this.nodeArray;
     }
 
+    setNodePath(nodePath) {
+        this.nodePath = new NodePath(nodePath.getNodeRoot());
+        this.getDepedencies();
+        return this.nodePath;
+    }
+
     createDependency(name, version) {
-        if (this.pathExists(path.join(this.nodeRoot, "node_modules", name))) {
+        if (NodePath.pathExists(path.join(this.nodeRoot, "node_modules", name))) {
             return new Dependency(name, version);
         }
     }
@@ -73,4 +82,4 @@ class Dependency extends vscode.TreeItem {
     }
 }
 
-module.exports = NodeView;
+module.exports = NodeViewProvider;
