@@ -137,6 +137,10 @@
 		},
 		"viewsWelcome": [
 			{
+				"view": "devspace.nodeView",
+				"contents": "Go to a workspace folder that has a package.json file to get started!"
+			},
+			{
 				"view": "devspace.sideBar",
 				"contents": "Welcome to Dev Space! Use the snippets, themes, and keymaps to your liking!"
 			}
@@ -147,6 +151,10 @@
 				"title": "Refresh"
 			},
 			{
+				"command": "devspace.updateNodeItem",
+				"title": "Update"
+			},
+			{
 				"command": "devspace.deleteNodeItem",
 				"title": "Delete"
 			}
@@ -154,13 +162,17 @@
 		"menus": {
 			"view/title": [
 				{
-					"command": "devspace.refresh",
+					"command": "devspace.refreshNodeView",
 					"when": "view == devspace.nodeView"
 				}
 			],
 			"view/item/context": [
 				{
-					"command": "devspace.delete",
+					"command": "devspace.updateNodeItem",
+					"when": "view == devspace.nodeView && viewItem == node"
+				},
+				{
+					"command": "devspace.deleteNodeItem",
 					"when": "view == devspace.nodeView && viewItem == node"
 				}
 			]
@@ -188,14 +200,14 @@
 	},
 	"devDependencies": {
 		"@types/glob": "^7.1.3",
-		"@types/mocha": "^8.0.4",
+		"@types/mocha": "^8.2.3",
 		"@types/node": "^12.11.7",
 		"@types/vscode": "^1.95.0",
 		"@vscode/test-cli": "^0.0.10",
 		"@vscode/test-electron": "^2.4.1",
 		"eslint": "^7.19.0",
 		"glob": "^7.1.6",
-		"mocha": "^8.2.1",
+		"mocha": "^10.8.2",
 		"typescript": "^4.1.3",
 		"vscode-test": "^1.5.0"
 	}

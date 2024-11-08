@@ -8,7 +8,6 @@ function activate(context) {
 	const initialNodePath = vscode.workspace ? vscode.workspace.workspaceFolders[0].uri.fsPath : undefined;
 	const initialNodeViewProvider = new NodeView(initialNodePath);
 	context.subscriptions.push(vscode.window.createTreeView('devspace.nodeView', { treeDataProvider: initialNodeViewProvider }));
-	console.log(true);
 
 	let nodeStatusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
 	nodeStatusBar.text = 'Node View';
@@ -39,7 +38,7 @@ function activate(context) {
 					vscode.workspace.getConfiguration('devspace').update('nodePath', folder.uri.fsPath, true);
 				}
 			});
-	
+
 			if (!vscode.workspace.getConfiguration('devspace').get('nodePath')) {
 				vscode.window.showInformationMessage('Invalid node path. Node View is not available.');
 			} else {
