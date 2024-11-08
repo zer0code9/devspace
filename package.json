@@ -157,6 +157,10 @@
       {
         "command": "devspace.deleteNodeItem",
         "title": "Delete"
+      },
+      {
+        "command": "devspace.openNode",
+        "title": "Open"
       }
     ],
     "menus": {
@@ -168,11 +172,15 @@
       ],
       "view/item/context": [
         {
-          "command": "devspace.updateNodeItem",
+          "command": "devspace.updateNode",
           "when": "view == devspace.nodeView && viewItem == node"
         },
         {
-          "command": "devspace.deleteNodeItem",
+          "command": "devspace.deleteNode",
+          "when": "view == devspace.nodeView && viewItem == node"
+        },
+        {
+          "command": "devspace.openNode",
           "when": "view == devspace.nodeView && viewItem == node"
         }
       ]

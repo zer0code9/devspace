@@ -1,23 +1,30 @@
 <p align="center">
     <img width="15%" src="./img/logo.png">
-  <h1 align="center">Dev Space</h1>
+    <h1 align="center">Dev Space</h1>
 </p>
-<p align="center">
-    <img src="https://img.shields.io/badge/slashDEV-devspace-red">
-    <img alt="GitHub" src="https://img.shields.io/github/license/zer0code9/devspace">
-</p>
-<p align="center">
+<a href="https://github.com/SlashDEV9" style="text-decoration: none"><p align="center">
+    <img src="https://img.shields.io/badge/slashDEV-devspace-red?logo=javascript&logoColor=red">
+</p></a>
+<a href="https://github.com/zer0code9/devspace" style="text-decoration: none"><p align="center">
+    <img alt="GitHub" src="https://img.shields.io/github/license/zer0code9/devspace?logo=github">
     <img alt="Issues" src="https://img.shields.io/github/issues/zer0code9/devspace?logo=github">
-    <img alt="Commit Activity" src="https://img.shields.io/github/commit-activity/m/zer0code9/devspace?logo=github">
-    <img alt="Lastest Commit" src="https://img.shields.io/github/last-commit/zer0code9/devspace?logo=github">
-</p>
-<p align="center">
-    <img alt="Extension Installs" src="https://img.shields.io/visual-studio-marketplace/i/SlashDEV.devspace?logo=visual%20studio%20code">
-    <img alt="Version" src="https://img.shields.io/visual-studio-marketplace/v/SlashDEV.devspace?logo=visual%20studio%20code">
-    <img alt="Last Updated" src="https://img.shields.io/visual-studio-marketplace/last-updated/SlashDEV.devspace?label=updated&logo=visual%20studio%20code">
-</p>
+    <img alt="Commit Activity" src="https://img.shields.io/github/commit-activity/m/zer0code9/devspace?label=activity&logo=github">
+    <img alt="Lastest Commit" src="https://img.shields.io/github/last-commit/zer0code9/devspace?label=commit&logo=github">
+</p></a>
+<a href="https://marketplace.visualstudio.com/items?itemName=SlashDEV.devspace" style="text-decoration: none"><p align="center">
+    <img alt="Rating" src="https://img.shields.io/visual-studio-marketplace/stars/SlashDEV.devspace?logo=vscodium">
+    <img alt="Installs" src="https://img.shields.io/visual-studio-marketplace/i/SlashDEV.devspace?logo=vscodium">
+    <img alt="Version" src="https://img.shields.io/visual-studio-marketplace/v/SlashDEV.devspace?logo=vscodium">
+    <img alt="Last Updated" src="https://img.shields.io/visual-studio-marketplace/last-updated/SlashDEV.devspace?label=updated&logo=vscodium">
+</p></a>
 
 This is an extension to make VSCode better. It includes various snippets, themes, and keybindings. There might be more in the future!
+
+## Node View (testing)
+
+Look at all your node dependencies in the SlashDEV view container under Node View view.
+
+Your workspace should contain workspace folders with node and package.json to be able to use it for now.
 
 ## Snippets
 

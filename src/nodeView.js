@@ -8,36 +8,35 @@ import NodePath from './nodePath';
 class NodeViewProvider {
     constructor(nodePath) {
         this.nodePath = this.setNodePath(nodePath) ? this.nodePath : new NodePath();
-        this.getDepedencies();
-        this.onChange = new vscode.EventEmitter();
+        this.getNodes();
+        this._onDidChangeTreeData = new vscode.EventEmitter();
+        this.onDidChangeTreeData = this._onDidChangeTreeData.event;
     }
 
-    getTreeItem(element) {
-        return element;
+    getTreeItem(node) {
+        return node;
     }
 
     getChildren() {
-        return this.nodePath.checkNodePath() ? Promise.resolve(this.getDepedencies()) : Promise.resolve([]);
+        return this.nodePath.checkNodePath() ? Promise.resolve(this.getNodes()) : Promise.resolve([]);
     }
 
-    onDidChangeTreeData() {
-        return this.onChange.event;
-    }
-
-    getDepedencies() {
+    getNodes() {
         if (!this.nodePath.checkNodePath()) return [];
     
         const nodeJSON = JSON.parse(fs.readFileSync(this.nodePath, 'utf8'));
-        return this.nodeArray = nodeJSON.devDependencies ? Object.keys(nodeJSON.devDependencies).map(name => 
-            this.createDependency(name.toLowerCase(), nodeJSON.devDependencies[name])
-        ) : [];
+        return this.nodeArray = nodeJSON.devDependencies ? Object.keys(nodeJSON.devDependencies).map(name => {
+            if (NodePath.checkPath(path.join(this.nodeRoot, "node_modules", name))) {
+                return new Node(name.toLowerCase, nodeJSON.devDependencies[name]);
+            }
+        }) : [];
     }
 
     getNodeViewProvider() {
         return new NodeViewProvider(this.nodePath);
     }
 
-    getNodeViewAsArray() {
+    getNodeArray() {
         return this.nodeArray;
     }
 
@@ -47,34 +46,19 @@ class NodeViewProvider {
         return this.nodePath;
     }
 
-    createDependency(name, version) {
-        if (NodePath.pathExists(path.join(this.nodeRoot, "node_modules", name))) {
-            return new Dependency(name, version);
-        }
-    }
-    
-    pathExists(path) {
-        try {
-            fs.accessSync(path);
-            return true;
-        } catch (err) {
-            return false;
-        }
-    }
-
     refresh() {
         this.onChange.fire();
     }
 
-    delete(element) {
-        const index = this.nodeArray.findIndex(dep => dep.name === element.name);
+    delete(node) {
+        const index = this.nodeArray.findIndex(dep => dep.name === node.name);
         this.nodeArray.splice(index, 1);
         this.refresh();
     }
 
 }
 
-class Dependency extends vscode.TreeItem {
+class Node extends vscode.TreeItem {
     constructor(name, version) {
         super(name, vscode.TreeItemCollapsibleState.None);
         this.name = name;
