@@ -1,14 +1,5 @@
 /.vscode
 /.vscode-test
-.vscodeignore
-/node_modules
-/test
-jsconfig.json
-.eslintrc.json
 .DS_Store
 .vscode-test.js
-node_modules/
-/test-results/
-/playwright-report/
-/blob-report/
-/playwright/.cache/
+/node_modules
