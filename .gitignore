@@ -1,5 +1,4 @@
+/node_modules
 /.vscode
 /.vscode-test
-.DS_Store
 .vscode-test.js
-/node_modules
