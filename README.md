@@ -22,11 +22,11 @@ This is an extension to make VSCode better.
 
 It includes various snippets, themes, and keybindings. There might be more in the future!
 
-## Node View (testing)
+## Node View
 
 Look at all your node dependencies in the SlashDEV view container under Node View view.
 
-Your workspace should contain workspace folders with node and package.json to be able to use it for now.
+Your workspace should contain workspace folders with node and package.json to be able to use it for now. Use `ctrl+shift+d` to open Node View and go right into it!
 
 ## Snippets
 
