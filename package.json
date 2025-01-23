@@ -2,8 +2,8 @@
   "name": "devspace",
   "displayName": "Dev Space",
   "description": "Snippets, themes and keymaps for VSCode",
-  "version": "1.2.2",
-  "author": "Slash",
+  "version": "1.3.1",
+  "author": "zer0code9",
   "publisher": "SlashDEV",
   "engines": {
     "vscode": "^1.95.0"
@@ -26,10 +26,8 @@
     "slashDEV",
     "Dev Space"
   ],
-  "main": "./extension.js",
-  "activationEvents": [
-    "onStartupFinished"
-  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
   "contributes": {
     "snippets": [
       {
@@ -110,6 +108,14 @@
         "key": "alt+x",
         "command": "editor.action.deleteLines",
         "when": "editorTextFocus"
+      },
+      {
+        "key": "ctrl+s ctrl+s",
+        "command": "devspace.showNodeRoot"
+      },
+      {
+        "key": "ctrl+shift+d",
+        "command": "devspace.showNodeView"
       }
     ],
     "viewsContainers": {
@@ -138,7 +144,7 @@
     "viewsWelcome": [
       {
         "view": "devspace.nodeView",
-        "contents": "Go to a workspace folder that has a package.json file to get started!"
+        "contents": "Go to a workspace folder that has a package.json file to get started!\n[Open Folder](command:vscode.openFolder)\nYou will be able to see all the dependencies and update or uninstall them."
       },
       {
         "view": "devspace.sideBar",
@@ -148,40 +154,56 @@
     "commands": [
       {
         "command": "devspace.refreshNodeView",
-        "title": "Refresh"
+        "title": "Refresh",
+        "icon": "img/refresh.svg"
       },
       {
         "command": "devspace.updateNodeItem",
-        "title": "Update"
+        "title": "Update",
+        "icon": "img/update.svg"
       },
       {
-        "command": "devspace.deleteNodeItem",
-        "title": "Delete"
+        "command": "devspace.uninstallNodeItem",
+        "title": "Uninstall",
+        "icon": "img/uninstall.svg"
       },
       {
-        "command": "devspace.openNode",
-        "title": "Open"
+        "command": "devspace.openNodeItem",
+        "title": "Open",
+        "icon": "img/open.svg"
+      },
+      {
+        "command": "devspace.showNodeRoot",
+        "title": "Show Node Root"
+      },
+      {
+        "command": "devspace.showNodeView",
+        "title": "Open Slashdev"
       }
     ],
     "menus": {
       "view/title": [
         {
           "command": "devspace.refreshNodeView",
-          "when": "view == devspace.nodeView"
+          "when": "view == devspace.nodeView",
+          "group": "navigation"
         }
       ],
       "view/item/context": [
         {
-          "command": "devspace.updateNode",
-          "when": "view == devspace.nodeView && viewItem == node"
+          "command": "devspace.updateNodeItem",
+          "when": "view == devspace.nodeView && viewItem == node",
+          "group": "inline"
         },
         {
-          "command": "devspace.deleteNode",
-          "when": "view == devspace.nodeView && viewItem == node"
+          "command": "devspace.uninstallNodeItem",
+          "when": "view == devspace.nodeView && viewItem == node",
+          "group": "inline"
         },
         {
-          "command": "devspace.openNode",
-          "when": "view == devspace.nodeView && viewItem == node"
+          "command": "devspace.openNodeItem",
+          "when": "view == devspace.nodeView && viewItem == node",
+          "group": "inline"
         }
       ]
     },
@@ -196,27 +218,34 @@
           ],
           "default": null,
           "description": "The path to the workspace folder"
+        },
+        "devspace.autorefresh": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to refresh the node view automatically or not"
         }
       }
     }
   },
   "scripts": {
-    "lint": "eslint .",
-    "pretest": "npm run lint",
-    "test": "node ./test/runTest.js",
-    "run": "vscode-test"
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
-    "@types/glob": "^7.1.3",
-    "@types/mocha": "^10.0.9",
-    "@types/node": "^22.9.0",
-    "@types/vscode": "^1.95.0",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "16.x",
+    "@types/vscode": "^1.96.0",
+    "@typescript-eslint/eslint-plugin": "^6.4.1",
+    "@typescript-eslint/parser": "^6.4.1",
     "@vscode/test-cli": "^0.0.10",
     "@vscode/test-electron": "^2.4.1",
-    "eslint": "^7.19.0",
-    "glob": "^7.1.6",
-    "mocha": "^10.8.2",
-    "typescript": "^4.1.3",
-    "vscode-test": "^1.5.0"
+    "eslint": "^8.47.0",
+    "glob": "^10.3.3",
+    "mocha": "^10.2.0",
+    "typescript": "^5.7.3"
   }
 }

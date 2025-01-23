@@ -3,7 +3,7 @@
     <h1 align="center">Dev Space</h1>
 </p>
 <a href="https://github.com/SlashDEV9" style="text-decoration: none"><p align="center">
-    <img src="https://img.shields.io/badge/slashDEV-devspace-red?logo=javascript&logoColor=red">
+    <img src="https://img.shields.io/badge/SlashDEV-devspace-red?logo=javascript&logoColor=red">
 </p></a>
 <a href="https://github.com/zer0code9/devspace" style="text-decoration: none"><p align="center">
     <img alt="GitHub" src="https://img.shields.io/github/license/zer0code9/devspace?logo=github">
@@ -18,7 +18,9 @@
     <img alt="Last Updated" src="https://img.shields.io/visual-studio-marketplace/last-updated/SlashDEV.devspace?label=updated&logo=vscodium">
 </p></a>
 
-This is an extension to make VSCode better. It includes various snippets, themes, and keybindings. There might be more in the future!
+This is an extension to make VSCode better.
+
+It includes various snippets, themes, and keybindings. There might be more in the future!
 
 ## Node View (testing)
 
@@ -68,4 +70,4 @@ Also install [VSCodine](https://marketplace.visualstudio.com/items?itemName=Slas
 
 **Hope you enjoy Dev Space!**
 
-By SlashDEV
+Powered by SlashDEV
