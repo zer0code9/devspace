@@ -3,10 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.NodeStatus = void 0;
 const fs = require("fs");
 const path = require("path");
-const vscode = require("vscode");
 class NodeStatus {
-    constructor(nodeRoot) {
-        this.statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
+    constructor(statusBarItem, nodeRoot) {
+        this.statusBarItem = statusBarItem;
         this.update(nodeRoot);
         this.statusBarItem.show();
     }

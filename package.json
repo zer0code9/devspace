@@ -2,7 +2,7 @@
   "name": "devspace",
   "displayName": "Dev Space",
   "description": "Snippets, themes and keymaps for VSCode",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "author": "zer0code9",
   "publisher": "SlashDEV",
   "engines": {
@@ -114,7 +114,7 @@
         "command": "devspace.showNodeRoot"
       },
       {
-        "key": "ctrl+shift+d",
+        "key": "ctrl+shift+z",
         "command": "devspace.showNodeView"
       }
     ],
@@ -158,6 +158,11 @@
         "icon": "img/refresh.svg"
       },
       {
+        "command": "devspace.installNodeItem",
+        "title": "Install",
+        "icon": "img/install.svg"
+      },
+      {
         "command": "devspace.updateNodeItem",
         "title": "Update",
         "icon": "img/update.svg"
@@ -185,6 +190,11 @@
       "view/title": [
         {
           "command": "devspace.refreshNodeView",
+          "when": "view == devspace.nodeView",
+          "group": "navigation"
+        },
+        {
+          "command": "devspace.installNodeItem",
           "when": "view == devspace.nodeView",
           "group": "navigation"
         }
@@ -218,11 +228,6 @@
           ],
           "default": null,
           "description": "The path to the workspace folder"
-        },
-        "devspace.autorefresh": {
-          "type": "boolean",
-          "default": true,
-          "description": "Whether to refresh the node view automatically or not"
         }
       }
     }

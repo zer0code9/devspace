@@ -7,9 +7,11 @@ const vscode = require("vscode");
 const Dependency_1 = require("./Dependency");
 class NodeViewProvider {
     constructor(nodeRoot) {
-        this.nodeRoot = nodeRoot;
         this._onDidChangeTreeData = new vscode.EventEmitter();
         this.onDidChangeTreeData = this._onDidChangeTreeData.event;
+        this.nodeRoot = nodeRoot;
+        this.nodePath = "";
+        this.makeNodePath();
     }
     getTreeItem(element) {
         return element;
@@ -19,12 +21,10 @@ class NodeViewProvider {
             vscode.window.showInformationMessage('No dependency in empty workspace');
             return Promise.resolve([]);
         }
-        const nodePath = path.join(this.nodeRoot, 'package.json');
-        if (this.pathExists(nodePath)) {
-            return Promise.resolve(this.getNodes(nodePath));
+        if (this.pathExists(this.nodePath)) {
+            return Promise.resolve(this.getNodes(this.nodePath));
         }
         else {
-            vscode.window.showInformationMessage('Workspace has no package.json');
             return Promise.resolve([]);
         }
     }
@@ -46,9 +46,17 @@ class NodeViewProvider {
             return [];
         }
     }
-    pathExists(p) {
+    setNodeRoot(nodeRoot) {
+        this.nodeRoot = nodeRoot;
+        this.makeNodePath();
+        return this.nodePath;
+    }
+    makeNodePath() {
+        this.nodePath = this.pathExists(path.join(`${this.nodeRoot}`, "package.json")) ? path.join(`${this.nodeRoot}`, "package.json") : "";
+    }
+    pathExists(path) {
         try {
-            fs.accessSync(p);
+            fs.accessSync(path);
         }
         catch (err) {
             return false;

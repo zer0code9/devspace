@@ -20,13 +20,17 @@
 
 This is an extension to make VSCode better.
 
-It includes various snippets, themes, and keybindings. There might be more in the future!
+Node View is here in v1.3+! Works with multiple workspace folders now!
+
+It includes Node View, snippets, themes, and keybindings. There might be more in the future!
 
 ## Node View
 
-Look at all your node dependencies in the SlashDEV view container under Node View view.
+Look at all your node dependencies in the SlashDEV view container under Node View view. Switch between workspace folders without breaking a swear as it is done automatically!
 
-Your workspace should contain workspace folders with node and package.json to be able to use it for now. Use `ctrl+shift+d` to open Node View and go right into it!
+![Node View](./img/nodeview.png)
+
+Your workspace should contain workspace folders with node and package.json to be able to use it for now. Use `ctrl+shift+z` to open Node View and go right into it! There are little icons that appear on the right when you hover over the items to perform actions like opening in npmjs.org, updating, and uninstalling.
 
 ## Snippets
 

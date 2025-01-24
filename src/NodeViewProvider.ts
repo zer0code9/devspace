@@ -7,7 +7,14 @@ export class NodeViewProvider implements vscode.TreeDataProvider<Dependency> {
     private _onDidChangeTreeData: vscode.EventEmitter<Dependency | undefined | null | void> = new vscode.EventEmitter<Dependency | undefined | null | void>();
     readonly onDidChangeTreeData: vscode.Event<Dependency | undefined | null | void> = this._onDidChangeTreeData.event;
 
-    constructor(private nodeRoot: string | undefined) {}
+    private nodeRoot: string | undefined;
+    private nodePath: string;
+
+    constructor(nodeRoot: string | undefined) {
+        this.nodeRoot = nodeRoot;
+        this.nodePath = "";
+        this.makeNodePath();
+    }
 
     getTreeItem(element: Dependency): vscode.TreeItem {
         return element;
@@ -18,12 +25,10 @@ export class NodeViewProvider implements vscode.TreeDataProvider<Dependency> {
             vscode.window.showInformationMessage('No dependency in empty workspace');
             return Promise.resolve([]);
         }
-  
-        const nodePath = path.join(this.nodeRoot, 'package.json');
-        if (this.pathExists(nodePath)) {
-            return Promise.resolve(this.getNodes(nodePath));
+
+        if (this.pathExists(this.nodePath)) {
+            return Promise.resolve(this.getNodes(this.nodePath));
         } else {
-            vscode.window.showInformationMessage('Workspace has no package.json');
             return Promise.resolve([]);
         }
     }
@@ -51,10 +56,20 @@ export class NodeViewProvider implements vscode.TreeDataProvider<Dependency> {
             return [];
         }
     }
+
+    setNodeRoot(nodeRoot: string | undefined): string {
+        this.nodeRoot = nodeRoot;
+        this.makeNodePath();
+        return this.nodePath;
+    }
+
+    private makeNodePath() {
+        this.nodePath = this.pathExists(path.join(`${this.nodeRoot}`, "package.json")) ? path.join(`${this.nodeRoot}`, "package.json") : "";
+    }
   
-    private pathExists(p: string): boolean {
+    private pathExists(path: string): boolean {
         try {
-            fs.accessSync(p);
+            fs.accessSync(path);
         } catch (err) {
             return false;
         }
@@ -64,4 +79,6 @@ export class NodeViewProvider implements vscode.TreeDataProvider<Dependency> {
     refresh(): void {
         this._onDidChangeTreeData.fire();
     }
+
+
   }

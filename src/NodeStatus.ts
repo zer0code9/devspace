@@ -4,8 +4,9 @@ import * as vscode from 'vscode';
 
 export class NodeStatus {
     private statusBarItem: vscode.StatusBarItem;
-    constructor(nodeRoot: string | undefined) {
-        this.statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
+    
+    constructor(statusBarItem: vscode.StatusBarItem, nodeRoot: string | undefined) {
+        this.statusBarItem = statusBarItem;
         this.update(nodeRoot);
         this.statusBarItem.show();
     }

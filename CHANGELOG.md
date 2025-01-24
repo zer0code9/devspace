@@ -2,6 +2,16 @@
 
 ## Current
 
+## 1.3.2
+
+- Added:
+    - command: installNodeItem
+- Changed:
+    - Status Bar Item fixed
+    - Node View now works with multiple workspace folders
+
+## Past
+
 ## 1.3.1
 
 - Added:
@@ -9,9 +19,7 @@
     - command: uninstallNodeItem
     - command: openNodeItem
 - Changed:
-    - NodeView (fix and now works)
-
-## Past
+    - Node View (fix and now works)
 
 ## 1.2.2
 
