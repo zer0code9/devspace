@@ -2,15 +2,25 @@
 
 ## Current
 
+## 1.3.3
+
+- Testing:
+    - Project Box is in the works
+- Added:
+    - Project Bar Status Item
+- Changed:
+    - Node View Status Item looks better
+    - Node View now works with npm or yarn or sudo npm
+
+## Past
+
 ## 1.3.2
 
 - Added:
     - command: installNodeItem
 - Changed:
-    - Status Bar Item fixed
+    - Node View Status Item fixed
     - Node View now works with multiple workspace folders
-
-## Past
 
 ## 1.3.1
 

@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { NodeViewProvider } from './NodeViewProvider';
 import { NodeStatus } from './NodeStatus';
+import { ProjectBoxStatus } from './ProjectBoxStatus';
 
 export function activate(context: vscode.ExtensionContext) {
 	const nodeRoot = vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders.length > 0 ? vscode.workspace.workspaceFolders[0].uri.fsPath : undefined;
@@ -10,6 +11,7 @@ export function activate(context: vscode.ExtensionContext) {
 	const nodeViewProvider = new NodeViewProvider(nodeRoot);
 	vscode.window.registerTreeDataProvider('devspace.nodeView', nodeViewProvider);
 	const nodeStatus = new NodeStatus(vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100), nodeRoot);
+	const projectBoxStatus = new ProjectBoxStatus(vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100));
 
 	//const previousFolder = vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders.length > 0 ? vscode.workspace.workspaceFolders[0].uri.fsPath : "";
 
@@ -19,14 +21,21 @@ export function activate(context: vscode.ExtensionContext) {
 
 	vscode.commands.registerCommand('devspace.installNodeItem', () => {
 		const inputBox = vscode.window.createInputBox();
-		inputBox.placeholder = 'NPM package name';
+		inputBox.placeholder = 'NPM/YARN package name';
 		inputBox.show();
 		inputBox.onDidAccept(() => {
 			const node = inputBox.value;
 			inputBox.hide();
 			const terminal = vscode.window.createTerminal({ name: `Devspace Terminal` });
 			terminal.show();
-			terminal.sendText(`sudo npm install --save-dev ${node}`, true);
+			const installer = vscode.workspace.getConfiguration('devspace').get('installer');
+			if (installer === "npm") {
+				terminal.sendText(`npm install --save-dev ${node}`, true);
+			} else if (installer === "yarn") {
+				terminal.sendText(`yarn add --dev ${node}`, true);
+			} else if (installer === "sudonpm") {
+				terminal.sendText(`sudo npm install --save-dev ${node}`, true);
+			}
 			vscode.window.onDidEndTerminalShellExecution(terminalE => {
 				if (terminalE.terminal.name === `Devspace Terminal`) {
 					vscode.window.showInformationMessage(`Installed ${node}`);
@@ -40,7 +49,14 @@ export function activate(context: vscode.ExtensionContext) {
 	vscode.commands.registerCommand('devspace.updateNodeItem', node => {
 		const terminal = vscode.window.createTerminal({ name: `Devspace Terminal` });
 		terminal.show();
-		terminal.sendText(`sudo npm install --save-dev ${node.name}`, true);
+		const installer = vscode.workspace.getConfiguration('devspace').get('installer');
+		if (installer === "npm") {
+			terminal.sendText(`npm install --save-dev ${node.name}`, true);
+		} else if (installer === "yarn") {
+			terminal.sendText(`yarn add --dev ${node.name}`, true);
+		} else if (installer === "sudonpm") {
+			terminal.sendText(`sudo npm install --save-dev ${node.name}`, true);
+		}
 		vscode.window.onDidEndTerminalShellExecution(terminalE => {
 			if (terminalE.terminal.name === `Devspace Terminal`) {
 				vscode.window.showInformationMessage(`Updated ${node.name}`);
@@ -53,7 +69,14 @@ export function activate(context: vscode.ExtensionContext) {
 	vscode.commands.registerCommand('devspace.uninstallNodeItem', node => {
 		const terminal = vscode.window.createTerminal({ name: `Devspace Terminal` });
 		terminal.show();
-		terminal.sendText(`sudo npm uninstall ${node.name}`, true);
+		const installer = vscode.workspace.getConfiguration('devspace').get('installer');
+		if (installer === "npm") {
+			terminal.sendText(`npm uninstall ${node.name}`, true);
+		} else if (installer === "yarn") {
+			terminal.sendText(`yarn remove ${node.name}`, true);
+		} else if (installer === "sudonpm") {
+			terminal.sendText(`sudo npm uninstall ${node.name}`, true);
+		}
 		vscode.window.onDidEndTerminalShellExecution(terminalE => {
 			if (terminalE.terminal.name === `Devspace Terminal`) {
 				vscode.window.showInformationMessage(`Uninstalled ${node.name}`);
@@ -73,6 +96,26 @@ export function activate(context: vscode.ExtensionContext) {
 
 	vscode.commands.registerCommand('devspace.showNodeView', () => {
 		vscode.commands.executeCommand('devspace.nodeView.focus');
+	});
+
+	vscode.commands.registerCommand('devspace.showProjectBox', () => {
+		vscode.window.showInformationMessage(`ProjectBox`);
+	});
+
+	vscode.commands.registerCommand('devspace.addFolders', () => {
+		vscode.window.showOpenDialog({
+			canSelectFolders: true,
+			canSelectFiles: false,
+			canSelectMany: true,
+		}).then(fileUri => {
+			if (fileUri && fileUri[0]) {
+				vscode.workspace.updateWorkspaceFolders(
+					vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders.length : 0, 
+					null,
+					{ uri: fileUri[0] }
+				);
+			}
+		});
 	});
 
 	vscode.window.onDidChangeActiveTextEditor(editorE => {

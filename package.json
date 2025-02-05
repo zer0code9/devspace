@@ -2,7 +2,7 @@
   "name": "devspace",
   "displayName": "Dev Space",
   "description": "Snippets, themes and keymaps for VSCode",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "author": "zer0code9",
   "publisher": "SlashDEV",
   "engines": {
@@ -110,45 +110,49 @@
         "when": "editorTextFocus"
       },
       {
-        "key": "ctrl+s ctrl+s",
+        "key": "ctrl+alt+r",
         "command": "devspace.showNodeRoot"
       },
       {
-        "key": "ctrl+shift+z",
+        "key": "ctrl+alt+n",
         "command": "devspace.showNodeView"
+      },
+      {
+        "key": "ctrl+alt+b",
+        "command": "devspace.showProjectBox"
       }
     ],
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "slashdev",
-          "title": "SlashDEV",
-          "icon": "img/icon.png"
+          "id": "devspaceContainer",
+          "title": "Dev Space",
+          "icon": "img/container.svg"
         }
       ]
     },
     "views": {
-      "slashdev": [
+      "devspaceContainer": [
         {
           "id": "devspace.nodeView",
           "name": "Node View",
           "contextualTitle": "Node View"
         },
         {
-          "id": "devspace.sideBar",
-          "name": "Dev Space",
-          "contextualTitle": "Dev Space"
+          "id": "devspace.projectBox",
+          "name": "Project Box",
+          "contextualTitle": "Project Box"
         }
       ]
     },
     "viewsWelcome": [
       {
         "view": "devspace.nodeView",
-        "contents": "Go to a workspace folder that has a package.json file to get started!\n[Open Folder](command:vscode.openFolder)\nYou will be able to see all the dependencies and update or uninstall them."
+        "contents": "Go to a workspace folder that has a package.json file to get started!\n[Open Folder](command:vscode.openFolder)\n[Add Folder](command:devspace.addFolders)\nYou will be able to see all the dependencies and update or uninstall them. Works with npm and yarn. To change to yarn go to the Dev Space settings."
       },
       {
-        "view": "devspace.sideBar",
-        "contents": "Welcome to Dev Space! Use the snippets, themes, and keymaps to your liking!"
+        "view": "devspace.projectBox",
+        "contents": "You will see all your saved projects here.\n[Add Folder](command:devspace.addFolders)\nDoesn't work yet."
       }
     ],
     "commands": [
@@ -184,6 +188,14 @@
       {
         "command": "devspace.showNodeView",
         "title": "Open Slashdev"
+      },
+      {
+        "command": "devspace.showProjectBox",
+        "title": "Open Project Box"
+      },
+      {
+        "command": "devspace.addFolders",
+        "title": "Add Folder"
       }
     ],
     "menus": {
@@ -228,6 +240,44 @@
           ],
           "default": null,
           "description": "The path to the workspace folder"
+        },
+        "devspace.installer": {
+          "type": "string",
+          "default": "npm",
+          "description": "The package manager to use (npm/yarn/sudonpm)"
+        },
+        "devspace.activeProjects": {
+          "type": "array",
+          "default": [],
+          "description": "The active projects"
+        },
+        "devspace.inactiveProjects": {
+          "type": "array",
+          "default": [],
+          "description": "The saved projects"
+        }
+      }
+    },
+    "icons":{
+      "devspace-box": {
+        "description": "Box",
+        "default": {
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\a900"
+        }
+      },
+      "devspace-check":{
+        "description": "Check",
+        "default": {
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\a901"
+        }
+      },
+      "devspace-cross":{
+        "description": "Cross",
+        "default": {
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\a902"
         }
       }
     }
@@ -241,8 +291,8 @@
     "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
-    "@types/mocha": "^10.0.1",
-    "@types/node": "16.x",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^16.18.126",
     "@types/vscode": "^1.96.0",
     "@typescript-eslint/eslint-plugin": "^6.4.1",
     "@typescript-eslint/parser": "^6.4.1",
