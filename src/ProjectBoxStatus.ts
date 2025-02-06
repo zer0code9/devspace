@@ -12,7 +12,7 @@ export class ProjectBoxStatus {
     }
 
     update() {
-        const active = vscode.workspace.getConfiguration('devspace').get('activeProjects');
+        const active: any = vscode.workspace.getConfiguration('devspace').get('activeProjects');
         const inactive = vscode.workspace.getConfiguration('devspace').get('inactiveProjects');
         this.statusBarItem.text = `$(devspace-box) ${active.length}`;
         this.statusBarItem.command = 'devspace.showProjectBox';

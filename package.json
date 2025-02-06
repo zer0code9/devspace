@@ -86,6 +86,18 @@
     ],
     "keybindings": [
       {
+        "key": "ctrl+alt+r",
+        "command": "devspace.showNodeRoot"
+      },
+      {
+        "key": "ctrl+alt+n",
+        "command": "devspace.showNodeView"
+      },
+      {
+        "key": "ctrl+alt+b",
+        "command": "devspace.showProjectBox"
+      },
+      {
         "key": "alt+.",
         "command": "workbench.action.showCommands"
       },
@@ -108,18 +120,6 @@
         "key": "alt+x",
         "command": "editor.action.deleteLines",
         "when": "editorTextFocus"
-      },
-      {
-        "key": "ctrl+alt+r",
-        "command": "devspace.showNodeRoot"
-      },
-      {
-        "key": "ctrl+alt+n",
-        "command": "devspace.showNodeView"
-      },
-      {
-        "key": "ctrl+alt+b",
-        "command": "devspace.showProjectBox"
       }
     ],
     "viewsContainers": {
