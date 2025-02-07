@@ -2,6 +2,15 @@
 
 ## Current
 
+## 1.3.4
+
+- Added:
+    - Project Box
+- Changed:
+    - Node View icons look better and are different for dark or light themes
+
+## Past
+
 ## 1.3.3
 
 - Testing:
@@ -11,8 +20,6 @@
 - Changed:
     - Node View Status Item looks better
     - Node View now works with npm or yarn or sudo npm
-
-## Past
 
 ## 1.3.2
 

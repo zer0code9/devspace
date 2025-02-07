@@ -13,7 +13,7 @@ class NodeStatus {
         const exists = this.pathExists(path.join(`${nodeRoot}`, 'package.json'));
         this.statusBarItem.text = exists ? '$(devspace-check) Node View' : '$(devspace-cross) Node View';
         this.statusBarItem.tooltip = exists ? `Node Root: ${nodeRoot}` : 'No Node Root';
-        this.statusBarItem.command = 'devspace.showNodeView';
+        this.statusBarItem.command = 'devspace.nodeView.focus';
     }
     getStatusBarItem() {
         return this.statusBarItem;

@@ -12,11 +12,10 @@ export class ProjectBoxStatus {
     }
 
     update() {
-        const active: any = vscode.workspace.getConfiguration('devspace').get('activeProjects');
-        const inactive = vscode.workspace.getConfiguration('devspace').get('inactiveProjects');
-        this.statusBarItem.text = `$(devspace-box) ${active.length}`;
+        const projects: any = vscode.workspace.getConfiguration('devspace').get('projects');
+        this.statusBarItem.text = `$(devspace-box) ${projects.length}`;
         this.statusBarItem.command = 'devspace.showProjectBox';
-        this.statusBarItem.tooltip = `Click to see Project Box (doesn't work)`;
+        this.statusBarItem.tooltip = `Click to open Project Box`;
     }
 
     getStatusBarItem() {

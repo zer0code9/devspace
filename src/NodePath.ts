@@ -13,7 +13,7 @@ export class NodePath {
 
     getInitialNodePath(): string {
         const workspaceFolders = vscode.workspace.workspaceFolders;
-        if (!workspaceFolders) return "";
+        if (!workspaceFolders) {return "";}
         const arrayNodeRoot: vscode.WorkspaceFolder = workspaceFolders[0];
         const initialNodeRoot = arrayNodeRoot ? arrayNodeRoot.uri.fsPath : "";
         const initialNodePath = initialNodeRoot ? this.makeNodePath(initialNodeRoot) : "";

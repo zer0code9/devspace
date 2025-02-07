@@ -1,6 +1,4 @@
 import * as vscode from 'vscode';
-import * as fs from 'fs';
-import * as path from 'path';
 import { NodeViewProvider } from './NodeViewProvider';
 import { NodeStatus } from './NodeStatus';
 import { ProjectBoxStatus } from './ProjectBoxStatus';
@@ -12,8 +10,6 @@ export function activate(context: vscode.ExtensionContext) {
 	vscode.window.registerTreeDataProvider('devspace.nodeView', nodeViewProvider);
 	const nodeStatus = new NodeStatus(vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100), nodeRoot);
 	const projectBoxStatus = new ProjectBoxStatus(vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100));
-
-	//const previousFolder = vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders.length > 0 ? vscode.workspace.workspaceFolders[0].uri.fsPath : "";
 
 	vscode.commands.registerCommand('devspace.refreshNodeView', () => {
 		nodeViewProvider.refresh();
@@ -90,50 +86,174 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(`https://www.npmjs.com/package/${node.name}`));
 	});
 
-	vscode.commands.registerCommand('devspace.showNodeRoot', () => {
-		vscode.window.showInformationMessage(`${vscode.workspace.getConfiguration('devspace').get('nodeRoot')}`);
-	});
-
-	vscode.commands.registerCommand('devspace.showNodeView', () => {
-		vscode.commands.executeCommand('devspace.nodeView.focus');
-	});
-
 	vscode.commands.registerCommand('devspace.showProjectBox', () => {
-		vscode.window.showInformationMessage(`ProjectBox`);
+		const proJectBoxPick = vscode.window.createQuickPick();
+		proJectBoxPick.title = 'Project Box';
+		proJectBoxPick.placeholder = 'Your projects';
+
+		const projects: any = vscode.workspace.getConfiguration('devspace').get('projects');
+		let projectSelect: any[] = [];
+		projects.map((item: any) => {
+			projectSelect.push({ label: item });
+		});
+
+		proJectBoxPick.items = projectSelect;
+
+		proJectBoxPick.onDidAccept(() => proJectBoxPick.hide());
+		proJectBoxPick.onDidHide(() => proJectBoxPick.hide());
+		proJectBoxPick.show();
 	});
 
-	vscode.commands.registerCommand('devspace.addFolders', () => {
-		vscode.window.showOpenDialog({
-			canSelectFolders: true,
-			canSelectFiles: false,
-			canSelectMany: true,
-		}).then(fileUri => {
-			if (fileUri && fileUri[0]) {
+	vscode.commands.registerCommand('devspace.addFoldersBox', () => {
+		const workspaceFolders = vscode.workspace.workspaceFolders;
+		const folderPick = vscode.window.createQuickPick();
+		folderPick.title = 'Add Folders to Box';
+		folderPick.placeholder = 'Select folder(s)';
+
+		const projects: any = vscode.workspace.getConfiguration('devspace').get('projects');
+		let folderSelect: any[] = [];
+		if (workspaceFolders) {
+			workspaceFolders.map((item) => {
+				if (!projects.includes(item.uri.fsPath)) {
+					folderSelect.push({ label: item.uri.fsPath });
+				}
+			});
+		}
+
+		folderPick.items = folderSelect;
+		folderPick.canSelectMany = true;
+
+		folderPick.onDidChangeSelection(async items => {
+			items.map((item) => {
+				if (!projects.includes(item.label)) {
+					projects.push(item.label);
+				}
+			});
+
+			await vscode.workspace.getConfiguration('devspace').update('projects', projects, true);
+			projectBoxStatus.update();
+		});
+
+		folderPick.onDidAccept(() => folderPick.hide());
+		folderPick.onDidHide(() => folderPick.hide());
+		folderPick.show();
+	});
+
+	vscode.commands.registerCommand('devspace.removeFoldersBox', () => {
+		const folderPick = vscode.window.createQuickPick();
+		folderPick.title = 'Remove Folders from Box';
+		folderPick.placeholder = 'Select folder(s)';
+
+		const projects: any = vscode.workspace.getConfiguration('devspace').get('projects');
+		let folderSelect: any[] = [];
+		projects.map((item: any) => {
+			folderSelect.push({ label: item });
+		});
+
+		folderPick.items = folderSelect;
+		folderPick.canSelectMany = true;
+
+		folderPick.onDidChangeSelection(async items => {
+			items.map((item) => {
+				if (projects.includes(item.label)) {
+					projects.splice(projects.indexOf(item.label), 1);
+				}
+			});
+
+			await vscode.workspace.getConfiguration('devspace').update('projects', projects, true);
+			projectBoxStatus.update();
+		});
+
+		folderPick.onDidAccept(() => folderPick.hide());
+		folderPick.onDidHide(() => folderPick.hide());
+		folderPick.show();
+	});
+
+	vscode.commands.registerCommand('devspace.addFoldersWorkspace', () => {
+		const folderPick = vscode.window.createQuickPick();
+		folderPick.title = 'Add Folder to Workspace';
+		folderPick.placeholder = 'Select folder';
+
+		const projects: any = vscode.workspace.getConfiguration('devspace').get('projects');
+		let folderSelect: any[] = [];
+		projects.map((item: any) => {
+			folderSelect.push({ label: item });
+		});
+
+		folderPick.items = folderSelect;
+		folderPick.canSelectMany = false;
+
+		folderPick.onDidChangeSelection(items => {
+			vscode.workspace.updateWorkspaceFolders(
+				vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders.length : 0, 
+				null,
+				{ uri: vscode.Uri.parse(items[0].label) }
+			);
+		});
+
+		folderPick.onDidAccept(() => folderPick.hide());
+		folderPick.onDidHide(() => folderPick.hide());
+		folderPick.show();
+	});
+
+	vscode.commands.registerCommand('devspace.removeFoldersWorkspace', () => {
+		const workspaceFolders = vscode.workspace.workspaceFolders;
+		const folderPick = vscode.window.createQuickPick();
+		folderPick.title = 'Remove Folder from Workspace';
+		folderPick.placeholder = 'Select folder';
+
+		let folderSelect: any[] = [];
+		if (workspaceFolders) {
+			workspaceFolders.map((item) => {
+				folderSelect.push({ label: item.uri.fsPath });
+			});
+		}
+
+		folderPick.items = folderSelect;
+		folderPick.canSelectMany = false;
+
+		folderPick.onDidChangeSelection(items => {
+			const folderToRemove = workspaceFolders?.find(folder => folder.uri.fsPath === items[0].label);
+			if (folderToRemove && workspaceFolders) {
 				vscode.workspace.updateWorkspaceFolders(
-					vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders.length : 0, 
-					null,
-					{ uri: fileUri[0] }
+					workspaceFolders?.indexOf(folderToRemove),
+					1,
 				);
 			}
 		});
+
+		folderPick.onDidAccept(() => folderPick.hide());
+		folderPick.onDidHide(() => folderPick.hide());
+		folderPick.show();
 	});
 
 	vscode.window.onDidChangeActiveTextEditor(editorE => {
 		const filePath = editorE?.document.fileName;
-		const folderPath = filePath?.slice(0, filePath.lastIndexOf('/'));
-		const folderName = folderPath?.slice(folderPath.lastIndexOf('/') + 1);
+		let folderPath = filePath?.slice(0, filePath.lastIndexOf('/'));
+		let index = folderPath?.lastIndexOf('/');
+		if (index === -1 || !index) { return; }
+		let folderName = folderPath?.slice(index + 1);
 		let areSame = false;
-		if (folderName) {
+		let count = 9;
+
+		while (!areSame && count > 0 && (index !== -1 && index) && folderName) {
 			vscode.workspace.workspaceFolders?.forEach(workspaceFolder => {
-				if (workspaceFolder.name === `${folderName}` && !areSame) {
+				if (workspaceFolder.name === `${folderName}`) {
 					areSame = true;
 				}
 			});
-			if (areSame) {
-				const newNodeRoot = folderPath;
-				vscode.workspace.getConfiguration('devspace').update('nodeRoot', newNodeRoot, true);
-				onChangeEvent(newNodeRoot, nodeViewProvider, nodeStatus);
+			if (!areSame) {
+				folderPath = folderPath?.slice(0, folderPath.lastIndexOf('/'));
+				index = folderPath?.lastIndexOf('/');
+				if (index === -1 || !index) { break; }
+				folderName = folderPath?.slice(index + 1);
+				count--;
 			}
+		}
+		if (areSame) {
+			const newNodeRoot = folderPath;
+			vscode.workspace.getConfiguration('devspace').update('nodeRoot', newNodeRoot, true);
+			onChangeEvent(newNodeRoot, nodeViewProvider, nodeStatus);
 		}
 	});
 
@@ -149,15 +269,6 @@ function onChangeEvent(nodeRoot: string | undefined, nodeViewProvider: NodeViewP
 	nodeViewProvider.setNodeRoot(nodeRoot);
 	nodeStatus.update(nodeRoot);
 	vscode.commands.executeCommand('devspace.refreshNodeView');
-}
-
-function pathExists(path: string): boolean {
-	try {
-		fs.accessSync(path);
-	} catch (err) {
-		return false;
-	}
-	return true;
 }
 
 export function deactivate() {}

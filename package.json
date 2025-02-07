@@ -1,8 +1,8 @@
 {
   "name": "devspace",
   "displayName": "Dev Space",
-  "description": "Snippets, themes and keymaps for VSCode",
-  "version": "1.3.3",
+  "description": "A little more VSCode",
+  "version": "1.3.4",
   "author": "zer0code9",
   "publisher": "SlashDEV",
   "engines": {
@@ -24,7 +24,9 @@
     "theme",
     "keymaps",
     "slashDEV",
-    "Dev Space"
+    "Dev Space",
+    "Node View",
+    "Project Box"
   ],
   "activationEvents": [],
   "main": "./out/extension.js",
@@ -86,12 +88,8 @@
     ],
     "keybindings": [
       {
-        "key": "ctrl+alt+r",
-        "command": "devspace.showNodeRoot"
-      },
-      {
-        "key": "ctrl+alt+n",
-        "command": "devspace.showNodeView"
+        "key": "ctrl+alt+d",
+        "command": "workbench.view.extension.devspaceContainer"
       },
       {
         "key": "ctrl+alt+b",
@@ -152,50 +150,77 @@
       },
       {
         "view": "devspace.projectBox",
-        "contents": "You will see all your saved projects here.\n[Add Folder](command:devspace.addFolders)\nDoesn't work yet."
+        "contents": "You will see all your saved projects here.\n[Show Project Box](command:devspace.showProjectBox)\n[Add Folders to Box](command:devspace.addFoldersBox)\n[Remove Folders from Box](command:devspace.removeFoldersBox)\n[Add Folder to Workspace](command:devspace.addFoldersWorkspace)\n[Remove Folder from Workspace](command:devspace.removeFoldersWorkspace)"
       }
     ],
     "commands": [
       {
         "command": "devspace.refreshNodeView",
         "title": "Refresh",
-        "icon": "img/refresh.svg"
+        "icon": {
+          "dark": "img/dark/refresh.svg",
+          "light": "img/light/refresh.svg"
+        }
       },
       {
         "command": "devspace.installNodeItem",
         "title": "Install",
-        "icon": "img/install.svg"
+        "icon": {
+          "dark": "img/dark/filePlus.svg",
+          "light": "img/light/filePlus.svg"
+        }
       },
       {
         "command": "devspace.updateNodeItem",
         "title": "Update",
-        "icon": "img/update.svg"
+        "icon": {
+          "dark": "img/dark/fileRedo.svg",
+          "light": "img/light/fileRedo.svg"
+        }
       },
       {
         "command": "devspace.uninstallNodeItem",
         "title": "Uninstall",
-        "icon": "img/uninstall.svg"
+        "icon": {
+          "dark": "img/dark/fileMinus.svg",
+          "light": "img/light/fileMinus.svg"
+        }
       },
       {
         "command": "devspace.openNodeItem",
         "title": "Open",
-        "icon": "img/open.svg"
-      },
-      {
-        "command": "devspace.showNodeRoot",
-        "title": "Show Node Root"
-      },
-      {
-        "command": "devspace.showNodeView",
-        "title": "Open Slashdev"
+        "icon": {
+          "dark": "img/dark/fileSearch.svg",
+          "light": "img/light/fileSearch.svg"
+        }
       },
       {
         "command": "devspace.showProjectBox",
-        "title": "Open Project Box"
+        "title": "Show Project Box",
+        "icon": {
+          "dark": "img/dark/box.svg",
+          "light": "img/light/box.svg"
+        }
       },
       {
-        "command": "devspace.addFolders",
-        "title": "Add Folder"
+        "command": "devspace.addFoldersBox",
+        "title": "Add Folders to Box",
+        "icon": "img/plus.svg"
+      },
+      {
+        "command": "devspace.removeFoldersBox",
+        "title": "Remove Folders from Box",
+        "icon": "img/minus.svg"
+      },
+      {
+        "command": "devspace.addFoldersWorkspace",
+        "title": "Add Folder to Workspace",
+        "icon": "img/folderPlus.svg"
+      },
+      {
+        "command": "devspace.removeFoldersWorkspace",
+        "title": "Remove Folder from Workspace",
+        "icon": "img/folderMinus.svg"
       }
     ],
     "menus": {
@@ -208,6 +233,11 @@
         {
           "command": "devspace.installNodeItem",
           "when": "view == devspace.nodeView",
+          "group": "navigation"
+        },
+        {
+          "command": "devspace.showProjectBox",
+          "when": "view == workbench.explorer.fileView",
           "group": "navigation"
         }
       ],
@@ -225,6 +255,13 @@
         {
           "command": "devspace.openNodeItem",
           "when": "view == devspace.nodeView && viewItem == node",
+          "group": "inline"
+        }
+      ],
+      "touchBar": [
+        {
+          "command": "devspace.showProjectBox",
+          "when": "true",
           "group": "inline"
         }
       ]
@@ -246,12 +283,7 @@
           "default": "npm",
           "description": "The package manager to use (npm/yarn/sudonpm)"
         },
-        "devspace.activeProjects": {
-          "type": "array",
-          "default": [],
-          "description": "The active projects"
-        },
-        "devspace.inactiveProjects": {
+        "devspace.projects": {
           "type": "array",
           "default": [],
           "description": "The saved projects"
