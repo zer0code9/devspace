@@ -8,12 +8,10 @@ export class NodeViewProvider implements vscode.TreeDataProvider<Dependency> {
     readonly onDidChangeTreeData: vscode.Event<Dependency | undefined | null | void> = this._onDidChangeTreeData.event;
 
     private nodeRoot: string | undefined;
-    private nodePath: string;
+    private nodePath : string = "";
 
-    constructor(nodeRoot: string | undefined) {
-        this.nodeRoot = nodeRoot;
-        this.nodePath = "";
-        this.makeNodePath();
+    constructor() {
+        this.update();
     }
 
     getTreeItem(element: Dependency): vscode.TreeItem {
@@ -57,13 +55,8 @@ export class NodeViewProvider implements vscode.TreeDataProvider<Dependency> {
         }
     }
 
-    setNodeRoot(nodeRoot: string | undefined): string {
-        this.nodeRoot = nodeRoot;
-        this.makeNodePath();
-        return this.nodePath;
-    }
-
-    private makeNodePath() {
+    update() {
+        this.nodeRoot = vscode.workspace.getConfiguration('devspace').get('nodeRoot');
         this.nodePath = this.pathExists(path.join(`${this.nodeRoot}`, "package.json")) ? path.join(`${this.nodeRoot}`, "package.json") : "";
     }
   
@@ -79,6 +72,4 @@ export class NodeViewProvider implements vscode.TreeDataProvider<Dependency> {
     refresh(): void {
         this._onDidChangeTreeData.fire();
     }
-
-
   }

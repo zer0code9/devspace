@@ -26,17 +26,19 @@ It includes Node View, Project Box, snippets, themes, and keybindings. There mig
 
 Look at all your node dependencies in the Dev Space view container under Node View view. Switch between workspace folders without breaking a sweat as it is done automatically!
 
-![Node View](./img/readme/nodeview.png)
+![Node View](./img/readme/nodeView.png)
 
 Your workspace should contain workspace folders with node and package.json to be able to use it for now. Use `ctrl+alt+d` to open Node View and go right into it! There are little icons that appear on the right when you hover over the items to perform actions like opening in npmjs.org, updating, and uninstalling. You can use either npm and yarn by going to the Dev Space settings.
 
 ## Project Box
 
-See your saved projects and add them to your workspace. There are multiple commands that you can use; See them in the Dev Space view container.
+See your saved projects from your Project Box and add them to your Workspace. There are multiple commands that you can use; See them in the Project Box quick pick.
 
-![Project Box](./img/readme/projectbox.png)
+![Project Menu](./img/readme/projectMenu.png)
 
-![Project Box](./img/readme/projectboxPick.png)
+![Project Box](./img/readme/projectBox.png)
+
+You can perform multiple actions like adding and removing folders from the Project Box and/or from the Workspace. Your projects are not synced across devices so that you can have different project groups for your different devices.
 
 ## Dev Space Keybindings
 
@@ -44,6 +46,7 @@ See your saved projects and add them to your workspace. There are multiple comma
     <tr><th>Keys</th><th>Command</th></tr>
     <tr><td>Ctrl+Alt+D</td><td>Focus Dev Space</td></tr>
     <tr><td>Ctrl+Alt+B</td><td>Show Project Box</td></tr>
+    <tr><td>Ctrl+Alt+W</td><td>Show Workspace</td></tr>
 </table>
 
 ## Snippets

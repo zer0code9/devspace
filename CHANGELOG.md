@@ -2,14 +2,23 @@
 
 ## Current
 
+## 1.3.5
+
+- Changed:
+    - Node View works on Windows (fix)
+    - Icons for Project Box to perform actions
+    - New Project Menu
+    - Project Box works on Windows
+    - MacOS touch bar item for Project Box
+
+## Past
+
 ## 1.3.4
 
 - Added:
     - Project Box
 - Changed:
     - Node View icons look better and are different for dark or light themes
-
-## Past
 
 ## 1.3.3
 

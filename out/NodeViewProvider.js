@@ -6,12 +6,11 @@ const path = require("path");
 const vscode = require("vscode");
 const Dependency_1 = require("./Dependency");
 class NodeViewProvider {
-    constructor(nodeRoot) {
+    constructor() {
         this._onDidChangeTreeData = new vscode.EventEmitter();
         this.onDidChangeTreeData = this._onDidChangeTreeData.event;
-        this.nodeRoot = nodeRoot;
         this.nodePath = "";
-        this.makeNodePath();
+        this.update();
     }
     getTreeItem(element) {
         return element;
@@ -46,12 +45,8 @@ class NodeViewProvider {
             return [];
         }
     }
-    setNodeRoot(nodeRoot) {
-        this.nodeRoot = nodeRoot;
-        this.makeNodePath();
-        return this.nodePath;
-    }
-    makeNodePath() {
+    update() {
+        this.nodeRoot = vscode.workspace.getConfiguration('devspace').get('nodeRoot');
         this.nodePath = this.pathExists(path.join(`${this.nodeRoot}`, "package.json")) ? path.join(`${this.nodeRoot}`, "package.json") : "";
     }
     pathExists(path) {

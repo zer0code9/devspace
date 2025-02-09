@@ -5,13 +5,14 @@ import * as vscode from 'vscode';
 export class NodeStatus {
     private statusBarItem: vscode.StatusBarItem;
     
-    constructor(statusBarItem: vscode.StatusBarItem, nodeRoot: string | undefined) {
+    constructor(statusBarItem: vscode.StatusBarItem) {
         this.statusBarItem = statusBarItem;
-        this.update(nodeRoot);
+        this.update();
         this.statusBarItem.show();
     }
 
-    update(nodeRoot: string | undefined) {
+    update() {
+        const nodeRoot = vscode.workspace.getConfiguration('devspace').get('nodeRoot');
         const exists = this.pathExists(path.join(`${nodeRoot}`, 'package.json'));
         this.statusBarItem.text = exists ? '$(devspace-check) Node View' : '$(devspace-cross) Node View';
         this.statusBarItem.tooltip = exists ? `Node Root: ${nodeRoot}` : 'No Node Root';
