@@ -38,7 +38,7 @@ function activateNodeView() {
             vscode.window.onDidEndTerminalShellExecution(terminalE => {
                 if (terminalE.terminal.name === `Devspace Terminal`) {
                     vscode.window.showInformationMessage(`Installed ${node}`);
-                    vscode.commands.executeCommand('devspace.refreshNodeView');
+                    nodeViewProvider.refresh();
                     terminal.dispose();
                 }
             });
@@ -63,7 +63,7 @@ function activateNodeView() {
         vscode.window.onDidEndTerminalShellExecution(terminalE => {
             if (terminalE.terminal.name === `Devspace Terminal`) {
                 vscode.window.showInformationMessage(`Updated ${node.name}`);
-                vscode.commands.executeCommand('devspace.refreshNodeView');
+                nodeViewProvider.refresh();
                 terminal.dispose();
             }
         });
@@ -87,7 +87,7 @@ function activateNodeView() {
         vscode.window.onDidEndTerminalShellExecution(terminalE => {
             if (terminalE.terminal.name === `Devspace Terminal`) {
                 vscode.window.showInformationMessage(`Uninstalled ${node.name}`);
-                vscode.commands.executeCommand('devspace.refreshNodeView');
+                nodeViewProvider.refresh();
                 terminal.dispose();
             }
         });
@@ -151,11 +151,10 @@ function activateNodeView() {
             }
         }
         if (areSame) {
-            const newNodeRoot = folderPath;
-            await vscode.workspace.getConfiguration('devspace').update('nodeRoot', newNodeRoot, true);
+            await vscode.workspace.getConfiguration('devspace').update('nodeRoot', folderPath, true);
             nodeViewProvider.update();
             nodeStatus.update();
-            vscode.commands.executeCommand('devspace.refreshNodeView');
+            nodeViewProvider.refresh();
         }
     });
 }

@@ -65,6 +65,7 @@ function activateProjectBox() {
                 }
                 vscode.workspace.updateWorkspaceFolders(vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders.length : 0, null, { uri: vscode.Uri.parse(button.item.description) });
             }
+            vscode.commands.executeCommand('devspace.showProjectBox');
         });
         projectBoxPick.onDidAccept(() => projectBoxPick.hide());
         projectBoxPick.onDidHide(() => projectBoxPick.hide());
@@ -99,7 +100,10 @@ function activateProjectBox() {
             await vscode.workspace.getConfiguration('devspace').update('projects', projects, true);
             projectBoxStatus.update();
         });
-        folderPick.onDidAccept(() => folderPick.hide());
+        folderPick.onDidAccept(() => {
+            folderPick.hide();
+            vscode.commands.executeCommand('devspace.showProjectBox');
+        });
         folderPick.onDidHide(() => folderPick.hide());
         folderPick.show();
     });
@@ -128,7 +132,10 @@ function activateProjectBox() {
             await vscode.workspace.getConfiguration('devspace').update('projects', projects, true);
             projectBoxStatus.update();
         });
-        folderPick.onDidAccept(() => folderPick.hide());
+        folderPick.onDidAccept(() => {
+            folderPick.hide();
+            vscode.commands.executeCommand('devspace.showProjectBox');
+        });
         folderPick.onDidHide(() => folderPick.hide());
         folderPick.show();
     });
@@ -155,7 +162,10 @@ function activateProjectBox() {
                 vscode.workspace.updateWorkspaceFolders(vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders.length : 0, null, { uri: vscode.Uri.parse(item.description) });
             });
         });
-        folderPick.onDidAccept(() => folderPick.hide());
+        folderPick.onDidAccept(() => {
+            folderPick.hide();
+            vscode.commands.executeCommand('devspace.showProjectBox');
+        });
         folderPick.onDidHide(() => folderPick.hide());
         folderPick.show();
     });
@@ -187,7 +197,10 @@ function activateProjectBox() {
                 }
             });
         });
-        folderPick.onDidAccept(() => folderPick.hide());
+        folderPick.onDidAccept(() => {
+            folderPick.hide();
+            vscode.commands.executeCommand('devspace.showProjectBox');
+        });
         folderPick.onDidHide(() => folderPick.hide());
         folderPick.show();
     });

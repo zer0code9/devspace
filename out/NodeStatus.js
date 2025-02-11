@@ -17,9 +17,6 @@ class NodeStatus {
         this.statusBarItem.tooltip = exists ? `Node Root: ${nodeRoot}` : 'No Node Root';
         this.statusBarItem.command = 'devspace.nodeView.focus';
     }
-    getStatusBarItem() {
-        return this.statusBarItem;
-    }
     pathExists(p) {
         try {
             fs.accessSync(p);

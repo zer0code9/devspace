@@ -11,16 +11,12 @@ export class NodeStatus {
         this.statusBarItem.show();
     }
 
-    update() {
+    update(): void {
         const nodeRoot = vscode.workspace.getConfiguration('devspace').get('nodeRoot');
         const exists = this.pathExists(path.join(`${nodeRoot}`, 'package.json'));
         this.statusBarItem.text = exists ? '$(devspace-check) Node View' : '$(devspace-cross) Node View';
         this.statusBarItem.tooltip = exists ? `Node Root: ${nodeRoot}` : 'No Node Root';
         this.statusBarItem.command = 'devspace.nodeView.focus';
-    }
-
-    getStatusBarItem() {
-        return this.statusBarItem;
     }
 
     private pathExists(p: string): boolean {

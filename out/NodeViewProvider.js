@@ -12,15 +12,18 @@ class NodeViewProvider {
         this.nodePath = "";
         this.update();
     }
+    update() {
+        this.nodeRoot = vscode.workspace.getConfiguration('devspace').get('nodeRoot');
+        this.nodePath = this.pathExists(path.join(`${this.nodeRoot}`, "package.json")) ? path.join(`${this.nodeRoot}`, "package.json") : "";
+    }
+    refresh() {
+        this._onDidChangeTreeData.fire();
+    }
     getTreeItem(element) {
         return element;
     }
     getChildren(element) {
-        if (!this.nodeRoot) {
-            vscode.window.showInformationMessage('No dependency in empty workspace');
-            return Promise.resolve([]);
-        }
-        if (this.pathExists(this.nodePath)) {
+        if (this.nodePath && this.pathExists(this.nodePath)) {
             return Promise.resolve(this.getNodes(this.nodePath));
         }
         else {
@@ -33,21 +36,17 @@ class NodeViewProvider {
                 return new Dependency_1.Dependency(name, version);
             };
             const nodePathJson = JSON.parse(fs.readFileSync(nodePath, 'utf-8'));
-            const deps = nodePathJson.dependencies
-                ? Object.keys(nodePathJson.dependencies).map(dep => toNode(dep, nodePathJson.dependencies[dep]))
+            const deps = nodePathJson.dependencies ?
+                Object.keys(nodePathJson.dependencies).map(dep => toNode(dep, nodePathJson.dependencies[dep]))
                 : [];
-            const devDeps = nodePathJson.devDependencies
-                ? Object.keys(nodePathJson.devDependencies).map(dep => toNode(dep, nodePathJson.devDependencies[dep]))
+            const devDeps = nodePathJson.devDependencies ?
+                Object.keys(nodePathJson.devDependencies).map(dep => toNode(dep, nodePathJson.devDependencies[dep]))
                 : [];
             return deps.concat(devDeps);
         }
         else {
             return [];
         }
-    }
-    update() {
-        this.nodeRoot = vscode.workspace.getConfiguration('devspace').get('nodeRoot');
-        this.nodePath = this.pathExists(path.join(`${this.nodeRoot}`, "package.json")) ? path.join(`${this.nodeRoot}`, "package.json") : "";
     }
     pathExists(path) {
         try {
@@ -57,9 +56,6 @@ class NodeViewProvider {
             return false;
         }
         return true;
-    }
-    refresh() {
-        this._onDidChangeTreeData.fire();
     }
 }
 exports.NodeViewProvider = NodeViewProvider;

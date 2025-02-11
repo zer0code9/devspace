@@ -25,7 +25,9 @@
     "Node View",
     "Project Box"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onView:workbench.explorer.fileView"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "viewsContainers": {
@@ -238,7 +240,7 @@
         }
       }
     },
-    "icons":{
+    "icons": {
       "devspace-box": {
         "description": "Box",
         "default": {
@@ -253,42 +255,42 @@
           "fontCharacter": "\\e907"
         }
       },
-      "devspace-check":{
+      "devspace-check": {
         "description": "Check",
         "default": {
           "fontPath": "img/devspace.woff",
           "fontCharacter": "\\e901"
         }
       },
-      "devspace-cross":{
+      "devspace-cross": {
         "description": "Cross",
         "default": {
           "fontPath": "img/devspace.woff",
           "fontCharacter": "\\e902"
         }
       },
-      "devspace-plus":{
+      "devspace-plus": {
         "description": "Plus",
         "default": {
           "fontPath": "img/devspace.woff",
           "fontCharacter": "\\e903"
         }
       },
-      "devspace-minus":{
+      "devspace-minus": {
         "description": "Minus",
         "default": {
           "fontPath": "img/devspace.woff",
           "fontCharacter": "\\e904"
         }
       },
-      "devspace-folderPlus":{
+      "devspace-folderPlus": {
         "description": "Folder Add",
         "default": {
           "fontPath": "img/devspace.woff",
           "fontCharacter": "\\e905"
         }
       },
-      "devspace-folderMinus":{
+      "devspace-folderMinus": {
         "description": "Folder Remove",
         "default": {
           "fontPath": "img/devspace.woff",
@@ -368,7 +370,7 @@
     "@typescript-eslint/parser": "^6.4.1",
     "@vscode/test-cli": "^0.0.10",
     "@vscode/test-electron": "^2.4.1",
-    "eslint": "^8.47.0",
+    "eslint": "^8.57.1",
     "glob": "^10.3.3",
     "mocha": "^10.2.0",
     "typescript": "^5.7.3"
