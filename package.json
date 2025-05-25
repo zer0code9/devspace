@@ -4,7 +4,7 @@
   "description": "A little more VSCode",
   "version": "1.3.5",
   "author": "zer0code9",
-  "publisher": "SlashDEV",
+  "publisher": "Creaion",
   "engines": {
     "vscode": "^1.96.0"
   },
@@ -20,7 +20,7 @@
     "Keymaps"
   ],
   "keywords": [
-    "slashDEV",
+    "Creaion",
     "Dev Space",
     "Node View",
     "Project Box"
@@ -37,6 +37,13 @@
           "title": "Dev Space",
           "icon": "img/container.svg"
         }
+      ],
+      "panel": [
+        {
+          "id": "termpadPanel",
+          "title": "Term Pad",
+          "icon": "img/container.svg"
+        }
       ]
     },
     "views": {
@@ -50,6 +57,13 @@
           "id": "devspace.projectMenu",
           "name": "Project Menu",
           "contextualTitle": "Project Menu"
+        }
+      ],
+      "termpadPanel": [
+        {
+          "id": "devspace.termPad",
+          "name": "Term Pad",
+          "contextualTitle": "Term Pad"
         }
       ]
     },
@@ -131,6 +145,14 @@
         "command": "devspace.removeFoldersWorkspace",
         "title": "Remove Folder from Workspace",
         "icon": "img/folderMinus.svg"
+      },
+      {
+        "command": "devspace.refreshTermPad",
+        "title": "Refresh",
+        "icon": {
+          "dark": "img/dark/refresh.svg",
+          "light": "img/light/refresh.svg"
+        }
       }
     ],
     "keybindings": [
@@ -186,6 +208,11 @@
         {
           "command": "devspace.showProjectBox",
           "when": "view == workbench.explorer.fileView",
+          "group": "navigation"
+        },
+        {
+          "command": "devspace.refreshTermPad",
+          "when": "view == devspace.termPad",
           "group": "navigation"
         }
       ],
@@ -352,6 +379,17 @@
         "uiTheme": "vs-dark",
         "path": "./themes/sdp-color-theme.json"
       }
+    ],
+    "notebooks": [
+      {
+        "type": "breakdown",
+        "displayName": "Breakdown",
+        "selector": [
+          {
+            "filenamePattern": "*.bd"
+          }
+        ]
+      }
     ]
   },
   "scripts": {
@@ -365,14 +403,14 @@
   "devDependencies": {
     "@types/mocha": "^10.0.10",
     "@types/node": "^16.18.126",
-    "@types/vscode": "^1.96.0",
-    "@typescript-eslint/eslint-plugin": "^6.4.1",
-    "@typescript-eslint/parser": "^6.4.1",
+    "@types/vscode": "^1.99.1",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
     "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.4.1",
+    "@vscode/test-electron": "^2.5.2",
     "eslint": "^8.57.1",
     "glob": "^10.3.3",
     "mocha": "^10.2.0",
-    "typescript": "^5.7.3"
+    "typescript": "^5.8.3"
   }
 }

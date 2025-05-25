@@ -2,8 +2,8 @@
     <img width="15%" src="./img/logo.png">
     <h1 align="center">Dev Space</h1>
 </p>
-<a href="https://github.com/SlashDEV9" style="text-decoration: none"><p align="center">
-    <img src="https://img.shields.io/badge/SlashDEV-devspace-red?logo=javascript&logoColor=red">
+<a href="https://github.com/Creaion" style="text-decoration: none"><p align="center">
+    <img src="https://img.shields.io/badge/Creaion-devspace-red?logo=javascript&logoColor=red">
 </p></a>
 <a href="https://github.com/zer0code9/devspace" style="text-decoration: none"><p align="center">
     <img alt="GitHub" src="https://img.shields.io/github/license/zer0code9/devspace?logo=github">
@@ -91,4 +91,4 @@ Also install [VSCodine](https://marketplace.visualstudio.com/items?itemName=Slas
 
 **Hope you enjoy Dev Space!**
 
-Powered by SlashDEV
+Powered by Creaion

@@ -1,10 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.NodeViewProvider = void 0;
+exports.Dependency = exports.NodeViewProvider = void 0;
 const fs = require("fs");
 const path = require("path");
 const vscode = require("vscode");
-const Dependency_1 = require("./Dependency");
 class NodeViewProvider {
     constructor() {
         this._onDidChangeTreeData = new vscode.EventEmitter();
@@ -33,7 +32,7 @@ class NodeViewProvider {
     getNodes(nodePath) {
         if (this.pathExists(nodePath)) {
             const toNode = (name, version) => {
-                return new Dependency_1.Dependency(name, version);
+                return new Dependency(name, version);
             };
             const nodePathJson = JSON.parse(fs.readFileSync(nodePath, 'utf-8'));
             const deps = nodePathJson.dependencies ?
@@ -59,4 +58,15 @@ class NodeViewProvider {
     }
 }
 exports.NodeViewProvider = NodeViewProvider;
+class Dependency extends vscode.TreeItem {
+    constructor(name, version) {
+        super(name, vscode.TreeItemCollapsibleState.None);
+        this.name = name;
+        this.version = version;
+        this.tooltip = `${this.name} ${this.version}`;
+        this.description = this.version;
+        this.contextValue = 'node';
+    }
+}
+exports.Dependency = Dependency;
 //# sourceMappingURL=NodeViewProvider.js.map

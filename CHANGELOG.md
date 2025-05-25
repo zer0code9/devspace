@@ -2,6 +2,13 @@
 
 ## Current
 
+## 1.3.6
+
+- Changed:
+    - Fixed Project Box so that it runs smoother
+
+## Past
+
 ## 1.3.5
 
 - Changed:
@@ -10,8 +17,6 @@
     - New Project Menu
     - Project Box works on Windows
     - MacOS touch bar item for Project Box
-
-## Past
 
 ## 1.3.4
 

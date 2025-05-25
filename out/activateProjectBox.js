@@ -3,9 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.activateProjectBox = activateProjectBox;
 const vscode = require("vscode");
 const ProjectBoxStatus_1 = require("./ProjectBoxStatus");
-// [
-//     { name: "---", path: "---" },
-// ]
 function activateProjectBox() {
     const projectBoxStatus = new ProjectBoxStatus_1.ProjectBoxStatus(vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100));
     // ** Show Project Box ** //
@@ -51,6 +48,7 @@ function activateProjectBox() {
             else if (button.tooltip === "Remove Folders from Workspace") {
                 vscode.commands.executeCommand('devspace.removeFoldersWorkspace');
             }
+            projectBoxPick.hide();
         });
         projectBoxPick.onDidTriggerItemButton(async (button) => {
             if (button.button.tooltip === "Remove Folder from Box") {
@@ -65,6 +63,7 @@ function activateProjectBox() {
                 }
                 vscode.workspace.updateWorkspaceFolders(vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders.length : 0, null, { uri: vscode.Uri.parse(button.item.description) });
             }
+            projectBoxPick.hide();
             vscode.commands.executeCommand('devspace.showProjectBox');
         });
         projectBoxPick.onDidAccept(() => projectBoxPick.hide());
@@ -91,6 +90,18 @@ function activateProjectBox() {
         }
         folderPick.items = folderSelect;
         folderPick.canSelectMany = true;
+        folderPick.buttons = [
+            {
+                tooltip: "Back to Project Box",
+                iconPath: new vscode.ThemeIcon(`devspace-box`)
+            }
+        ];
+        folderPick.onDidTriggerButton(button => {
+            if (button.tooltip === "Back to Project Box") {
+                folderPick.hide();
+                vscode.commands.executeCommand('devspace.showProjectBox');
+            }
+        });
         folderPick.onDidChangeSelection(async (items) => {
             items.map((item) => {
                 if (!projects.find((project) => project.name === item.label)) {
@@ -99,11 +110,10 @@ function activateProjectBox() {
             });
             await vscode.workspace.getConfiguration('devspace').update('projects', projects, true);
             projectBoxStatus.update();
-        });
-        folderPick.onDidAccept(() => {
             folderPick.hide();
-            vscode.commands.executeCommand('devspace.showProjectBox');
+            vscode.commands.executeCommand('devspace.addFoldersBox');
         });
+        folderPick.onDidAccept(() => folderPick.hide());
         folderPick.onDidHide(() => folderPick.hide());
         folderPick.show();
     });
@@ -122,6 +132,18 @@ function activateProjectBox() {
         }
         folderPick.items = folderSelect;
         folderPick.canSelectMany = true;
+        folderPick.buttons = [
+            {
+                tooltip: "Back to Project Box",
+                iconPath: new vscode.ThemeIcon(`devspace-box`)
+            }
+        ];
+        folderPick.onDidTriggerButton(button => {
+            if (button.tooltip === "Back to Project Box") {
+                folderPick.hide();
+                vscode.commands.executeCommand('devspace.showProjectBox');
+            }
+        });
         folderPick.onDidChangeSelection(async (items) => {
             items.map((item) => {
                 if (projects.find((project) => project.name === item.label)) {
@@ -131,11 +153,10 @@ function activateProjectBox() {
             });
             await vscode.workspace.getConfiguration('devspace').update('projects', projects, true);
             projectBoxStatus.update();
-        });
-        folderPick.onDidAccept(() => {
             folderPick.hide();
-            vscode.commands.executeCommand('devspace.showProjectBox');
+            vscode.commands.executeCommand('devspace.removeFoldersBox');
         });
+        folderPick.onDidAccept(() => folderPick.hide());
         folderPick.onDidHide(() => folderPick.hide());
         folderPick.show();
     });
@@ -154,6 +175,18 @@ function activateProjectBox() {
         }
         folderPick.items = folderSelect;
         folderPick.canSelectMany = true;
+        folderPick.buttons = [
+            {
+                tooltip: "Back to Project Box",
+                iconPath: new vscode.ThemeIcon(`devspace-box`)
+            }
+        ];
+        folderPick.onDidTriggerButton(button => {
+            if (button.tooltip === "Back to Project Box") {
+                folderPick.hide();
+                vscode.commands.executeCommand('devspace.showProjectBox');
+            }
+        });
         folderPick.onDidChangeSelection(items => {
             items.map((item) => {
                 if (item.description === undefined) {
@@ -161,11 +194,10 @@ function activateProjectBox() {
                 }
                 vscode.workspace.updateWorkspaceFolders(vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders.length : 0, null, { uri: vscode.Uri.parse(item.description) });
             });
-        });
-        folderPick.onDidAccept(() => {
             folderPick.hide();
-            vscode.commands.executeCommand('devspace.showProjectBox');
+            vscode.commands.executeCommand('devspace.addFoldersWorkspace');
         });
+        folderPick.onDidAccept(() => folderPick.hide());
         folderPick.onDidHide(() => folderPick.hide());
         folderPick.show();
     });
@@ -186,7 +218,19 @@ function activateProjectBox() {
         }
         folderPick.items = folderSelect;
         folderPick.canSelectMany = true;
-        folderPick.onDidChangeSelection(items => {
+        folderPick.buttons = [
+            {
+                tooltip: "Back to Project Box",
+                iconPath: new vscode.ThemeIcon(`devspace-box`)
+            }
+        ];
+        folderPick.onDidTriggerButton(async (button) => {
+            if (button.tooltip === "Back to Project Box") {
+                folderPick.hide();
+                vscode.commands.executeCommand('devspace.showProjectBox');
+            }
+        });
+        folderPick.onDidChangeSelection(async (items) => {
             items.map((item) => {
                 if (item.description === undefined) {
                     return;
@@ -196,11 +240,10 @@ function activateProjectBox() {
                     vscode.workspace.updateWorkspaceFolders(workspaceFolders?.indexOf(folderToRemove), 1);
                 }
             });
-        });
-        folderPick.onDidAccept(() => {
             folderPick.hide();
-            vscode.commands.executeCommand('devspace.showProjectBox');
+            vscode.commands.executeCommand('devspace.removeFoldersWorkspace');
         });
+        folderPick.onDidAccept(() => folderPick.hide());
         folderPick.onDidHide(() => folderPick.hide());
         folderPick.show();
     });

@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import { NodeViewProvider } from './NodeViewProvider';
 import { NodeStatus } from './NodeStatus';
 
-export function activateNodeView() {
+export function activateNodeView(): void {
     const nodeRoot = vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders.length > 0 ? vscode.workspace.workspaceFolders[0].uri.fsPath : undefined;
     vscode.workspace.getConfiguration('devspace').update('nodeRoot', nodeRoot, true);
 
