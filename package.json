@@ -2,11 +2,11 @@
   "name": "devspace",
   "displayName": "Dev Space",
   "description": "A little more VSCode",
-  "version": "1.3.5",
-  "author": "zer0code9",
-  "publisher": "Creaion",
+  "version": "2.0.1",
+  "author": "Creaion",
+  "publisher": "SlashDEV",
   "engines": {
-    "vscode": "^1.96.0"
+    "vscode": "^1.100.0"
   },
   "license": "MIT",
   "repository": {
@@ -16,14 +16,14 @@
   "icon": "img/logo.png",
   "categories": [
     "Snippets",
-    "Themes",
-    "Keymaps"
+    "Other"
   ],
   "keywords": [
     "Creaion",
     "Dev Space",
     "Node View",
-    "Project Box"
+    "Project Box",
+    "Term Pad"
   ],
   "activationEvents": [
     "onView:workbench.explorer.fileView"
@@ -41,7 +41,7 @@
       "panel": [
         {
           "id": "termpadPanel",
-          "title": "Term Pad",
+          "title": "Terms",
           "icon": "img/container.svg"
         }
       ]
@@ -51,19 +51,22 @@
         {
           "id": "devspace.nodeView",
           "name": "Node View",
-          "contextualTitle": "Node View"
+          "contextualTitle": "Node View",
+          "icon": "img/container.svg"
         },
         {
           "id": "devspace.projectMenu",
           "name": "Project Menu",
-          "contextualTitle": "Project Menu"
+          "contextualTitle": "Project Menu",
+          "icon": "img/container.svg"
         }
       ],
       "termpadPanel": [
         {
           "id": "devspace.termPad",
-          "name": "Term Pad",
-          "contextualTitle": "Term Pad"
+          "name": "Terms",
+          "contextualTitle": "Terms",
+          "icon": "img/container.svg"
         }
       ]
     },
@@ -75,9 +78,17 @@
       {
         "view": "devspace.projectMenu",
         "contents": "You will see all your saved projects in the Project Box and your active projects in the Workspace.\n[Show Project Box](command:devspace.showProjectBox)\n[Add Folders to Box](command:devspace.addFoldersBox)\n[Remove Folders from Box](command:devspace.removeFoldersBox)\n[Show Workspace](command:workbench.explorer.fileView.focus)\n[Add Folders to Workspace](command:devspace.addFoldersWorkspace)\n[Remove Folders from Workspace](command:devspace.removeFoldersWorkspace)"
+      },
+      {
+        "view": "devspace.termPad",
+        "contents": "No terms have been detected in the workspace."
       }
     ],
     "commands": [
+      {
+        "command": "devspace.openDevSpaceSettings",
+        "title": "Open Dev Space Settings"
+      },
       {
         "command": "devspace.refreshNodeView",
         "title": "Refresh",
@@ -87,8 +98,24 @@
         }
       },
       {
-        "command": "devspace.installNodeItem",
-        "title": "Install",
+        "command": "devspace.openNodeFolder",
+        "title": "Open Node Folder",
+        "icon": {
+          "dark": "img/dark/folderPlus.svg",
+          "light": "img/light/folderPlus.svg"
+        }
+      },
+      {
+        "command": "devspace.showNodeHistory",
+        "title": "Show Node History",
+        "icon": {
+          "dark": "img/dark/clock.svg",
+          "light": "img/light/clock.svg"
+        }
+      },
+      {
+        "command": "devspace.addNodeItem",
+        "title": "Add",
         "icon": {
           "dark": "img/dark/filePlus.svg",
           "light": "img/light/filePlus.svg"
@@ -103,8 +130,8 @@
         }
       },
       {
-        "command": "devspace.uninstallNodeItem",
-        "title": "Uninstall",
+        "command": "devspace.removeNodeItem",
+        "title": "Remove",
         "icon": {
           "dark": "img/dark/fileMinus.svg",
           "light": "img/light/fileMinus.svg"
@@ -153,12 +180,32 @@
           "dark": "img/dark/refresh.svg",
           "light": "img/light/refresh.svg"
         }
+      },
+      {
+        "command": "devspace.goToFile",
+        "title": "Go to File"
+      },
+      {
+        "command": "devspace.goToTerm",
+        "title": "Go to Term"
       }
     ],
     "keybindings": [
       {
+        "key": "ctrl+alt+c",
+        "command": "workbench.action.showCommands"
+      },
+      {
+        "key": "ctrl+alt+s",
+        "command": "devspace.openDevSpaceSettings"
+      },
+      {
         "key": "ctrl+alt+d",
         "command": "workbench.view.extension.devspaceContainer"
+      },
+      {
+        "key": "ctrl+alt+h",
+        "command": "devspace.showNodeHistory"
       },
       {
         "key": "ctrl+alt+b",
@@ -169,28 +216,12 @@
         "command": "workbench.explorer.fileView.focus"
       },
       {
-        "key": "alt+.",
-        "command": "workbench.action.showCommands"
+        "key": "ctrl+alt+t",
+        "command": "workbench.view.extension.termpadPanel"
       },
       {
-        "key": "alt+p",
-        "command": "workbench.actions.view.problems",
-        "when": "editorTextFocus"
-      },
-      {
-        "key": "alt+d",
-        "command": "editor.action.marker.nextInFiles",
-        "when": "editorTextFocus"
-      },
-      {
-        "key": "alt+a",
-        "command": "editor.action.marker.prevInFiles",
-        "when": "editorTextFocus"
-      },
-      {
-        "key": "alt+x",
-        "command": "editor.action.deleteLines",
-        "when": "editorTextFocus"
+        "key": "ctrl+alt+p",
+        "command": "workbench.actions.view.problems"
       }
     ],
     "menus": {
@@ -201,7 +232,17 @@
           "group": "navigation"
         },
         {
-          "command": "devspace.installNodeItem",
+          "command": "devspace.openNodeFolder",
+          "when": "view == devspace.nodeView",
+          "group": "navigation"
+        },
+        {
+          "command": "devspace.showNodeHistory",
+          "when": "view == devspace.nodeView",
+          "group": "navigation"
+        },
+        {
+          "command": "devspace.addNodeItem",
           "when": "view == devspace.nodeView",
           "group": "navigation"
         },
@@ -219,18 +260,22 @@
       "view/item/context": [
         {
           "command": "devspace.updateNodeItem",
-          "when": "view == devspace.nodeView && viewItem == node",
+          "when": "view == devspace.nodeView && viewItem == depnode",
           "group": "inline"
         },
         {
-          "command": "devspace.uninstallNodeItem",
-          "when": "view == devspace.nodeView && viewItem == node",
+          "command": "devspace.removeNodeItem",
+          "when": "view == devspace.nodeView && viewItem == depnode",
           "group": "inline"
         },
         {
           "command": "devspace.openNodeItem",
-          "when": "view == devspace.nodeView && viewItem == node",
+          "when": "view == devspace.nodeView && viewItem == depnode",
           "group": "inline"
+        },
+        {
+          "command": "devspace.goToFile",
+          "when": "view == devspace.termPad && viewItem == filenode"
         }
       ],
       "touchBar": [
@@ -254,16 +299,47 @@
           "description": "The path to the workspace folder",
           "ignoreSync": true
         },
-        "devspace.installer": {
+        "devspace.securedRoot": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to use 'sudo' for package manager",
+          "ignoreSync": true
+        },
+        "devspace.packageManager": {
           "type": "string",
           "default": "npm",
-          "description": "The package manager to use (npm/yarn/sudonpm)"
+          "description": "The package manager to use",
+          "enum": [
+            "npm",
+            "bun",
+            "yarn"
+          ],
+          "ignoreSync": true
         },
         "devspace.projects": {
           "type": "array",
           "default": [],
           "description": "The saved projects",
           "ignoreSync": true
+        },
+        "devspace.terms": {
+          "type": "array",
+          "default": [
+            "todo",
+            "fixme",
+            "debug",
+            "review",
+            "hack",
+            "note"
+          ],
+          "description": "The terms to look for",
+          "ignoreSync": false
+        },
+        "devspace.broadTermSearch": {
+          "type": "boolean",
+          "default": true,
+          "description": "If checked, it will show the terms for unopened files as well (not working in v1.4.1)",
+          "ignoreSync": false
         }
       }
     },
@@ -357,38 +433,6 @@
       {
         "language": "shellscript",
         "path": "./snippets/sh.code-snippets"
-      },
-      {
-        "language": "markdown",
-        "path": "./snippets/md.code-snippets"
-      }
-    ],
-    "themes": [
-      {
-        "label": "Super Dark Red",
-        "uiTheme": "vs-dark",
-        "path": "./themes/sdr-color-theme.json"
-      },
-      {
-        "label": "Classic Dark Red",
-        "uiTheme": "vs-dark",
-        "path": "./themes/cdr-color-theme.json"
-      },
-      {
-        "label": "Super Dark Punk",
-        "uiTheme": "vs-dark",
-        "path": "./themes/sdp-color-theme.json"
-      }
-    ],
-    "notebooks": [
-      {
-        "type": "breakdown",
-        "displayName": "Breakdown",
-        "selector": [
-          {
-            "filenamePattern": "*.bd"
-          }
-        ]
       }
     ]
   },
@@ -403,7 +447,7 @@
   "devDependencies": {
     "@types/mocha": "^10.0.10",
     "@types/node": "^16.18.126",
-    "@types/vscode": "^1.99.1",
+    "@types/vscode": "^1.100.0",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
     "@vscode/test-cli": "^0.0.10",

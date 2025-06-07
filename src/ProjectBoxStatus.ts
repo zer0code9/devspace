@@ -1,19 +1,14 @@
-import * as fs from 'fs';
-import * as path from 'path';
 import * as vscode from 'vscode';
 
 export class ProjectBoxStatus {
-    private statusBarItem: vscode.StatusBarItem;
-    
-    constructor(statusBarItem: vscode.StatusBarItem) {
-        this.statusBarItem = statusBarItem;
+    constructor(private statusBarItem: vscode.StatusBarItem) {
         this.update();
         this.statusBarItem.show();
     }
 
     update(): void {
-        const projects: any = vscode.workspace.getConfiguration('devspace').get('projects');
-        this.statusBarItem.text = `$(devspace-box) ${projects.length}`;
+        const projects: string[] | undefined = vscode.workspace.getConfiguration('devspace').get('projects');
+        this.statusBarItem.text = `$(devspace-box) ${projects ? projects.length : 0}`;
         this.statusBarItem.command = 'devspace.showProjectBox';
         this.statusBarItem.tooltip = `Click to open Project Box`;
     }

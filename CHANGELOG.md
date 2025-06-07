@@ -2,12 +2,31 @@
 
 ## Current
 
-## 1.3.6
+## 2.0.1
 
+- Added:
+    - Term Pad (v1.3.6)
+    - Term Pad works for multiple languages on Windows, MacOS, and some Linux Distros
+    - Icons for each term in Term Pad
+    - New keybindings and configurations (see README.md)
 - Changed:
-    - Fixed Project Box so that it runs smoother
+    - Node View runs smoother with npm, bun, and yarn with correct commands
+    - NPM and Yarn can use sudo if there is a secured root (doesn't apply to bun)
+    - More icons for Node History and Opening Node Project in Node View
+    - Project Box works better by tweaking Quick Picks
+    - Made REAME.md easier to understand
+- Removed:
+    - Themes
+    - Snippets for MarkDown (they can't work; others may follow)
 
 ## Past
+
+## 1.3.6 (unreleased: included in v2.0.1)
+
+- Added:
+    - Term Pad
+- Changed:
+    - Fixed Project Box so that it runs works correctly
 
 ## 1.3.5
 

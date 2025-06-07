@@ -36,7 +36,7 @@ export class NodeViewProvider implements vscode.TreeDataProvider<Dependency> {
 
     private getNodes(nodePath: string): Dependency[] {
         if (this.pathExists(nodePath)) {
-            const toNode = (name: string, version: string): Dependency => {
+            const toDep = (name: string, version: string): Dependency => {
                 return new Dependency(name, version);
             };
   
@@ -44,12 +44,12 @@ export class NodeViewProvider implements vscode.TreeDataProvider<Dependency> {
 
             const deps = nodePathJson.dependencies ?
                 Object.keys(nodePathJson.dependencies).map(dep =>
-                    toNode(dep, nodePathJson.dependencies[dep])
+                    toDep(dep, nodePathJson.dependencies[dep])
                 )
                 : [];
             const devDeps = nodePathJson.devDependencies ?
                 Object.keys(nodePathJson.devDependencies).map(dep =>
-                    toNode(dep, nodePathJson.devDependencies[dep])
+                    toDep(dep, nodePathJson.devDependencies[dep])
                 )
                 : [];
             return deps.concat(devDeps);
@@ -69,10 +69,10 @@ export class NodeViewProvider implements vscode.TreeDataProvider<Dependency> {
 }
 
 export class Dependency extends vscode.TreeItem {
-    constructor(public readonly name: string, private version: string) {
+    constructor(public readonly name: string, public readonly version: string) {
         super(name, vscode.TreeItemCollapsibleState.None);
-        this.tooltip = `${this.name} ${this.version}`;
         this.description = this.version;
-        this.contextValue = 'node';
+        this.tooltip = `${this.name} ${this.version}`;
+        this.contextValue = 'depnode';
     }
 }

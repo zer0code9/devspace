@@ -10,7 +10,7 @@ class ProjectBoxStatus {
     }
     update() {
         const projects = vscode.workspace.getConfiguration('devspace').get('projects');
-        this.statusBarItem.text = `$(devspace-box) ${projects.length}`;
+        this.statusBarItem.text = `$(devspace-box) ${projects ? projects.length : 0}`;
         this.statusBarItem.command = 'devspace.showProjectBox';
         this.statusBarItem.tooltip = `Click to open Project Box`;
     }

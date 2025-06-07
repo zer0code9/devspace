@@ -1,12 +1,25 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TermPadProvider = void 0;
+exports.FileTerm = exports.TermPadProvider = void 0;
+const fs = require("fs");
+const path = require("path");
 const vscode = require("vscode");
+const commentsSingle = {
+    primary: '//', // js/ts, java, kotlin, c, cpp
+    python: '#',
+    ruby: '#'
+};
+const commentsMulti = {
+    primary: ['/*', '*/'],
+    python: ['"""', '"""'],
+    ruby: ['=begin', '=end'],
+    html: ['<!--', '-->'],
+    css: ['/*', '*/'] // css, scss
+};
 class TermPadProvider {
     constructor() {
         this._onDidChangeTreeData = new vscode.EventEmitter();
         this.onDidChangeTreeData = this._onDidChangeTreeData.event;
-        this.nodePath = "";
         this.update();
     }
     update() {
@@ -18,75 +31,177 @@ class TermPadProvider {
         return element;
     }
     getChildren(element) {
-        return Promise.resolve(this.getTerms());
+        if (element) {
+            return Promise.resolve(this.getTerms(element.info));
+        }
+        return Promise.resolve(this.getFiles());
     }
-    getTerms() {
-        const toTerm = (title, file, location) => {
-            return new TermNode(title, file, location, vscode.TreeItemCollapsibleState.None);
+    async getFiles() {
+        const toNode = (title, file) => {
+            return new FileTerm(title, file, "", vscode.TreeItemCollapsibleState.Expanded, "filenode");
         };
+        const files = [];
+        for (const group of vscode.window.tabGroups.all) {
+            for (const tab of group.tabs) {
+                try {
+                    fs.accessSync(tab.input instanceof vscode.TabInputText ? tab.input.uri.fsPath : '');
+                }
+                catch (err) {
+                    continue;
+                }
+                const filePath = tab.input instanceof vscode.TabInputText ? tab.input.uri.fsPath : '';
+                await this.getTerms(filePath).then(terms => {
+                    if (terms.length > 0) {
+                        files.push({
+                            title: path.basename(filePath),
+                            file: filePath
+                        });
+                    }
+                });
+            }
+        }
+        const nodes = files.map(f => toNode(f.title, f.file));
+        return nodes;
+    }
+    /**
+     *
+     * TODO: add a configuration such that files that are not opened can be searched for term
+     */
+    async getTerms(filePath) {
+        const toNode = (text, location, file) => {
+            return new FileTerm(text, location, file, vscode.TreeItemCollapsibleState.None, "termnode");
+        };
+        let single = commentsSingle.primary;
+        let multi = commentsMulti.primary;
+        if (filePath.endsWith('.py')) {
+            single = commentsSingle.python;
+            multi = commentsMulti.python;
+        }
+        else if (filePath.endsWith('.rb')) {
+            single = commentsSingle.ruby;
+            multi = commentsMulti.ruby;
+        }
+        else if (filePath.endsWith('.html')) {
+            multi = commentsMulti.html;
+        }
+        else if (filePath.endsWith('.css') || filePath.endsWith('.scss')) {
+            multi = commentsMulti.css;
+        }
         const results = [];
-        const searchTerms = ["todo", "fixme"]; //, "bug", "note", "review"
-        searchTerms.forEach((searchTerm) => {
-            for (const editor of vscode.window.visibleTextEditors) {
-                const document = editor.document;
-                const text = document.getText();
-                const lines = text.split('\n');
-                for (let i = 0; i < lines.length; i++) {
+        const terms = await vscode.workspace.getConfiguration('devspace').get('terms');
+        if (!terms) {
+            return [];
+        }
+        for (const term of terms) {
+            const document = await vscode.workspace.openTextDocument(filePath);
+            ;
+            const lines = document.getText().split('\n');
+            /* single comment */
+            for (let i = 0; i < lines.length && !filePath.endsWith('.html') && !(filePath.endsWith('.css') || filePath.endsWith('.scss')); i++) {
+                const line = lines[i];
+                const lineUpperCase = line.toUpperCase();
+                const termUpperCase = term.toUpperCase();
+                const lineNoSpace = lineUpperCase.replace(/\s/g, '');
+                if (lineNoSpace.indexOf(`${single}${termUpperCase}`) !== -1) {
+                    line.substring(line.indexOf(single));
+                }
+                else {
+                    continue;
+                }
+                let columnIndex = lineUpperCase.indexOf(termUpperCase);
+                while (columnIndex !== -1) {
+                    const text = line.trim().substring(columnIndex).split(':')[1];
+                    if (!text) {
+                        break;
+                    }
+                    results.push({
+                        text: termUpperCase + ": " + text.trim(),
+                        line: i + 1,
+                        column: columnIndex + 1,
+                        file: document.uri.fsPath
+                    });
+                    columnIndex = lineUpperCase.indexOf(termUpperCase, columnIndex + 1);
+                }
+            }
+            /* multi comment */
+            const start = multi[0];
+            const end = multi[1];
+            let startIndex = lines.findIndex((line) => line.includes(start));
+            let endIndex = lines.findIndex((line) => line.includes(end));
+            while (startIndex !== -1 && endIndex !== -1) {
+                if (startIndex > endIndex) {
+                    startIndex = lines.findIndex((line, index) => line.includes(start) && index > startIndex);
+                    endIndex = lines.findIndex((line, index) => line.includes(end) && index > endIndex);
+                    continue;
+                }
+                for (let i = startIndex; i <= endIndex; i++) {
                     const line = lines[i];
                     const lineUpperCase = line.toUpperCase();
-                    const termUpperCase = searchTerm.toUpperCase();
-                    const lineNoSpace = lineUpperCase.replace(/\s/g, '');
-                    if (lineNoSpace.indexOf(`//${termUpperCase}`) !== -1) {
-                        line.substring(line.indexOf("//"));
-                    }
-                    else if (lineNoSpace.indexOf(`*${termUpperCase}`) !== -1) {
-                        line.substring(line.indexOf("*"));
-                    }
-                    else {
-                        continue;
-                    }
+                    const termUpperCase = term.toUpperCase();
                     let columnIndex = lineUpperCase.indexOf(termUpperCase);
                     while (columnIndex !== -1) {
-                        const text = line.trim().substring(columnIndex + termUpperCase.length).split(':')[1];
+                        const text = line.substring(columnIndex).split(':')[1]?.replace(end, '');
                         if (!text) {
                             break;
                         }
                         results.push({
-                            file: document.fileName,
+                            text: termUpperCase + ": " + text.trim(),
                             line: i + 1,
                             column: columnIndex + 1,
-                            text: termUpperCase + ": " + text.trim()
+                            file: document.uri.fsPath
                         });
                         columnIndex = lineUpperCase.indexOf(termUpperCase, columnIndex + 1);
                     }
                 }
+                startIndex = lines.findIndex((line, index) => line.includes(start) && index > startIndex);
+                endIndex = lines.findIndex((line, index) => line.includes(end) && index > endIndex);
             }
-        });
-        const nodes = results.map(r => toTerm(r.text, r.file, r.line + ":" + r.column));
+        }
+        const nodes = results.map(r => toNode(r.text, `[Ln ${r.line}, Col ${r.column}]`, r.file)).sort((a, b) => parseInt(a.info.split(' ')[1].replace(',', '')) - parseInt(b.info.split(' ')[1].replace(',', '')));
         return nodes;
     }
 }
 exports.TermPadProvider = TermPadProvider;
-const getFilePath = (path) => {
+const getBetterFilePath = (path) => {
     vscode.workspace.workspaceFolders?.forEach(workspaceFolder => {
-        if (path.indexOf(workspaceFolder.name) !== -1) {
-            console.log(path.indexOf(workspaceFolder.name));
-            console.log(path.slice(path.indexOf(workspaceFolder.name)));
-            return path.slice(path.indexOf(workspaceFolder.name));
+        if (path.includes(workspaceFolder.name)) {
+            path = path.replace('\\', '/');
+            path = path.slice(path.search(workspaceFolder.name));
+            const partPath = path.split('/');
+            partPath.pop();
+            path = partPath.join(' • ');
+            return path;
         }
     });
     return path;
 };
-class TermNode extends vscode.TreeItem {
-    constructor(title, file, location, collapsibleState) {
+class FileTerm extends vscode.TreeItem {
+    constructor(title, info, extra, collapsibleState, context) {
         super(title, collapsibleState);
         this.title = title;
-        this.file = file;
-        this.location = location;
+        this.info = info;
+        this.extra = extra;
         this.collapsibleState = collapsibleState;
-        this.tooltip = `${this.title} ${getFilePath(this.file)}:${this.location}`;
-        this.description = this.file + ":" + this.location;
-        this.contextValue = 'term';
+        this.context = context;
+        this.description = (this.context === "filenode") ? getBetterFilePath(this.info) : this.info;
+        this.tooltip = `${this.title} ${this.info}`;
+        this.contextValue = this.context;
+        this.chooseIcon();
+    }
+    chooseIcon() {
+        if (this.context === "termnode") {
+            const term = this.title.split(':')[0].toLowerCase();
+            this.iconPath = {
+                light: vscode.Uri.file(path.join(__filename, '..', '..', 'img', 'misc', `${term}.svg`)),
+                dark: vscode.Uri.file(path.join(__filename, '..', '..', 'img', 'misc', `${term}.svg`))
+            };
+            this.command = {
+                command: 'devspace.goToTerm',
+                title: 'Go to Term',
+                arguments: [this.info, this.extra]
+            };
+        }
     }
 }
+exports.FileTerm = FileTerm;
 //# sourceMappingURL=TermPadProvider.js.map

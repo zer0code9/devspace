@@ -20,38 +20,71 @@
 
 This is an extension to make VSCode better.
 
-It includes Node View, Project Box, snippets, themes, and keybindings. There might be more in the future!
+It includes Node View, Project Box, Term Pad, and snippets.
+
+Keybindings:
+- Show Command Prompt [Ctrl+Alt+C] [⌃ ⌥ C]
+- Open Dev Space Settings [Ctrl+Alt+S] [⌃ ⌥ S]
+- Focus Dev Space [Ctrl+Alt+D] [⌃ ⌥ D]
 
 ## Node View
 
 Look at all your node dependencies in the Dev Space view container under Node View view. Switch between workspace folders without breaking a sweat as it is done automatically!
 
-![Node View](./img/readme/nodeView.png)
+![Node View](./img/readme/nodeViewv2.0.png)
 
-Your workspace should contain workspace folders with node and package.json to be able to use it for now. Use `ctrl+alt+d` to open Node View and go right into it! There are little icons that appear on the right when you hover over the items to perform actions like opening in npmjs.org, updating, and uninstalling. You can use either npm and yarn by going to the Dev Space settings.
+![Node History](./img/readme/nodeHistoryv2.0.png)
+
+Your workspace should contain workspace folders with node and package.json to be able to use it. Use `Ctrl+Alt+D | ⌃ ⌥ D` to open Node View and go right into it! There are little icons that appear on the right when you hover over the items to perform actions like opening in npmjs.org, updating, and uninstalling. You can use either npm, bun, and yarn by going to the Dev Space settings. If the root is secured, NPM and Yarn can use sudo (this doesn't apply to bun; install it such it is global and doesn't require verification) Node History permits you to switch back to a node project with one click but it will not be saved and is deleted when VSCode is closed (can hold up to 10 projects).
+
+![Node Install](./img/readme/nodeInstallv2.0.png)
+
+When installing a new package, you can tell the program to either add it to the production dependencies (dependencies) or development dependencies (devDependencies) by clicking the icon in the top right. Packages can be in the following formats: `[<package>]` or `@[<category>]/[<package>]` (check your package manager for the name).
+
+Keybindings:
+- Show Node History [Ctrl+Alt+H] [⌃ ⌥ H]
+
+Configurations:
+- Node Root: The path to the workspace folder [string | null] (not synced)
+- Package Manager: The package manager to use ['npm' | 'bun' | 'yarn'] (not synced)
+- Secured Root: Whether to use 'sudo' for package manager [boolean] (not synced)
 
 ## Project Box
 
 See your saved projects from your Project Box and add them to your Workspace. There are multiple commands that you can use; See them in the Project Box quick pick.
 
-![Project Menu](./img/readme/projectMenu.png)
+![Project Menu](./img/readme/projectMenuv2.0.png)
 
-![Project Box](./img/readme/projectBox.png)
+![Project Box](./img/readme/projectBoxv2.0.png)
 
-You can perform multiple actions like adding and removing folders from the Project Box and/or from the Workspace. Your projects are not synced across devices so that you can have different project groups for your different devices.
+You can perform multiple actions like adding and removing folders to or from the Project Box and/or the Workspace. You can add a project to your Workspace with Project Box with one click instead of going through your file explorer. The project doesn't need to be a node project. Your projects are not synced across devices so that you can have different project groups for your different devices.
 
-## Dev Space Keybindings
+Keybindings:
+- Show Project Box [Ctrl+Alt+B] [⌃ ⌥ B]
+- Show Workspace [Ctrl+Alt+W] [⌃ ⌥ W]
 
-<table>
-    <tr><th>Keys</th><th>Command</th></tr>
-    <tr><td>Ctrl+Alt+D</td><td>Focus Dev Space</td></tr>
-    <tr><td>Ctrl+Alt+B</td><td>Show Project Box</td></tr>
-    <tr><td>Ctrl+Alt+W</td><td>Show Workspace</td></tr>
-</table>
+Configurations:
+- Projects: The saved projects [string[]] (not synced)
+
+## Term Pad
+
+See all the todos, fixmes, debugs, ... left by your cocoders from one click away. Understand them at a glance with the different icons.
+
+![Term Pad](./img/readme/termPadv2.0.png)
+
+The term should be in the format of in a comment: `term: ...` (case insensitive). Terms work in JS/TS:JSX/TSX (`//`, `/* */`, `/** */`), Java + Kotlin + C + C++ (`//`, `/* */`), Python (`#`, `""" """`), Ruby (`#`, `=begin =end`), HTML (`<!-- -->`), CSS + SCSS (`/* */`). The file with the terms must be opened to see them (will change). Clicking a term will forward your cursor to where that term is.
+
+Keybindings:
+- Show Term Pad (Terms) [Ctrl+Alt+T] [⌃ ⌥ T]
+- Show Problem Pad (Problems) [Ctrl+Alt+P] [⌃ ⌥ P]
+
+Configurations:
+- Terms: The terms to look for [string[] ('todo' | 'fixme' | 'debug' | 'review' | 'hack' | 'note')] (synced)
+- Broad Term Search: If checked, it will show the terms for unopened files as well (not working in v2.0.1) [boolean] (synced)
 
 ## Snippets
 
-In your editor, type the prefix for the snippets
+Use snippets to code faster. See all the available snippets for a language by typing start prefix.
 
 Snippets start with...
 - `js` for JavaScript
@@ -60,35 +93,13 @@ Snippets start with...
 - `py` for Python
 - `ja` for Java
 - `ht` for HTML
-- `md` for Markdown
 - `cs` for CSS
 - `sc` for SCSS
 
-See all the available snippets for a language by typing start prefix.
-
-## Themes
-
-There are a few themes you can choose from:
-
-- Super Dark Red
-- Classic Dark Red
-- Super Dark Punk
-
-## More Keybindings
-
-Use the useful and fast keybindings of Dev Space
-
-<table>
-    <tr><th>Keys</th><th>Command</th></tr>
-    <tr><td>Alt+.</td><td>Opens command prompt</td></tr>
-    <tr><td>Alt+p</td><td>Shows all the problems</td></tr>
-    <tr><td>Alt+a</td><td>Goes to the previous error</td></tr>
-    <tr><td>Alt+d</td><td>Goes to the next error</td></tr>
-    <tr><td>Alt+x</td><td>Deletes current line</td></tr>
-</table>
-
-Also install [VSCodine](https://marketplace.visualstudio.com/items?itemName=SlashDEV.vscodine)!
+> **NOTE**: May disappear in the next update, will go to VSCodine.
 
 **Hope you enjoy Dev Space!**
 
-Powered by Creaion
+> **WARNING**: May contain code.
+
+Powered by Creaion, Published by SlashDEV

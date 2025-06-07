@@ -31,15 +31,15 @@ class NodeViewProvider {
     }
     getNodes(nodePath) {
         if (this.pathExists(nodePath)) {
-            const toNode = (name, version) => {
+            const toDep = (name, version) => {
                 return new Dependency(name, version);
             };
             const nodePathJson = JSON.parse(fs.readFileSync(nodePath, 'utf-8'));
             const deps = nodePathJson.dependencies ?
-                Object.keys(nodePathJson.dependencies).map(dep => toNode(dep, nodePathJson.dependencies[dep]))
+                Object.keys(nodePathJson.dependencies).map(dep => toDep(dep, nodePathJson.dependencies[dep]))
                 : [];
             const devDeps = nodePathJson.devDependencies ?
-                Object.keys(nodePathJson.devDependencies).map(dep => toNode(dep, nodePathJson.devDependencies[dep]))
+                Object.keys(nodePathJson.devDependencies).map(dep => toDep(dep, nodePathJson.devDependencies[dep]))
                 : [];
             return deps.concat(devDeps);
         }
@@ -63,9 +63,9 @@ class Dependency extends vscode.TreeItem {
         super(name, vscode.TreeItemCollapsibleState.None);
         this.name = name;
         this.version = version;
-        this.tooltip = `${this.name} ${this.version}`;
         this.description = this.version;
-        this.contextValue = 'node';
+        this.tooltip = `${this.name} ${this.version}`;
+        this.contextValue = 'depnode';
     }
 }
 exports.Dependency = Dependency;
