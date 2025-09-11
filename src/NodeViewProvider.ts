@@ -1,6 +1,8 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as vscode from 'vscode';
+import axios from 'axios';
+import * as cheerio from 'cheerio';
 
 export class NodeViewProvider implements vscode.TreeDataProvider<Dependency> {
     private _onDidChangeTreeData: vscode.EventEmitter<Dependency | undefined | null | void> = new vscode.EventEmitter<Dependency | undefined | null | void>();
@@ -34,7 +36,7 @@ export class NodeViewProvider implements vscode.TreeDataProvider<Dependency> {
         }
     }
 
-    private getNodes(nodePath: string): Dependency[] {
+    private async getNodes(nodePath: string): Promise<Dependency[]> {
         if (this.pathExists(nodePath)) {
             const toDep = (name: string, version: string): Dependency => {
                 return new Dependency(name, version);
@@ -42,7 +44,7 @@ export class NodeViewProvider implements vscode.TreeDataProvider<Dependency> {
   
             const nodePathJson = JSON.parse(fs.readFileSync(nodePath, 'utf-8'));
 
-            const deps = nodePathJson.dependencies ?
+            const prodDeps = nodePathJson.dependencies ?
                 Object.keys(nodePathJson.dependencies).map(dep =>
                     toDep(dep, nodePathJson.dependencies[dep])
                 )
@@ -52,7 +54,10 @@ export class NodeViewProvider implements vscode.TreeDataProvider<Dependency> {
                     toDep(dep, nodePathJson.devDependencies[dep])
                 )
                 : [];
-            return deps.concat(devDeps);
+            const dependencies = prodDeps.concat(devDeps);
+            const initPromises = dependencies.map(dep => dep.waitForInitialization());
+            await Promise.all(initPromises);
+            return dependencies;
         } else {
             return [];
         }
@@ -69,10 +74,40 @@ export class NodeViewProvider implements vscode.TreeDataProvider<Dependency> {
 }
 
 export class Dependency extends vscode.TreeItem {
+    private initializationPromise: Promise<void>;
     constructor(public readonly name: string, public readonly version: string) {
         super(name, vscode.TreeItemCollapsibleState.None);
         this.description = this.version;
+        this.initializeDescription();
         this.tooltip = `${this.name} ${this.version}`;
         this.contextValue = 'depnode';
+
+        this.initializationPromise = this.initializeDescription();
+    }
+
+    async waitForInitialization(): Promise<void> {
+        await this.initializationPromise;
+    }
+
+    private async initializeDescription() {
+        const actualVersion = await this.isNewVersionAvailable(this.name, this.version); 
+        if (actualVersion !== "") {
+            this.description = `${this.version} -> ^${actualVersion}`;
+        } else {
+            this.description = this.version;
+        }
+    }
+
+    private async isNewVersionAvailable(name: string, version: string): Promise<string> {
+        const response = await axios.get(`https://www.npmjs.com/package/${name}?activeTab=versions`);
+        const $ = cheerio.load(response.data);
+        const $table = $('table[aria-labelledby="current-tags"]').find('tbody tr');
+        const actualVersion = $table.find('td').find('a').eq(0).text().trim();
+
+        if ("^" + actualVersion !== version) {
+            return actualVersion;
+        }
+    
+        return "";
     }
 }
