@@ -18,7 +18,6 @@ export class NodeStatus {
 
     getPMCommand(): string {
         const packageManager: string | undefined = vscode.workspace.getConfiguration('devspace').get('packageManager');
-        if (packageManager === "bun") { return "bun"; }
         const securedRoot: boolean | undefined = vscode.workspace.getConfiguration('devspace').get('securedRoot');
         return securedRoot ? `sudo ${packageManager}` : `${packageManager}`;
     }

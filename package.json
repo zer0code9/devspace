@@ -106,6 +106,14 @@
         }
       },
       {
+        "command": "devspace.changeNodeManager",
+        "title": "Change Node Manager",
+        "icon": {
+          "dark": "img/dark/gear.svg",
+          "light": "img/light/gear.svg"
+        }
+      },
+      {
         "command": "devspace.showNodeHistory",
         "title": "Show Node History",
         "icon": {
@@ -237,6 +245,11 @@
           "group": "navigation"
         },
         {
+          "command": "devspace.changeNodeManager",
+          "when": "view == devspace.nodeView",
+          "group": "navigation"
+        },
+        {
           "command": "devspace.showNodeHistory",
           "when": "view == devspace.nodeView",
           "group": "navigation"
@@ -315,6 +328,12 @@
             "yarn"
           ],
           "ignoreSync": true
+        },
+        "devspace.showNewVersions": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to show the new version in Node View \nTakes longer to get node packages",
+          "ignoreSync": false
         },
         "devspace.projects": {
           "type": "array",

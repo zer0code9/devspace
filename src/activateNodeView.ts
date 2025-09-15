@@ -47,6 +47,43 @@ export function activateNodeView(): void {
     });
 
     /**
+     * Change Node Manager
+     * Configuration: Secured Root
+     * Configuration: Package Manager
+     */
+    vscode.commands.registerCommand('devspace.nodeView.changeNodeManager', () => {
+        const changeManagerPick = vscode.window.createQuickPick();
+        changeManagerPick.title = 'Change Node Manager';
+        changeManagerPick.placeholder = 'Choose a Node Manager';
+
+        changeManagerPick.items = [
+            { label: 'npm' },
+            { label: 'bun' },
+            { label: 'yarn' },
+            { label: 'sudo npm' },
+            { label: 'sudo bun' },
+            { label: 'sudo yarn' }
+        ];
+        changeManagerPick.canSelectMany = false;
+
+        changeManagerPick.onDidAccept(() => {
+            let sudo: boolean = false;
+            let manager: string = "npm";
+            if (changeManagerPick.selectedItems[0].label.includes('sudo')) {
+                sudo = true;
+                manager = changeManagerPick.selectedItems[0].label.split(' ')[1];
+            } else {
+                manager = changeManagerPick.selectedItems[0].label;
+            }
+            vscode.workspace.getConfiguration('devspace').update('securedRoot', sudo, true);
+            vscode.workspace.getConfiguration('devspace').update('packageManager', manager, true);
+            changeManagerPick.hide();
+        });
+        changeManagerPick.onDidHide(() => { changeManagerPick.dispose(); })
+        changeManagerPick.show();
+    })
+
+    /**
      * Show Node History
      * Keybinding: Ctrl+Alt+H
      * Command: Open Node Folder
@@ -286,7 +323,7 @@ function getTerminalCommand(action: string, node: string, dev?: boolean): string
     const packageManager: string | undefined = vscode.workspace.getConfiguration('devspace').get('packageManager');
     let command = "";
     if (packageManager === "bun") {
-        command += `bun `;
+        command += `${securedRoot ? 'sudo' : ''} bun `;
         if (action === "add") {
             command += `add ${dev ? `--dev` : ""} ${node}`;
         } else if (action === "update") {

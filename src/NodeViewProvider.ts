@@ -55,8 +55,10 @@ export class NodeViewProvider implements vscode.TreeDataProvider<Dependency> {
                 )
                 : [];
             const dependencies = prodDeps.concat(devDeps);
-            const initPromises = dependencies.map(dep => dep.waitForInitialization());
-            await Promise.all(initPromises);
+            if (vscode.workspace.getConfiguration('devspace').get('showNewVersions')) {
+                const initPromises = dependencies.map(dep => dep.waitForInitialization());
+                await Promise.all(initPromises);
+            }
             return dependencies;
         } else {
             return [];
@@ -93,8 +95,6 @@ export class Dependency extends vscode.TreeItem {
         const actualVersion = await this.isNewVersionAvailable(this.name, this.version); 
         if (actualVersion !== "") {
             this.description = `${this.version} -> ^${actualVersion}`;
-        } else {
-            this.description = this.version;
         }
     }
 
