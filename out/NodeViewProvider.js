@@ -5,7 +5,6 @@ const fs = require("fs");
 const path = require("path");
 const vscode = require("vscode");
 const axios_1 = require("axios");
-const cheerio = require("cheerio");
 class NodeViewProvider {
     constructor() {
         this._onDidChangeTreeData = new vscode.EventEmitter();
@@ -44,8 +43,10 @@ class NodeViewProvider {
                 Object.keys(nodePathJson.devDependencies).map(dep => toDep(dep, nodePathJson.devDependencies[dep]))
                 : [];
             const dependencies = prodDeps.concat(devDeps);
-            const initPromises = dependencies.map(dep => dep.waitForInitialization());
-            await Promise.all(initPromises);
+            if (vscode.workspace.getConfiguration('devspace').get('showNewVersions')) {
+                const initPromises = dependencies.map(dep => dep.waitForInitialization());
+                await Promise.all(initPromises);
+            }
             return dependencies;
         }
         else {
@@ -64,12 +65,12 @@ class NodeViewProvider {
 }
 exports.NodeViewProvider = NodeViewProvider;
 class Dependency extends vscode.TreeItem {
+    //private static versionCache: Map<string, string> = new Map();
     constructor(name, version) {
         super(name, vscode.TreeItemCollapsibleState.None);
         this.name = name;
         this.version = version;
         this.description = this.version;
-        this.initializeDescription();
         this.tooltip = `${this.name} ${this.version}`;
         this.contextValue = 'depnode';
         this.initializationPromise = this.initializeDescription();
@@ -82,17 +83,29 @@ class Dependency extends vscode.TreeItem {
         if (actualVersion !== "") {
             this.description = `${this.version} -> ^${actualVersion}`;
         }
-        else {
-            this.description = this.version;
-        }
     }
     async isNewVersionAvailable(name, version) {
-        const response = await axios_1.default.get(`https://www.npmjs.com/package/${name}?activeTab=versions`);
-        const $ = cheerio.load(response.data);
-        const $table = $('table[aria-labelledby="current-tags"]').find('tbody tr');
-        const actualVersion = $table.find('td').find('a').eq(0).text().trim();
-        if ("^" + actualVersion !== version) {
-            return actualVersion;
+        let retries = 0;
+        let delay = 500;
+        while (retries < 3) {
+            try {
+                const response = await axios_1.default.get(`https://registry.npmjs.org/${name}`);
+                const latestVersion = response.data["dist-tags"]?.latest;
+                if (latestVersion && ("^" + latestVersion !== version)) {
+                    return latestVersion;
+                }
+                break;
+            }
+            catch (err) {
+                if (err.response && err.response.status === 429) {
+                    await new Promise(res => setTimeout(res, delay));
+                    delay *= 2;
+                    retries++;
+                }
+                else {
+                    break;
+                }
+            }
         }
         return "";
     }

@@ -1,3 +1,5 @@
+import * as fs from 'fs';
+import * as path from 'path';
 import * as vscode from 'vscode';
 import { ProjectBoxStatus } from './ProjectBoxStatus';
 
@@ -47,6 +49,10 @@ export function activateProjectBox() {
                 iconPath: new vscode.ThemeIcon(`devspace-folderPlus`)
             },
             {
+                tooltip: "Add Folders to Box with URI",
+                iconPath: new vscode.ThemeIcon(`devspace-plus`)
+            },
+            {
                 tooltip: "Remove Folders from Workspace",
                 iconPath: new vscode.ThemeIcon(`devspace-minus`)
             }
@@ -59,6 +65,8 @@ export function activateProjectBox() {
                 vscode.commands.executeCommand('workbench.explorer.fileView.focus');
             } else if (button.tooltip === "Add Folders to Box") {
                 vscode.commands.executeCommand('devspace.addFoldersBox');
+            } else if (button.tooltip === "Add Folders to Box with URI") {
+                vscode.commands.executeCommand('devspace.addFoldersBoxUri');
             } else if (button.tooltip === "Remove Folders from Workspace") {
                 vscode.commands.executeCommand('devspace.removeFoldersWorkspace');
             }
@@ -148,6 +156,56 @@ export function activateProjectBox() {
         folderPick.onDidHide(() => folderPick.dispose());
         folderPick.show();
     });
+
+
+    /**
+     * Add Folders to Box with URI
+     * Configuration: Projects
+     * Command: Show Project Box
+     * Function: Get Folder Name
+     */
+    vscode.commands.registerCommand('devspace.addFoldersBoxUri', () => {
+        const inputBox = vscode.window.createInputBox();
+        inputBox.title = 'Add Folders to Box';
+        inputBox.placeholder = 'Enter folder path (absolute or relative to workspace)';
+        let resolvedUri: vscode.Uri | undefined;
+
+        inputBox.onDidChangeValue(value => {
+            if (path.isAbsolute(value) && fs.existsSync(value)) {
+                resolvedUri = vscode.Uri.file(value);
+                return;
+            }
+
+            if (value) {
+                const workspaceFolders = vscode.workspace.workspaceFolders;
+                if (workspaceFolders) {
+                    for (const folder of workspaceFolders) {
+                        const absPath = path.resolve(folder.uri.fsPath, value);
+                        if (fs.existsSync(absPath)) {
+                            resolvedUri = vscode.Uri.file(absPath);
+                            return;
+                        }
+                    }
+                }
+            }
+            resolvedUri = undefined;
+        });
+
+        inputBox.onDidAccept(() => {
+            const projects: Project[] | undefined = vscode.workspace.getConfiguration('devspace').get('projects');
+            if (!projects) { return; }
+            if (!resolvedUri) { return; }
+            if (projects.find((project: Project) => project.name === getFolderName(resolvedUri.fsPath))) { return; }
+            projects.push({ name: getFolderName(resolvedUri.fsPath), path: resolvedUri.fsPath });
+            vscode.workspace.getConfiguration('devspace').update('projects', projects, true);
+            projectBoxStatus.update();
+            inputBox.hide();
+            vscode.commands.executeCommand('devspace.showProjectBox');
+        });
+
+        inputBox.onDidHide(() => inputBox.dispose());
+        inputBox.show();
+    })
 
     /**
      * Remove Folders from Box
@@ -241,8 +299,8 @@ export function activateProjectBox() {
             items.map((item) => {
                 if (item.description === undefined) { return; }
                 vscode.workspace.updateWorkspaceFolders(
-                    vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders.length : 0, 
-                    null,
+                    vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders.length : 0,
+                    0,
                     { uri: vscode.Uri.parse(item.description) }
                 );
             });
@@ -297,7 +355,7 @@ export function activateProjectBox() {
                 const folderToRemove = workspaceFolders?.find(folder => getFolderName(folder.uri.fsPath) === item.label);
                 if (folderToRemove && workspaceFolders) {
                     vscode.workspace.updateWorkspaceFolders(
-                        workspaceFolders?.indexOf(folderToRemove),
+                        workspaceFolders.indexOf(folderToRemove),
                         1,
                     );
                 }

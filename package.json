@@ -167,6 +167,11 @@
         "icon": "img/plus.svg"
       },
       {
+        "command": "devspace.addFoldersBoxUri",
+        "title": "Add Folders to Box with URI",
+        "icon": "img/plus.svg"
+      },
+      {
         "command": "devspace.removeFoldersBox",
         "title": "Remove Folders from Box",
         "icon": "img/minus.svg"
@@ -419,41 +424,7 @@
           "fontCharacter": "\\e906"
         }
       }
-    },
-    "snippets": [
-      {
-        "language": "javascript",
-        "path": "./snippets/js.code-snippets"
-      },
-      {
-        "language": "javascript",
-        "path": "./snippets/jsx.code-snippets"
-      },
-      {
-        "language": "java",
-        "path": "./snippets/java.code-snippets"
-      },
-      {
-        "language": "python",
-        "path": "./snippets/py.code-snippets"
-      },
-      {
-        "language": "html",
-        "path": "./snippets/ht.code-snippets"
-      },
-      {
-        "language": "css",
-        "path": "./snippets/css.code-snippets"
-      },
-      {
-        "language": "scss",
-        "path": "./snippets/scss.code-snippets"
-      },
-      {
-        "language": "shellscript",
-        "path": "./snippets/sh.code-snippets"
-      }
-    ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
