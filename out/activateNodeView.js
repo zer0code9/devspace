@@ -43,7 +43,7 @@ function activateNodeView() {
      * Configuration: Secured Root
      * Configuration: Package Manager
      */
-    vscode.commands.registerCommand('devspace.nodeView.changeNodeManager', () => {
+    vscode.commands.registerCommand('devspace.changeNodeManager', () => {
         const changeManagerPick = vscode.window.createQuickPick();
         changeManagerPick.title = 'Change Node Manager';
         changeManagerPick.placeholder = 'Choose a Node Manager';
@@ -110,7 +110,7 @@ function activateNodeView() {
         inputBox.buttons = [
             {
                 tooltip: "Production",
-                iconPath: new vscode.ThemeIcon(`devspace-cross`)
+                iconPath: new vscode.ThemeIcon(`devspace-box-closed`)
             }
         ];
         inputBox.onDidTriggerButton(button => {
@@ -120,7 +120,7 @@ function activateNodeView() {
                 inputBox.buttons = [
                     {
                         tooltip: "Development",
-                        iconPath: new vscode.ThemeIcon(`devspace-check`)
+                        iconPath: new vscode.ThemeIcon(`devspace-code`)
                     }
                 ];
             }
@@ -128,7 +128,7 @@ function activateNodeView() {
                 inputBox.buttons = [
                     {
                         tooltip: "Production",
-                        iconPath: new vscode.ThemeIcon(`devspace-cross`)
+                        iconPath: new vscode.ThemeIcon(`devspace-box-closed`)
                     }
                 ];
             }

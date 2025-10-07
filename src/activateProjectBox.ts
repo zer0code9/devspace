@@ -50,7 +50,7 @@ export function activateProjectBox() {
             },
             {
                 tooltip: "Add Folders to Box with URI",
-                iconPath: new vscode.ThemeIcon(`devspace-plus`)
+                iconPath: new vscode.ThemeIcon(`devspace-import`)
             },
             {
                 tooltip: "Remove Folders from Workspace",
@@ -195,7 +195,7 @@ export function activateProjectBox() {
             const projects: Project[] | undefined = vscode.workspace.getConfiguration('devspace').get('projects');
             if (!projects) { return; }
             if (!resolvedUri) { return; }
-            if (projects.find((project: Project) => project.name === getFolderName(resolvedUri.fsPath))) { return; }
+            if (projects.find((project: Project) => project.name === getFolderName(resolvedUri?.fsPath ?? ""))) { return; }
             projects.push({ name: getFolderName(resolvedUri.fsPath), path: resolvedUri.fsPath });
             vscode.workspace.getConfiguration('devspace').update('projects', projects, true);
             projectBoxStatus.update();

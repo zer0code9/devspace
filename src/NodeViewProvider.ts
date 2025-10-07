@@ -36,7 +36,7 @@ export class NodeViewProvider implements vscode.TreeDataProvider<Dependency> {
         }
     }
 
-    private async getNodes(nodePath: string): Promise<Dependency[]> {
+    async getNodes(nodePath: string): Promise<Dependency[]> {
         if (this.pathExists(nodePath)) {
             const toDep = (name: string, version: string): Dependency => {
                 return new Dependency(name, version);
@@ -65,7 +65,7 @@ export class NodeViewProvider implements vscode.TreeDataProvider<Dependency> {
         }
     }
   
-    private pathExists(path: string): boolean {
+    pathExists(path: string): boolean {
         try {
             fs.accessSync(path);
         } catch (err) {

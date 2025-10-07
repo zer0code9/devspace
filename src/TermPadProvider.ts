@@ -55,7 +55,7 @@ export class TermPadProvider implements vscode.TreeDataProvider<FileTerm> {
         return Promise.resolve(this.getFiles());
     }
 
-    private async getFiles(): Promise<FileTerm[]> {
+    async getFiles(): Promise<FileTerm[]> {
         const toNode = (title: string, file: string): FileTerm => {
             return new FileTerm(title, file, "", vscode.TreeItemCollapsibleState.Expanded, "filenode");
         }
@@ -88,7 +88,7 @@ export class TermPadProvider implements vscode.TreeDataProvider<FileTerm> {
      * 
      * TODO: add a configuration such that files that are not opened can be searched for term
      */
-    private async getTerms(filePath: string): Promise<FileTerm[]> {
+    async getTerms(filePath: string): Promise<FileTerm[]> {
         const toNode = (text: string, location: string, file: string): FileTerm => {
             return new FileTerm(text, location, file, vscode.TreeItemCollapsibleState.None, "termnode");
         }

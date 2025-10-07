@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { TermPadProvider, FileTerm } from './TermPadProvider';
+import { TermStatus } from './TermStatus';
 
 export function activateTermPad() {
     /* VARIABLES */
@@ -8,6 +9,9 @@ export function activateTermPad() {
     const termPadProvider = new TermPadProvider();
     vscode.window.registerTreeDataProvider('devspace.termPad', termPadProvider);
     termPadProvider.refresh();
+
+    /* Project Box Status */
+    const termStatus = new TermStatus(vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100), termPadProvider);
 
     /* COMMANDS */
 
@@ -47,10 +51,10 @@ export function activateTermPad() {
 
     /* EVENTS */
 
-    vscode.workspace.onDidSaveTextDocument(doc => { termPadProvider.refresh(); })
-    vscode.workspace.onDidOpenTextDocument(doc => { termPadProvider.refresh(); })
-    vscode.workspace.onDidCloseTextDocument(doc => { termPadProvider.refresh(); })
-    vscode.workspace.onDidChangeTextDocument(doc => { termPadProvider.refresh(); })
+    vscode.workspace.onDidSaveTextDocument(doc => { termPadProvider.refresh(); termStatus.update(); })
+    vscode.workspace.onDidOpenTextDocument(doc => { termPadProvider.refresh(); termStatus.update(); })
+    vscode.workspace.onDidCloseTextDocument(doc => { termPadProvider.refresh(); termStatus.update(); })
+    vscode.workspace.onDidChangeTextDocument(doc => { termPadProvider.refresh(); termStatus.update(); })
 
     /**
      * On Did Change Configuration
@@ -61,14 +65,16 @@ export function activateTermPad() {
         if (configE.affectsConfiguration('devspace.terms')) {
             const terms: string[] | undefined = await vscode.workspace.getConfiguration('devspace').get('terms');
             const revisedTerms: string[] = [];
+            revisedTerms.push("todo", "fixme");
             if (terms !== undefined) {
                 for (const term of terms) {
-                    if (["todo", "fixme", "debug", "review", "hack", "note"].includes(term)) {
+                    if (["debug", "review", "hack", "note"].includes(term)) {
                         revisedTerms.push(term);
                     }
                 }
             }
             await vscode.workspace.getConfiguration('devspace').update('terms', revisedTerms, true);
+            termStatus.update();
             termPadProvider.refresh();
         }
     });

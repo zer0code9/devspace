@@ -20,7 +20,7 @@
 
 This is an extension to make VSCode better.
 
-It includes Node View, Project Box, Term Pad, and snippets.
+It includes Node View, Project Box, and Term Pad.
 
 Keybindings:
 - Show Command Prompt [Ctrl+Alt+C] [⌃ ⌥ C]
@@ -35,7 +35,7 @@ Look at all your node dependencies in the Dev Space view container under Node Vi
 
 ![Node History](./img/readme/nodeHistoryv2.0.png)
 
-Your workspace should contain workspace folders with node and package.json to be able to use it. Use `Ctrl+Alt+D | ⌃ ⌥ D` to open Node View and go right into it! There are little icons that appear on the right when you hover over the items to perform actions like opening in npmjs.org, updating, and uninstalling. You can use either npm, bun, and yarn by going to the Dev Space settings. If the root is secured, NPM and Yarn can use sudo (this doesn't apply to bun; install it such it is global and doesn't require verification) Node History permits you to switch back to a node project with one click but it will not be saved and is deleted when VSCode is closed (can hold up to 10 projects).
+Your workspace should contain workspace folders with node and package.json to be able to use it. Use `Ctrl+Alt+D | ⌃ ⌥ D` to open Node View and go right into it! There are little icons that appear on the right when you hover over the items to perform actions like opening in npmjs.org, installing, updating, and uninstalling. You can use either npm, bun, and yarn by going to the Dev Space settings. If the root is secured, the package manager can use sudo. You can check your current node root by hovering the Node View status item. Node History permits you to switch back to a node project with one click but it will not be saved and is deleted when VSCode is closed (can hold up to 10 projects).
 
 ![Node Install](./img/readme/nodeInstallv2.0.png)
 
@@ -48,16 +48,15 @@ Configurations:
 - Node Root: The path to the workspace folder [string | null] (not synced)
 - Package Manager: The package manager to use ['npm' | 'bun' | 'yarn'] (not synced)
 - Secured Root: Whether to use 'sudo' for package manager [boolean] (not synced)
+- Show New Version: Whether to show the new version in Node View [boolean] (synced)
 
 ## Project Box
 
-See your saved projects from your Project Box and add them to your Workspace. There are multiple commands that you can use; See them in the Project Box quick pick.
-
-![Project Menu](./img/readme/projectMenuv2.0.png)
+See your saved projects from your Project Box and add them to your Workspace. There are multiple commands that you can use; See them in the Project Box quick pick by using `Ctrl+Alt+B | ⌃ ⌥ B`.
 
 ![Project Box](./img/readme/projectBoxv2.0.png)
 
-You can perform multiple actions like adding and removing folders to or from the Project Box and/or the Workspace. You can add a project to your Workspace with Project Box with one click instead of going through your file explorer. The project doesn't need to be a node project. Your projects are not synced across devices so that you can have different project groups for your different devices.
+You can perform multiple actions like adding and removing folders to or from the Project Box and/or the Workspace. You can add a project to your Workspace with Project Box with one click instead of going through your file explorer. You can import projects into the Project Box. The project doesn't need to be a node project. Your projects are not synced across devices so that you can have different project groups for your different devices.
 
 Keybindings:
 - Show Project Box [Ctrl+Alt+B] [⌃ ⌥ B]
@@ -68,7 +67,7 @@ Configurations:
 
 ## Term Pad
 
-See all the todos, fixmes, debugs, ... left by your cocoders from one click away. Understand them at a glance with the different icons.
+See all the todos, fixmes, debugs, ... left by your cocoders from one click away. Understand them at a glance with the different icons. There is a status item indicating the the number of fixmes and todos.
 
 ![Term Pad](./img/readme/termPadv2.0.png)
 
@@ -79,24 +78,8 @@ Keybindings:
 - Show Problem Pad (Problems) [Ctrl+Alt+P] [⌃ ⌥ P]
 
 Configurations:
-- Terms: The terms to look for [string[] ('todo' | 'fixme' | 'debug' | 'review' | 'hack' | 'note')] (synced)
+- Terms: The terms to look for [string[] (('todo' & 'fixme') | 'debug' | 'review' | 'hack' | 'note')] (synced)
 - Broad Term Search: If checked, it will show the terms for unopened files as well (not working in v2.0.1) [boolean] (synced)
-
-## Snippets
-
-Use snippets to code faster. See all the available snippets for a language by typing start prefix.
-
-Snippets start with...
-- `js` for JavaScript
-    - `react` for Reactjs
-    - `next` for Next.js
-- `py` for Python
-- `ja` for Java
-- `ht` for HTML
-- `cs` for CSS
-- `sc` for SCSS
-
-> **NOTE**: May disappear in the next update, will go to VSCodine.
 
 **Hope you enjoy Dev Space!**
 

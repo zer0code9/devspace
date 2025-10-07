@@ -15,7 +15,6 @@
   },
   "icon": "img/logo.png",
   "categories": [
-    "Snippets",
     "Other"
   ],
   "keywords": [
@@ -55,9 +54,9 @@
           "icon": "img/container.svg"
         },
         {
-          "id": "devspace.projectMenu",
-          "name": "Project Menu",
-          "contextualTitle": "Project Menu",
+          "id": "devspace.devSpace",
+          "name": "Dev Space",
+          "contextualTitle": "Dev Space",
           "icon": "img/container.svg"
         }
       ],
@@ -76,8 +75,8 @@
         "contents": "Go to a workspace folder that has a package.json file to get started!\n[Open Folder](command:vscode.openFolder)\n[Add Folder](command:devspace.addFolders)\nYou will be able to see all the dependencies and update or uninstall them. Works with npm and yarn. To change to yarn go to the Dev Space settings."
       },
       {
-        "view": "devspace.projectMenu",
-        "contents": "You will see all your saved projects in the Project Box and your active projects in the Workspace.\n[Show Project Box](command:devspace.showProjectBox)\n[Add Folders to Box](command:devspace.addFoldersBox)\n[Remove Folders from Box](command:devspace.removeFoldersBox)\n[Show Workspace](command:workbench.explorer.fileView.focus)\n[Add Folders to Workspace](command:devspace.addFoldersWorkspace)\n[Remove Folders from Workspace](command:devspace.removeFoldersWorkspace)"
+        "view": "devspace.devSpace",
+        "contents": "Welcome to Dev Space!\n\n"
       },
       {
         "view": "devspace.termPad",
@@ -336,8 +335,8 @@
         },
         "devspace.showNewVersions": {
           "type": "boolean",
-          "default": false,
-          "description": "Whether to show the new version in Node View \nTakes longer to get node packages",
+          "default": true,
+          "description": "Whether to show the new version in Node View",
           "ignoreSync": false
         },
         "devspace.projects": {
@@ -371,57 +370,134 @@
       "devspace-box": {
         "description": "Box",
         "default": {
-          "fontPath": "img/devspace.woff",
+          "fontPath": "img/devspace-v2.woff",
           "fontCharacter": "\\e900"
-        }
-      },
-      "devspace-cabinet": {
-        "description": "Cabinet",
-        "default": {
-          "fontPath": "img/devspace.woff",
-          "fontCharacter": "\\e907"
         }
       },
       "devspace-check": {
         "description": "Check",
         "default": {
-          "fontPath": "img/devspace.woff",
+          "fontPath": "img/devspace-v2.woff",
           "fontCharacter": "\\e901"
         }
       },
       "devspace-cross": {
         "description": "Cross",
         "default": {
-          "fontPath": "img/devspace.woff",
+          "fontPath": "img/devspace-v2.woff",
           "fontCharacter": "\\e902"
         }
       },
       "devspace-plus": {
         "description": "Plus",
         "default": {
-          "fontPath": "img/devspace.woff",
+          "fontPath": "img/devspace-v2.woff",
           "fontCharacter": "\\e903"
         }
       },
       "devspace-minus": {
         "description": "Minus",
         "default": {
-          "fontPath": "img/devspace.woff",
+          "fontPath": "img/devspace-v2.woff",
           "fontCharacter": "\\e904"
         }
       },
       "devspace-folderPlus": {
         "description": "Folder Add",
         "default": {
-          "fontPath": "img/devspace.woff",
+          "fontPath": "img/devspace-v2.woff",
           "fontCharacter": "\\e905"
         }
       },
       "devspace-folderMinus": {
         "description": "Folder Remove",
         "default": {
-          "fontPath": "img/devspace.woff",
+          "fontPath": "img/devspace-v2.woff",
           "fontCharacter": "\\e906"
+        }
+      },
+      "devspace-cabinet": {
+        "description": "Cabinet",
+        "default": {
+          "fontPath": "img/devspace-v2.woff",
+          "fontCharacter": "\\e907"
+        }
+      },
+      "devspace-user": {
+        "description": "User",
+        "default": {
+          "fontPath": "img/devspace-v2.woff",
+          "fontCharacter": "\\e908"
+        }
+      },
+      "devspace-slider": {
+        "description": "Slider",
+        "default": {
+          "fontPath": "img/devspace-v2.woff",
+          "fontCharacter": "\\e909"
+        }
+      },
+      "devspace-dots": {
+        "description": "Dots",
+        "default": {
+          "fontPath": "img/devspace-v2.woff",
+          "fontCharacter": "\\e90a"
+        }
+      },
+      "devspace-export": {
+        "description": "Export",
+        "default": {
+          "fontPath": "img/devspace-v2.woff",
+          "fontCharacter": "\\e90b"
+        }
+      },
+      "devspace-import": {
+        "description": "Import",
+        "default": {
+          "fontPath": "img/devspace-v2.woff",
+          "fontCharacter": "\\e90c"
+        }
+      },
+      "devspace-checkmark": {
+        "description": "Checkmark",
+        "default": {
+          "fontPath": "img/devspace-v2.woff",
+          "fontCharacter": "\\e90d"
+        }
+      },
+      "devspace-gear": {
+        "description": "Gear",
+        "default": {
+          "fontPath": "img/devspace-v2.woff",
+          "fontCharacter": "\\e90e"
+        }
+      },
+      "devspace-shipping": {
+        "description": "Shipping",
+        "default": {
+          "fontPath": "img/devspace-v2.woff",
+          "fontCharacter": "\\e90f"
+        }
+      },
+      "devspace-layers": {
+        "description": "Layers",
+        "default": {
+          "fontPath": "img/devspace-v2.woff",
+          "fontCharacter": "\\e910"
+        }
+      },
+      "devspace-code": {
+        "description": "Code",
+        "default": {
+          "fontPath": "img/devspace-v2.woff",
+          "fontCharacter": "\\e911"
+        }
+      },
+      "devspace-box-closed": {
+        "description": "Box Closed",
+        "default": {
+          "fontPath": "img/devspace-v2.woff",
+          "fontCharacter": "\\e912"
         }
       }
     }
@@ -436,17 +512,17 @@
   },
   "devDependencies": {
     "@types/mocha": "^10.0.10",
-    "@types/node": "^16.18.126",
-    "@types/vscode": "^1.100.0",
-    "@typescript-eslint/eslint-plugin": "^6.21.0",
-    "@typescript-eslint/parser": "^6.21.0",
-    "@vscode/test-cli": "^0.0.10",
+    "@types/node": "^24.5.2",
+    "@types/vscode": "^1.104.0",
+    "@typescript-eslint/eslint-plugin": "^8.44.0",
+    "@typescript-eslint/parser": "^8.44.0",
+    "@vscode/test-cli": "^0.0.11",
     "@vscode/test-electron": "^2.5.2",
     "axios": "^1.11.0",
     "cheerio": "^1.1.2",
     "eslint": "^8.57.1",
     "glob": "^10.3.3",
     "mocha": "^10.2.0",
-    "typescript": "^5.8.3"
+    "typescript": "^5.9.2"
   }
 }
