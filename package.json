@@ -6,7 +6,7 @@
   "author": "Creaion",
   "publisher": "SlashDEV",
   "engines": {
-    "vscode": "^1.100.0"
+    "vscode": "^1.105.0"
   },
   "license": "MIT",
   "repository": {
@@ -34,14 +34,14 @@
         {
           "id": "devspaceContainer",
           "title": "Dev Space",
-          "icon": "img/container.svg"
+          "icon": "img/light/code.svg"
         }
       ],
       "panel": [
         {
           "id": "termpadPanel",
           "title": "Terms",
-          "icon": "img/container.svg"
+          "icon": "img/light/check.svg"
         }
       ]
     },
@@ -51,13 +51,13 @@
           "id": "devspace.nodeView",
           "name": "Node View",
           "contextualTitle": "Node View",
-          "icon": "img/container.svg"
+          "icon": "img/light/cells.svg"
         },
         {
-          "id": "devspace.devSpace",
-          "name": "Dev Space",
-          "contextualTitle": "Dev Space",
-          "icon": "img/container.svg"
+          "id": "devspace.hierarchyTree",
+          "name": "Hierarchy Tree",
+          "contextualTitle": "Hierarchy Tree",
+          "icon": "img/light/subTask.svg"
         }
       ],
       "termpadPanel": [
@@ -65,7 +65,7 @@
           "id": "devspace.termPad",
           "name": "Terms",
           "contextualTitle": "Terms",
-          "icon": "img/container.svg"
+          "icon": "img/light/check.svg"
         }
       ]
     },
@@ -75,7 +75,7 @@
         "contents": "Go to a workspace folder that has a package.json file to get started!\n[Open Folder](command:vscode.openFolder)\n[Add Folder](command:devspace.addFolders)\nYou will be able to see all the dependencies and update or uninstall them. Works with npm and yarn. To change to yarn go to the Dev Space settings."
       },
       {
-        "view": "devspace.devSpace",
+        "view": "devspace.hierarchy",
         "contents": "Welcome to Dev Space!\n\n"
       },
       {
@@ -100,8 +100,8 @@
         "command": "devspace.openNodeFolder",
         "title": "Open Node Folder",
         "icon": {
-          "dark": "img/dark/folderPlus.svg",
-          "light": "img/light/folderPlus.svg"
+          "dark": "img/dark/openBlank.svg",
+          "light": "img/light/openBlank.svg"
         }
       },
       {
@@ -200,6 +200,18 @@
       {
         "command": "devspace.goToTerm",
         "title": "Go to Term"
+      },
+      {
+        "command": "devspace.refreshHierarchyTree",
+        "title": "Refresh",
+        "icon": {
+          "dark": "img/dark/refresh.svg",
+          "light": "img/light/refresh.svg"
+        }
+      },
+      {
+        "command": "devspace.goToSymbol",
+        "title": "Go to Symbol"
       }
     ],
     "keybindings": [
@@ -271,6 +283,11 @@
         {
           "command": "devspace.refreshTermPad",
           "when": "view == devspace.termPad",
+          "group": "navigation"
+        },
+        {
+          "command": "devspace.refreshHierarchyTree",
+          "when": "view == devspace.hierarchyTree",
           "group": "navigation"
         }
       ],
@@ -513,7 +530,7 @@
   "devDependencies": {
     "@types/mocha": "^10.0.10",
     "@types/node": "^24.5.2",
-    "@types/vscode": "^1.104.0",
+    "@types/vscode": "^1.105.0",
     "@typescript-eslint/eslint-plugin": "^8.44.0",
     "@typescript-eslint/parser": "^8.44.0",
     "@vscode/test-cli": "^0.0.11",

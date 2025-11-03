@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Dependency = exports.NodeViewProvider = void 0;
 const fs = require("fs");
 const path = require("path");
-const vscode = require("vscode");
 const axios_1 = require("axios");
+const vscode = require("vscode");
 class NodeViewProvider {
     constructor() {
         this._onDidChangeTreeData = new vscode.EventEmitter();
@@ -23,35 +23,29 @@ class NodeViewProvider {
         return element;
     }
     getChildren(element) {
-        if (this.nodePath && this.pathExists(this.nodePath)) {
+        if (this.nodePath && this.pathExists(this.nodePath))
             return Promise.resolve(this.getNodes(this.nodePath));
-        }
-        else {
-            return Promise.resolve([]);
-        }
+        return Promise.resolve([]);
     }
     async getNodes(nodePath) {
-        if (this.pathExists(nodePath)) {
-            const toDep = (name, version) => {
-                return new Dependency(name, version);
-            };
-            const nodePathJson = JSON.parse(fs.readFileSync(nodePath, 'utf-8'));
-            const prodDeps = nodePathJson.dependencies ?
-                Object.keys(nodePathJson.dependencies).map(dep => toDep(dep, nodePathJson.dependencies[dep]))
-                : [];
-            const devDeps = nodePathJson.devDependencies ?
-                Object.keys(nodePathJson.devDependencies).map(dep => toDep(dep, nodePathJson.devDependencies[dep]))
-                : [];
-            const dependencies = prodDeps.concat(devDeps);
-            if (vscode.workspace.getConfiguration('devspace').get('showNewVersions')) {
-                const initPromises = dependencies.map(dep => dep.waitForInitialization());
-                await Promise.all(initPromises);
-            }
-            return dependencies;
-        }
-        else {
+        if (!this.pathExists(nodePath))
             return [];
+        const toDep = (name, version) => {
+            return new Dependency(name, version);
+        };
+        const nodePathJson = JSON.parse(fs.readFileSync(nodePath, 'utf-8'));
+        const prodDeps = nodePathJson.dependencies
+            ? Object.keys(nodePathJson.dependencies).map(dep => toDep(dep, nodePathJson.dependencies[dep]))
+            : [];
+        const devDeps = nodePathJson.devDependencies
+            ? Object.keys(nodePathJson.devDependencies).map(dep => toDep(dep, nodePathJson.devDependencies[dep]))
+            : [];
+        const dependencies = prodDeps.concat(devDeps);
+        if (vscode.workspace.getConfiguration('devspace').get('showNewVersions')) {
+            const initPromises = dependencies.map(dep => dep.waitForInitialization());
+            await Promise.all(initPromises);
         }
+        return dependencies;
     }
     pathExists(path) {
         try {
@@ -80,20 +74,18 @@ class Dependency extends vscode.TreeItem {
     }
     async initializeDescription() {
         const actualVersion = await this.isNewVersionAvailable(this.name, this.version);
-        if (actualVersion !== "") {
+        if (actualVersion !== "")
             this.description = `${this.version} -> ^${actualVersion}`;
-        }
     }
     async isNewVersionAvailable(name, version) {
         let retries = 0;
         let delay = 500;
-        while (retries < 3) {
+        while (retries < 3)
             try {
                 const response = await axios_1.default.get(`https://registry.npmjs.org/${name}`);
                 const latestVersion = response.data["dist-tags"]?.latest;
-                if (latestVersion && ("^" + latestVersion !== version)) {
+                if (latestVersion && ("^" + latestVersion !== version))
                     return latestVersion;
-                }
                 break;
             }
             catch (err) {
@@ -102,11 +94,9 @@ class Dependency extends vscode.TreeItem {
                     delay *= 2;
                     retries++;
                 }
-                else {
+                else
                     break;
-                }
             }
-        }
         return "";
     }
 }

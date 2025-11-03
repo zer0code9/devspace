@@ -23,34 +23,41 @@ function activateTermPad() {
      * Go To File
      * Params: filenode: FileTerm
      */
-    vscode.commands.registerCommand('devspace.goToFile', (filenode) => {
-        vscode.workspace.openTextDocument(filenode.info).then(doc => {
-            vscode.window.showTextDocument(doc);
-        });
+    vscode.commands.registerCommand('devspace.goToFile', async (filenode) => {
+        const document = await vscode.workspace.openTextDocument(filenode.info);
+        vscode.window.showTextDocument(document);
     });
     /**
      * Go To Term
      * Params: location: string, file: string
      */
-    vscode.commands.registerCommand('devspace.goToTerm', (location, file) => {
-        vscode.workspace.openTextDocument(file).then(doc => {
-            vscode.window.showTextDocument(doc);
-            const parts = location.split(' ');
-            const line = parseInt(parts[1].replace(',', ''));
-            const column = parseInt(parts[3].replace(']', ''));
-            const position = new vscode.Position(line - 1, column - 1);
-            if (vscode.window.activeTextEditor === undefined) {
-                return;
-            }
-            vscode.window.activeTextEditor.selection = new vscode.Selection(position, position);
-            vscode.window.activeTextEditor.revealRange(new vscode.Range(position, position));
-        });
+    vscode.commands.registerCommand('devspace.goToTerm', async (location, file) => {
+        const document = await vscode.workspace.openTextDocument(file);
+        const editor = await vscode.window.showTextDocument(document);
+        const parts = location.split(' ');
+        const line = parseInt(parts[1].replace(',', ''));
+        const column = parseInt(parts[3].replace(']', ''));
+        const position = new vscode.Position(line - 1, column - 1);
+        editor.selection = new vscode.Selection(position, position);
+        editor.revealRange(new vscode.Range(position, position), vscode.TextEditorRevealType.InCenter);
     });
     /* EVENTS */
-    vscode.workspace.onDidSaveTextDocument(doc => { termPadProvider.refresh(); termStatus.update(); });
-    vscode.workspace.onDidOpenTextDocument(doc => { termPadProvider.refresh(); termStatus.update(); });
-    vscode.workspace.onDidCloseTextDocument(doc => { termPadProvider.refresh(); termStatus.update(); });
-    vscode.workspace.onDidChangeTextDocument(doc => { termPadProvider.refresh(); termStatus.update(); });
+    vscode.workspace.onDidSaveTextDocument(doc => {
+        termPadProvider.refresh();
+        termStatus.update();
+    });
+    vscode.workspace.onDidOpenTextDocument(doc => {
+        termPadProvider.refresh();
+        termStatus.update();
+    });
+    vscode.workspace.onDidCloseTextDocument(doc => {
+        termPadProvider.refresh();
+        termStatus.update();
+    });
+    vscode.workspace.onDidChangeTextDocument(doc => {
+        termPadProvider.refresh();
+        termStatus.update();
+    });
     /**
      * On Did Change Configuration
      * Params: configE: vscode.ConfigurationChangeEvent
@@ -58,19 +65,16 @@ function activateTermPad() {
      */
     vscode.workspace.onDidChangeConfiguration(async (configE) => {
         if (configE.affectsConfiguration('devspace.terms')) {
-            const terms = await vscode.workspace.getConfiguration('devspace').get('terms');
+            const terms = vscode.workspace.getConfiguration('devspace').get('terms');
             const revisedTerms = [];
             revisedTerms.push("todo", "fixme");
-            if (terms !== undefined) {
-                for (const term of terms) {
-                    if (["debug", "review", "hack", "note"].includes(term)) {
+            if (terms !== undefined)
+                for (const term of terms)
+                    if (["debug", "review", "hack", "note"].includes(term))
                         revisedTerms.push(term);
-                    }
-                }
-            }
             await vscode.workspace.getConfiguration('devspace').update('terms', revisedTerms, true);
-            termStatus.update();
             termPadProvider.refresh();
+            termStatus.update();
         }
     });
 }

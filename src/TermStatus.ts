@@ -7,7 +7,6 @@ export class TermStatus {
         this.statusBarItem.show();
     }
 
-
     async update(): Promise<void> {
         let data = await this.getData();
         this.statusBarItem.text = `$(devspace-gear) ${data[0]} $(devspace-checkmark) ${data[1]}`;
@@ -21,10 +20,9 @@ export class TermStatus {
         const files = await this.termPadProvider.getFiles();
         for (const file of files) {
             const terms = await this.termPadProvider.getTerms(file.info);
-            for (const term of terms) {
-                if (term.title.includes('FIXME:')) fixme += 1;
-                else if (term.title.includes('TODO:')) todo += 1;
-            }
+            for (const term of terms)
+                if (term.title.includes('FIXME:')) ++fixme;
+                else if (term.title.includes('TODO:')) ++todo;
         }
         return [fixme, todo];
     }

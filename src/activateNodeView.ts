@@ -1,5 +1,5 @@
-import * as vscode from 'vscode';
 import path = require('path');
+import * as vscode from 'vscode';
 import { NodeViewProvider, Dependency } from './NodeViewProvider';
 import { NodeStatus } from './NodeStatus';
 
@@ -25,20 +25,19 @@ export function activateNodeView(): void {
     /**
      * Refresh Node View
      */
-    vscode.commands.registerCommand('devspace.refreshNodeView', () => {
-        nodeViewProvider.refresh();
-    });
+    vscode.commands.registerCommand('devspace.refreshNodeView', () =>
+        nodeViewProvider.refresh()
+    );
 
     /**
      * Open Node Folder
      * Configuration: Node Root
      */
-    vscode.commands.registerCommand('devspace.openNodeFolder', () => {
+    vscode.commands.registerCommand('devspace.openNodeFolder', async () => {
         const nodeRoot: string | undefined = vscode.workspace.getConfiguration('devspace').get('nodeRoot');
-        if (nodeRoot === undefined) { return; }
-        vscode.workspace.openTextDocument(path.join(nodeRoot, 'package.json')).then(doc => {
-            vscode.window.showTextDocument(doc);
-        })
+        if (nodeRoot === undefined) return;
+        const document = await vscode.workspace.openTextDocument(path.join(nodeRoot, 'package.json'));
+        vscode.window.showTextDocument(document);
         vscode.workspace.updateWorkspaceFolders(
             vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders.length : 0, 
             null,
@@ -57,29 +56,28 @@ export function activateNodeView(): void {
         changeManagerPick.placeholder = 'Choose a Node Manager';
 
         changeManagerPick.items = [
-            { label: 'npm' },
             { label: 'bun' },
+            { label: 'npm' },
             { label: 'yarn' },
-            { label: 'sudo npm' },
             { label: 'sudo bun' },
+            { label: 'sudo npm' },
             { label: 'sudo yarn' }
         ];
         changeManagerPick.canSelectMany = false;
 
-        changeManagerPick.onDidAccept(() => {
-            let sudo: boolean = false;
-            let manager: string = "npm";
+        changeManagerPick.onDidAccept(async () => {
+            let sudo = false;
+            let manager = "npm";
             if (changeManagerPick.selectedItems[0].label.includes('sudo')) {
                 sudo = true;
                 manager = changeManagerPick.selectedItems[0].label.split(' ')[1];
-            } else {
-                manager = changeManagerPick.selectedItems[0].label;
-            }
-            vscode.workspace.getConfiguration('devspace').update('securedRoot', sudo, true);
-            vscode.workspace.getConfiguration('devspace').update('packageManager', manager, true);
+            } else manager = changeManagerPick.selectedItems[0].label;
+
+            await vscode.workspace.getConfiguration('devspace').update('securedRoot', sudo, true);
+            await vscode.workspace.getConfiguration('devspace').update('packageManager', manager, true);
             changeManagerPick.hide();
         });
-        changeManagerPick.onDidHide(() => { changeManagerPick.dispose(); })
+        changeManagerPick.onDidHide(() => changeManagerPick.dispose());
         changeManagerPick.show();
     })
 
@@ -100,13 +98,13 @@ export function activateNodeView(): void {
 
         nodeHistoryPick.items = nodeSelect;
 
-        nodeHistoryPick.onDidAccept(() => {
+        nodeHistoryPick.onDidAccept(async () => {
             const nodeRoot: string = nodeHistoryPick.selectedItems[0].label;
-            vscode.workspace.getConfiguration('devspace').update('nodeRoot', nodeRoot, true);
+            await vscode.workspace.getConfiguration('devspace').update('nodeRoot', nodeRoot, true);
             nodeViewProvider.update();
             nodeStatus.update();
             nodeViewProvider.refresh();
-            vscode.commands.executeCommand('devspace.openNodeFolder');
+            await vscode.commands.executeCommand('devspace.openNodeFolder');
             nodeHistoryPick.hide();
         });
         nodeHistoryPick.onDidHide(() => { nodeHistoryPick.dispose(); })
@@ -160,9 +158,7 @@ export function activateNodeView(): void {
                     if (terminalE.exitCode?.toString() === '0') {
                         vscode.window.showInformationMessage(`Added ${node}`);
                         nodeViewProvider.refresh();
-                    } else {
-                        vscode.window.showErrorMessage(`Failed to add ${node}`);
-                    }
+                    } else vscode.window.showErrorMessage(`Failed to add ${node}`);
                     terminal.dispose();
                 }
             });
@@ -185,9 +181,7 @@ export function activateNodeView(): void {
                 if (terminalE.exitCode?.toString() === '0') {
                     vscode.window.showInformationMessage(`Updated ${depnode.name}`);
                     nodeViewProvider.refresh();
-                } else {
-                    vscode.window.showErrorMessage(`Failed to update ${depnode.name}`);
-                }
+                } else vscode.window.showErrorMessage(`Failed to update ${depnode.name}`);
                 terminal.dispose();
             }
         });
@@ -207,9 +201,7 @@ export function activateNodeView(): void {
                 if (terminalE.exitCode?.toString() === '0') {
                     vscode.window.showInformationMessage(`Removed ${depnode.name}`);
                     nodeViewProvider.refresh();
-                } else {
-                    vscode.window.showErrorMessage(`Failed to remove ${depnode.name}`);
-                }
+                } else vscode.window.showErrorMessage(`Failed to remove ${depnode.name}`);
                 terminal.dispose();
             }
         });
@@ -220,7 +212,7 @@ export function activateNodeView(): void {
      * Param: depnode: Dependency
      * Command: Open
      */
-    vscode.commands.registerCommand('devspace.openNodeItem', (depnode) => {
+    vscode.commands.registerCommand('devspace.openNodeItem', depnode => {
         vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(`https://www.npmjs.com/package/${depnode.name}`));
     });
 
@@ -239,23 +231,24 @@ export function activateNodeView(): void {
         let folderName: any;
         let windows = false;
 
-        if (filePath?.includes('\\')) { filePath = filePath?.replace('\\', '/'); windows = true; }
+        if (filePath?.includes('\\')) {
+            filePath = filePath?.replace('\\', '/');
+            windows = true;
+        }
         if (filePath) {
             folderPath = filePath?.slice(0, filePath.lastIndexOf('/'));
             index = folderPath?.lastIndexOf('/');
-            if (index === -1 || !index) { return; }
+            if (index === -1 || !index) return;
             folderName = folderPath?.slice(index + 1);
             
             while (!areSame && count > 0 && (index !== -1 && index) && folderName) {
                 vscode.workspace.workspaceFolders?.forEach(workspaceFolder => {
-                    if (workspaceFolder.name === `${folderName}`) {
-                        areSame = true;
-                    }
+                    if (workspaceFolder.name === `${folderName}`) areSame = true;
                 });
                 if (!areSame) {
                     folderPath = folderPath?.slice(0, folderPath.lastIndexOf('/'));
                     index = folderPath?.lastIndexOf('/');
-                    if (index === -1 || !index) { break; }
+                    if (index === -1 || !index) break;
                     folderName = folderPath?.slice(index + 1);
                     count--;
                 }
@@ -264,17 +257,15 @@ export function activateNodeView(): void {
             if (!areSame) {
                 folderPath = filePath?.slice(0, filePath.lastIndexOf('/'));
                 index = folderPath?.lastIndexOf('/');
-                if (index === -1 || !index) { return; }
+                if (index === -1 || !index) return;
                 folderName = folderPath?.slice(index + 1);
 
                 while (!areSame && (index !== -1 && index) && folderName) {
-                    if (nodeStatus.pathExists(path.join(`${folderPath}`, "package.json"))) {
-                        areSame = true;
-                    }
+                    if (nodeStatus.pathExists(path.join(`${folderPath}`, "package.json"))) areSame = true;
                     if (!areSame) {
                         folderPath = folderPath?.slice(0, folderPath.lastIndexOf('/'));
                         index = folderPath?.lastIndexOf('/');
-                        if (index === -1 || !index) { break; }
+                        if (index === -1 || !index) break;
                         folderName = folderPath?.slice(index + 1);
                     }
                 }
@@ -282,18 +273,18 @@ export function activateNodeView(): void {
         }
 
         if (areSame) {
-            if (windows) { folderPath = folderPath?.replace('/', '\\'); }
+            if (windows) folderPath = folderPath?.replace('/', '\\');
 
             if (folderPath && nodeStatus.pathExists(path.join(`${folderPath}`, "package.json"))) {
-                if (nodeHistory.includes(folderPath)) { nodeHistory.splice(nodeHistory.indexOf(folderPath), 1); }
+                if (nodeHistory.includes(folderPath)) nodeHistory.splice(nodeHistory.indexOf(folderPath), 1);
                 nodeHistory.push(folderPath);
-                if (nodeHistory.length > 10) { nodeHistory.splice(0, 1); }
+                if (nodeHistory.length > 10) nodeHistory.splice(0, 1);
             }
 
             await vscode.workspace.getConfiguration('devspace').update('nodeRoot', folderPath, true);
             nodeViewProvider.update();
-            nodeStatus.update();
             nodeViewProvider.refresh();
+            nodeStatus.update();
         }
     });
 
@@ -301,11 +292,11 @@ export function activateNodeView(): void {
      * On Did Change Configuration
      * Param: configE: vscode.ConfigurationChangeEvent
      */
-    vscode.workspace.onDidChangeConfiguration(async configE => {
+    vscode.workspace.onDidChangeConfiguration(configE => {
         if (configE.affectsConfiguration('devspace')) {
             nodeViewProvider.update();
-            nodeStatus.update();
             nodeViewProvider.refresh();
+            nodeStatus.update();
         }
     });
 }
@@ -324,31 +315,19 @@ function getTerminalCommand(action: string, node: string, dev?: boolean): string
     let command = "";
     if (packageManager === "bun") {
         command += `${securedRoot ? 'sudo' : ''} bun `;
-        if (action === "add") {
-            command += `add ${dev ? `--dev` : ""} ${node}`;
-        } else if (action === "update") {
-            command += `update ${node} --lastest`;
-        } else if (action === "remove") {
-            command += `remove ${node}`;
-        }
+        if (action === "add") command += `add ${dev ? `--dev` : ""} ${node}`;
+        else if (action === "update") command += `update ${node} --lastest`;
+        else if (action === "remove") command += `remove ${node}`;
     } else if (packageManager === "npm") {
         command += `${securedRoot ? 'sudo' : ''} npm `;
-        if (action === "add") {
-            command += `add ${dev ? `--save-dev` : ""} ${node}`;
-        } else if (action === "update") {
-            command += `install ${node}@latest`;
-        } else if (action === "remove") {
-            command += `remove ${node}`;
-        }
+        if (action === "add") command += `add ${dev ? `--save-dev` : ""} ${node}`;
+        else if (action === "update") command += `install ${node}@latest`;
+        else if (action === "remove") command += `remove ${node}`;
     } else if (packageManager === "yarn") {
         command += `${securedRoot ? 'sudo' : ''} yarn `;
-        if (action === "add") {
-            command += `add ${dev ? `--dev` : ""} ${node}`;
-        } else if (action === "update") {
-            command += `upgrade ${node} --lastest`;
-        } else if (action === "remove") {
-            command += `remove ${node}`;
-        }
+        if (action === "add") command += `add ${dev ? `--dev` : ""} ${node}`;
+        else if (action === "update") command += `upgrade ${node} --lastest`;
+        else if (action === "remove") command += `remove ${node}`;
     }
     return command;
 }

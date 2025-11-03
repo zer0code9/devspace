@@ -49,9 +49,7 @@ export class TermPadProvider implements vscode.TreeDataProvider<FileTerm> {
     }
 
     getChildren(element?: FileTerm): Thenable<FileTerm[]> {
-        if (element) {
-            return Promise.resolve(this.getTerms(element.info));
-        }
+        if (element) return Promise.resolve(this.getTerms(element.info));
         return Promise.resolve(this.getFiles());
     }
 
@@ -61,7 +59,7 @@ export class TermPadProvider implements vscode.TreeDataProvider<FileTerm> {
         }
 
         const files: FileResult[] = [];
-        for (const group of vscode.window.tabGroups.all) {
+        for (const group of vscode.window.tabGroups.all)
             for (const tab of group.tabs) {
                 try {
                     fs.accessSync(tab.input instanceof vscode.TabInputText ? tab.input.uri.fsPath : '');
@@ -69,25 +67,14 @@ export class TermPadProvider implements vscode.TreeDataProvider<FileTerm> {
                     continue;
                 }
                 const filePath = tab.input instanceof vscode.TabInputText ? tab.input.uri.fsPath : '';
-                await this.getTerms(filePath).then(terms => {
-                    if (terms.length > 0) {
-                        files.push({
-                            title: path.basename(filePath),
-                            file: filePath
-                        });
-                    }
-                });
+                const terms = await this.getTerms(filePath);
+                if (terms.length > 0) { files.push({title: path.basename(filePath), file: filePath}); }
             }
-        }
 
         const nodes = files.map(f => toNode(f.title, f.file));
         return nodes;
     }
 
-    /**
-     * 
-     * TODO: add a configuration such that files that are not opened can be searched for term
-     */
     async getTerms(filePath: string): Promise<FileTerm[]> {
         const toNode = (text: string, location: string, file: string): FileTerm => {
             return new FileTerm(text, location, file, vscode.TreeItemCollapsibleState.None, "termnode");
@@ -101,15 +88,12 @@ export class TermPadProvider implements vscode.TreeDataProvider<FileTerm> {
         } else if (filePath.endsWith('.rb')) {
             single = commentsSingle.ruby;
             multi = commentsMulti.ruby;
-        } else if (filePath.endsWith('.html')) {
-            multi = commentsMulti.html;
-        } else if (filePath.endsWith('.css') || filePath.endsWith('.scss')) {
-            multi = commentsMulti.css;
-        }
+        } else if (filePath.endsWith('.html')) multi = commentsMulti.html;
+        else if (filePath.endsWith('.css') || filePath.endsWith('.scss')) multi = commentsMulti.css;
 
         const results: TermResult[] = [];
-        const terms: string[] | undefined = await vscode.workspace.getConfiguration('devspace').get('terms');
-        if (!terms) { return []; }
+        const terms: string[] | undefined = vscode.workspace.getConfiguration('devspace').get('terms');
+        if (!terms) return [];
         for (const term of terms) {
             const document = await vscode.workspace.openTextDocument(filePath);;
             const lines = document.getText().split('\n');
@@ -121,16 +105,12 @@ export class TermPadProvider implements vscode.TreeDataProvider<FileTerm> {
                 const termUpperCase = term.toUpperCase();
 
                 const lineNoSpace = lineUpperCase.replace(/\s/g, '');
-                if (lineNoSpace.indexOf(`${single}${termUpperCase}`) !== -1) {
-                    line.substring(line.indexOf(single));
-                } else {
-                    continue;
-                }
-                    
+                if (lineNoSpace.indexOf(`${single}${termUpperCase}:`) === -1) continue;
+                
                 let columnIndex = lineUpperCase.indexOf(termUpperCase);
                 while (columnIndex !== -1) {
-                    const text = line.trim().substring(columnIndex).split(':')[1];
-                    if (!text) { break; }
+                    const text = line.substring(columnIndex).split(':', 2)[1].trim();
+                    if (!text) break;
                     results.push({
                         text: termUpperCase + ": " + text.trim(),
                         line: i + 1,
@@ -160,8 +140,8 @@ export class TermPadProvider implements vscode.TreeDataProvider<FileTerm> {
                     
                     let columnIndex = lineUpperCase.indexOf(termUpperCase);
                     while (columnIndex !== -1) {
-                        const text = line.substring(columnIndex).split(':')[1]?.replace(end, '');
-                        if (!text) { break; }
+                        const text = line.substring(columnIndex).split(':', 2)[1]?.replace(end, '');
+                        if (!text) break;
                         results.push({
                             text: termUpperCase + ": " + text.trim(),
                             line: i + 1,
@@ -184,8 +164,7 @@ export class TermPadProvider implements vscode.TreeDataProvider<FileTerm> {
 const getBetterFilePath = (path: string): string => {
     vscode.workspace.workspaceFolders?.forEach(workspaceFolder => {
         if (path.includes(workspaceFolder.name)) {
-            path = path.replace('\\', '/');
-            path = path.slice(path.search(workspaceFolder.name));
+            path = path.replace('\\', '/').slice(path.search(workspaceFolder.name));
             const partPath = path.split('/');
             partPath.pop();
             path = partPath.join(' • ');

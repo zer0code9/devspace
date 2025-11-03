@@ -2,6 +2,26 @@
 
 ## Current
 
+## 2.0.2
+
+- Added:
+    - Hierarchy Tree
+    - Show New Version for node packages on Node View
+    - Quick pick to change between package manager
+    - Add folder to Project Box with Uri
+    - Term Pad status item to show FIXMEs and TODOs
+    - Icons for symbols in Hierarchy Tree
+- Changed:
+    - Can use sudo with any package manager
+    - Fixed some icons to provide more context and look better
+    - Fixed JS/TS single comment with term
+    - Fixed Go To Term command from Term Pad
+- Removed:
+    - Snippets
+    - Project Menu
+
+## Past
+
 ## 2.0.1
 
 - Added:
@@ -18,8 +38,6 @@
 - Removed:
     - Themes
     - Snippets for MarkDown (they can't work; others may follow)
-
-## Past
 
 ## 1.3.6 (unreleased: included in v2.0.1)
 
