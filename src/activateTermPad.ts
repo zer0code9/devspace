@@ -76,9 +76,11 @@ export function activateTermPad() {
             const terms: string[] | undefined = vscode.workspace.getConfiguration('devspace').get('terms');
             const revisedTerms: string[] = [];
             revisedTerms.push("todo", "fixme");
-            if (terms !== undefined)
-                for (const term of terms)
-                    if (["debug", "review", "hack", "note"].includes(term)) revisedTerms.push(term);
+            if (terms !== undefined) {
+                for (const term of terms) {
+                    if (["debug", "review", "hack", "note"].includes(term)) { revisedTerms.push(term); }
+                }
+            }
             await vscode.workspace.getConfiguration('devspace').update('terms', revisedTerms, true);
             termPadProvider.refresh();
             termStatus.update();

@@ -20,9 +20,10 @@ export class TermStatus {
         const files = await this.termPadProvider.getFiles();
         for (const file of files) {
             const terms = await this.termPadProvider.getTerms(file.info);
-            for (const term of terms)
-                if (term.title.includes('FIXME:')) ++fixme;
-                else if (term.title.includes('TODO:')) ++todo;
+            for (const term of terms) {
+                if (term.title.includes('FIXME:')) { ++fixme; }
+                else if (term.title.includes('TODO:')) { ++todo; }
+            }
         }
         return [fixme, todo];
     }

@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { HierarchyTreeProvider } from './HierarchyTreeProvider';
 
-export function activateHierarchyTree() {
+function activateHierarchyTree() {
     /* VARIABLES */
 
     /* Hierarchy Tree Provider */
@@ -35,6 +35,6 @@ export function activateHierarchyTree() {
 
     /* EVENTS */
 
-    vscode.window.onDidChangeActiveTextEditor(editor => hierarchyTreeProvider.refresh());
-    vscode.workspace.onDidChangeTextDocument(doc => hierarchyTreeProvider.refresh());
+    vscode.window.onDidChangeActiveTextEditor(editor => { hierarchyTreeProvider.refresh() });
+    vscode.workspace.onDidChangeTextDocument(doc => { hierarchyTreeProvider.refresh() });
 }

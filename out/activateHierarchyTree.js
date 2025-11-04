@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.activateHierarchyTree = activateHierarchyTree;
 const vscode = require("vscode");
 const HierarchyTreeProvider_1 = require("./HierarchyTreeProvider");
 function activateHierarchyTree() {
@@ -31,7 +30,7 @@ function activateHierarchyTree() {
         }
     });
     /* EVENTS */
-    vscode.window.onDidChangeActiveTextEditor(editor => hierarchyTreeProvider.refresh());
-    vscode.workspace.onDidChangeTextDocument(doc => hierarchyTreeProvider.refresh());
+    vscode.window.onDidChangeActiveTextEditor(editor => { hierarchyTreeProvider.refresh(); });
+    vscode.workspace.onDidChangeTextDocument(doc => { hierarchyTreeProvider.refresh(); });
 }
 //# sourceMappingURL=activateHierarchyTree.js.map

@@ -23,13 +23,15 @@ class NodeViewProvider {
         return element;
     }
     getChildren(element) {
-        if (this.nodePath && this.pathExists(this.nodePath))
+        if (this.nodePath && this.pathExists(this.nodePath)) {
             return Promise.resolve(this.getNodes(this.nodePath));
+        }
         return Promise.resolve([]);
     }
     async getNodes(nodePath) {
-        if (!this.pathExists(nodePath))
+        if (!this.pathExists(nodePath)) {
             return [];
+        }
         const toDep = (name, version) => {
             return new Dependency(name, version);
         };
@@ -74,18 +76,20 @@ class Dependency extends vscode.TreeItem {
     }
     async initializeDescription() {
         const actualVersion = await this.isNewVersionAvailable(this.name, this.version);
-        if (actualVersion !== "")
+        if (actualVersion !== "") {
             this.description = `${this.version} -> ^${actualVersion}`;
+        }
     }
     async isNewVersionAvailable(name, version) {
         let retries = 0;
         let delay = 500;
-        while (retries < 3)
+        while (retries < 3) {
             try {
                 const response = await axios_1.default.get(`https://registry.npmjs.org/${name}`);
                 const latestVersion = response.data["dist-tags"]?.latest;
-                if (latestVersion && ("^" + latestVersion !== version))
+                if (latestVersion && ("^" + latestVersion !== version)) {
                     return latestVersion;
+                }
                 break;
             }
             catch (err) {
@@ -94,9 +98,11 @@ class Dependency extends vscode.TreeItem {
                     delay *= 2;
                     retries++;
                 }
-                else
+                else {
                     break;
+                }
             }
+        }
         return "";
     }
 }

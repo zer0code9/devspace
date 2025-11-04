@@ -32,7 +32,7 @@ export class HierarchyTreeProvider implements vscode.TreeDataProvider<HierarchyI
             return items.filter(item => vscode.SymbolKind[item.symbol.kind] !== "Property");
         } else {
             const editor = vscode.window.activeTextEditor;
-            if (!editor) return [];
+            if (!editor) { return []; }
             
             this.currentDocument = editor.document;
             await this.loadSymbols();

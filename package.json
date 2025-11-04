@@ -2,11 +2,11 @@
   "name": "devspace",
   "displayName": "Dev Space",
   "description": "A little more VSCode",
-  "version": "2.0.2",
+  "version": "2.0.6",
   "author": "Creaion",
   "publisher": "SlashDEV",
   "engines": {
-    "vscode": "^1.105.0"
+    "vscode": "^1.100.0"
   },
   "license": "MIT",
   "repository": {
@@ -24,8 +24,12 @@
     "Project Box",
     "Term Pad"
   ],
+  "galleryBanner": {
+    "color": "#2e2e2e",
+    "theme": "dark"
+  },
   "activationEvents": [
-    "onView:workbench.explorer.fileView"
+    "onStartupFinished"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -52,12 +56,6 @@
           "name": "Node View",
           "contextualTitle": "Node View",
           "icon": "img/light/cells.svg"
-        },
-        {
-          "id": "devspace.hierarchyTree",
-          "name": "Hierarchy Tree",
-          "contextualTitle": "Hierarchy Tree",
-          "icon": "img/light/subTask.svg"
         }
       ],
       "termpadPanel": [
@@ -73,10 +71,6 @@
       {
         "view": "devspace.nodeView",
         "contents": "Go to a workspace folder that has a package.json file to get started!\n[Open Folder](command:vscode.openFolder)\n[Add Folder](command:devspace.addFolders)\nYou will be able to see all the dependencies and update or uninstall them. Works with npm and yarn. To change to yarn go to the Dev Space settings."
-      },
-      {
-        "view": "devspace.hierarchy",
-        "contents": "Welcome to Dev Space!\n\n"
       },
       {
         "view": "devspace.termPad",
@@ -200,18 +194,6 @@
       {
         "command": "devspace.goToTerm",
         "title": "Go to Term"
-      },
-      {
-        "command": "devspace.refreshHierarchyTree",
-        "title": "Refresh",
-        "icon": {
-          "dark": "img/dark/refresh.svg",
-          "light": "img/light/refresh.svg"
-        }
-      },
-      {
-        "command": "devspace.goToSymbol",
-        "title": "Go to Symbol"
       }
     ],
     "keybindings": [
@@ -283,11 +265,6 @@
         {
           "command": "devspace.refreshTermPad",
           "when": "view == devspace.termPad",
-          "group": "navigation"
-        },
-        {
-          "command": "devspace.refreshHierarchyTree",
-          "when": "view == devspace.hierarchyTree",
           "group": "navigation"
         }
       ],
@@ -373,12 +350,6 @@
             "note"
           ],
           "description": "The terms to look for",
-          "ignoreSync": false
-        },
-        "devspace.broadTermSearch": {
-          "type": "boolean",
-          "default": true,
-          "description": "If checked, it will show the terms for unopened files as well (not working in v1.4.1)",
           "ignoreSync": false
         }
       }
@@ -530,7 +501,7 @@
   "devDependencies": {
     "@types/mocha": "^10.0.10",
     "@types/node": "^24.5.2",
-    "@types/vscode": "^1.105.0",
+    "@types/vscode": "^1.100.0",
     "@typescript-eslint/eslint-plugin": "^8.44.0",
     "@typescript-eslint/parser": "^8.44.0",
     "@vscode/test-cli": "^0.0.11",

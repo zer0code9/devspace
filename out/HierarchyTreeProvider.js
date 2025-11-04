@@ -25,8 +25,9 @@ class HierarchyTreeProvider {
         }
         else {
             const editor = vscode.window.activeTextEditor;
-            if (!editor)
+            if (!editor) {
                 return [];
+            }
             this.currentDocument = editor.document;
             await this.loadSymbols();
             return this.symbols.map(symbol => new HierarchyItem(symbol, symbol.children.length > 0 ? vscode.TreeItemCollapsibleState.Expanded : vscode.TreeItemCollapsibleState.None));

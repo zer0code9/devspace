@@ -28,12 +28,12 @@ export class NodeViewProvider implements vscode.TreeDataProvider<Dependency> {
     }
 
     getChildren(element?: Dependency): Thenable<Dependency[]> {
-        if (this.nodePath && this.pathExists(this.nodePath)) return Promise.resolve(this.getNodes(this.nodePath));
+        if (this.nodePath && this.pathExists(this.nodePath)) { return Promise.resolve(this.getNodes(this.nodePath)); }
         return Promise.resolve([]);
     }
 
     async getNodes(nodePath: string): Promise<Dependency[]> {
-        if (!this.pathExists(nodePath)) return [];
+        if (!this.pathExists(nodePath)) { return []; }
         const toDep = (name: string, version: string): Dependency => {
             return new Dependency(name, version);
         };
@@ -81,25 +81,26 @@ export class Dependency extends vscode.TreeItem {
 
     private async initializeDescription() {
         const actualVersion = await this.isNewVersionAvailable(this.name, this.version);
-        if (actualVersion !== "") this.description = `${this.version} -> ^${actualVersion}`;
+        if (actualVersion !== "") { this.description = `${this.version} -> ^${actualVersion}`; }
     }
 
     private async isNewVersionAvailable(name: string, version: string): Promise<string> {
         let retries = 0;
         let delay = 500;
-        while (retries < 3)
+        while (retries < 3) {
             try {
                 const response = await axios.get(`https://registry.npmjs.org/${name}`);
                 const latestVersion = response.data["dist-tags"]?.latest;
-                if (latestVersion && ("^" + latestVersion !== version)) return latestVersion;
+                if (latestVersion && ("^" + latestVersion !== version)) { return latestVersion; }
                 break;
             } catch (err: any) {
                 if (err.response && err.response.status === 429) {
                     await new Promise(res => setTimeout(res, delay));
                     delay *= 2;
                     retries++;
-                } else break;
+                } else { break; }
             }
+        }
         return "";
     }
 }

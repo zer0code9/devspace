@@ -18,6 +18,8 @@
     <img alt="Last Updated" src="https://img.shields.io/visual-studio-marketplace/last-updated/SlashDEV.devspace?label=updated&logo=vscodium">
 </p></a>
 
+> **WARNING**: Dev Space has crashed after the update v2.0.2 and I am trying to fix it. There might be more publications after this one that don't work as I am trying to fix it. If it doesn't work when installed, go install the stable version v2.0.1. I will try to fix this as fast as I can.
+
 This is an extension to make VSCode better.
 
 It includes Node View, Project Box, Term Pad, and Hierarchy Tree.
@@ -84,7 +86,7 @@ Keybindings:
 Configurations:
 - Terms: The terms to look for [string[] (('todo' & 'fixme') | 'debug' | 'review' | 'hack' | 'note')] (synced)
 
-## Heirarchy Tree
+## Heirarchy Tree (not in v2.0.1)
 
 The full breadcrums list is right on your IDE with all the available information on the currently opened document file. It is available for multiple languages and is structured as a tree. Clicking any symbol will forward the curcor to where that symbol is.
 

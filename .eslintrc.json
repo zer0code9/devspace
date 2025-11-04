@@ -10,7 +10,7 @@
     ],
     "rules": {
         "@typescript-eslint/naming-convention": "warn",
-        "curly": "off",
+        "curly": "warn",
         "eqeqeq": "warn",
         "no-throw-literal": "warn",
         "semi": "off"
