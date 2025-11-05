@@ -2,7 +2,7 @@
   "name": "devspace",
   "displayName": "Dev Space",
   "description": "A little more VSCode",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "author": "Creaion",
   "publisher": "SlashDEV",
   "engines": {
@@ -56,7 +56,13 @@
           "name": "Node View",
           "contextualTitle": "Node View",
           "icon": "img/light/cells.svg"
-        }
+        },
+        {
+          "id": "devspace.hierarchyTree",
+          "name": "Hierarchy Tree",
+          "contextualTitle": "Hierarchy Tree",
+          "icon": "img/light/subTask.svg"
+       }
       ],
       "termpadPanel": [
         {
@@ -194,6 +200,18 @@
       {
         "command": "devspace.goToTerm",
         "title": "Go to Term"
+      },
+      {
+        "command": "devspace.refreshHierarchyTree",
+        "title": "Refresh",
+        "icon": {
+          "dark": "img/dark/refresh.svg",
+          "light": "img/light/refresh.svg"
+        }
+      },
+      {
+        "command": "devspace.goToSymbol",
+        "title": "Go to Symbol"
       }
     ],
     "keybindings": [
@@ -265,6 +283,11 @@
         {
           "command": "devspace.refreshTermPad",
           "when": "view == devspace.termPad",
+          "group": "navigation"
+        },
+        {
+          "command": "devspace.refreshHierarchyTree",
+          "when": "view == devspace.hierarchyTree",
           "group": "navigation"
         }
       ],
@@ -498,6 +521,9 @@
     "lint": "eslint src --ext ts",
     "test": "node ./out/test/runTest.js"
   },
+  "dependencies": {
+    "axios": "^1.11.0"
+  },
   "devDependencies": {
     "@types/mocha": "^10.0.10",
     "@types/node": "^24.5.2",
@@ -506,8 +532,6 @@
     "@typescript-eslint/parser": "^8.44.0",
     "@vscode/test-cli": "^0.0.11",
     "@vscode/test-electron": "^2.5.2",
-    "axios": "^1.11.0",
-    "cheerio": "^1.1.2",
     "eslint": "^8.57.1",
     "glob": "^10.3.3",
     "mocha": "^10.2.0",

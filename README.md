@@ -18,7 +18,7 @@
     <img alt="Last Updated" src="https://img.shields.io/visual-studio-marketplace/last-updated/SlashDEV.devspace?label=updated&logo=vscodium">
 </p></a>
 
-> **WARNING**: Dev Space has crashed after the update v2.0.2 and I am trying to fix it. There might be more publications after this one that don't work as I am trying to fix it. If it doesn't work when installed, go install the stable version v2.0.1. I will try to fix this as fast as I can.
+> **WARNING**: Dev Space has crashed after the update v2.0.2 and I am trying to fix it. If it doesn't work when installed, go install the stable version v2.0.1. *Edit*: I may have found the problem and the new stable version is v2.0.7 if true.
 
 This is an extension to make VSCode better.
 

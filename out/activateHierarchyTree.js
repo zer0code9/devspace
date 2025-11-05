@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.activateHierarchyTree = activateHierarchyTree;
 const vscode = require("vscode");
 const HierarchyTreeProvider_1 = require("./HierarchyTreeProvider");
 function activateHierarchyTree() {

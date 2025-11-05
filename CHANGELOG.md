@@ -2,7 +2,7 @@
 
 ## Current
 
-## 2.0.2
+## 2.0.2 -> 2.0.7
 
 - Added:
     - Hierarchy Tree
@@ -16,6 +16,7 @@
     - Fixed some icons to provide more context and look better
     - Fixed JS/TS single comment with term
     - Fixed Go To Term command from Term Pad
+    - Fized Axios bug that made publications crash
 - Removed:
     - Snippets
     - Project Menu

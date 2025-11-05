@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { HierarchyTreeProvider } from './HierarchyTreeProvider';
 
-function activateHierarchyTree() {
+export function activateHierarchyTree() {
     /* VARIABLES */
 
     /* Hierarchy Tree Provider */
