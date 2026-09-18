@@ -1,2 +1,12 @@
 https://www.svgrepo.com/
 https://icomoon.io/
+Icons for dark: #757575
+
+
+Package.json dependency version control
+"^1.1.1" -> >=1.1.1 <2.0.0
+"~1.1.1" -> >=1.1.1 <1.2.0
+"1.1.1" -> ==1.1.1
+
+
+

@@ -8,9 +8,9 @@ export function activateTermPad() {
     /* Term Pad Provider */
     const termPadProvider = new TermPadProvider();
     vscode.window.registerTreeDataProvider('devspace.termPad', termPadProvider);
-    termPadProvider.refresh();
+    //termPadProvider.refresh();
 
-    /* Project Box Status */
+    /* Term Status */
     const termStatus = new TermStatus(vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100), termPadProvider);
 
     /* COMMANDS */
@@ -24,10 +24,10 @@ export function activateTermPad() {
 
     /**
      * Go To File
-     * Params: filenode: FileTerm
+     * Params: fileItem: FileTerm
      */
-    vscode.commands.registerCommand('devspace.goToFile', async (filenode: FileTerm) => {
-        const document = await vscode.workspace.openTextDocument(filenode.info)
+    vscode.commands.registerCommand('devspace.goToFile', async (fileItem: FileTerm) => {
+        const document = await vscode.workspace.openTextDocument(fileItem.info);
         vscode.window.showTextDocument(document);
     });
 
@@ -49,19 +49,38 @@ export function activateTermPad() {
 
     /* EVENTS */
 
-    vscode.workspace.onDidSaveTextDocument(doc => {
+    /**
+     * On Did Change Active Text Editor
+     * Variable: Term Pad Provider, Term Status
+     */
+    vscode.workspace.onDidSaveTextDocument(documentE => {
         termPadProvider.refresh();
         termStatus.update();
     })
-    vscode.workspace.onDidOpenTextDocument(doc => {
+
+    /**
+     * On Did Open Text Document
+     * Variable: Term Pad Provider, Term Status
+     */
+    vscode.workspace.onDidOpenTextDocument(documentE => {
         termPadProvider.refresh();
         termStatus.update();
     })
-    vscode.workspace.onDidCloseTextDocument(doc => {
+
+    /**
+     * On Did Close Text Document
+     * Variable: Term Pad Provider, Term Status
+     */
+    vscode.workspace.onDidCloseTextDocument(documentE => {
         termPadProvider.refresh();
         termStatus.update();
     })
-    vscode.workspace.onDidChangeTextDocument(doc => {
+
+    /**
+     * On Did Change Text Document
+     * Variable: Term Pad Provider, Term Status
+     */
+    vscode.workspace.onDidChangeTextDocument(documentE => {
         termPadProvider.refresh();
         termStatus.update();
     })
@@ -70,20 +89,32 @@ export function activateTermPad() {
      * On Did Change Configuration
      * Params: configE: vscode.ConfigurationChangeEvent
      * Configuration: Terms
+     * Variable: Term Pad Provider, Term Status
+     * Function: Fix Term List
      */
     vscode.workspace.onDidChangeConfiguration(async configE => {
         if (configE.affectsConfiguration('devspace.terms')) {
-            const terms: string[] | undefined = vscode.workspace.getConfiguration('devspace').get('terms');
-            const revisedTerms: string[] = [];
-            revisedTerms.push("todo", "fixme");
-            if (terms !== undefined) {
-                for (const term of terms) {
-                    if (["debug", "review", "hack", "note"].includes(term)) { revisedTerms.push(term); }
-                }
-            }
-            await vscode.workspace.getConfiguration('devspace').update('terms', revisedTerms, true);
+            await fixTermList();
             termPadProvider.refresh();
             termStatus.update();
         }
     });
+}
+
+/* FUNCTIONS */
+
+/**
+ * Fix Term List
+ * Configuration: Terms
+ */
+async function fixTermList() {
+    const terms: string[] | undefined = vscode.workspace.getConfiguration('devspace').get('terms');
+    const revisedTerms: string[] = [];
+    revisedTerms.push("todo", "fixme");
+    if (terms !== undefined) {
+        for (const term of terms) {
+            if (["debug", "review", "hack", "note"].includes(term)) { revisedTerms.push(term); }
+        }
+    }
+    await vscode.workspace.getConfiguration('devspace').update('terms', revisedTerms, true);
 }

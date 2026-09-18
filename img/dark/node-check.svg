@@ -1,0 +1,6 @@
+<svg viewBox="0 0 24 24" stroke-width="2" stroke="#757575" stroke-linecap="round" stroke-linejoin="round" fill="none" width="32" height="32" class="lucide lucide-package-check-icon lucide-package-check" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <path d="M12 22V12" />
+    <path d="M16 17l2 2 4-4" />
+    <path d="M21 11.127V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.729l7 4a2 2 0 0 0 2 1e-3l1.32-0.753" />
+    <path d="M3.29 7 12 12l8.71-5" />
+</svg>

@@ -2,8 +2,8 @@
   "name": "devspace",
   "displayName": "Dev Space",
   "description": "A little more VSCode",
-  "version": "2.0.7",
-  "author": "Creaion",
+  "version": "3.0.0",
+  "author": "Devberry",
   "publisher": "SlashDEV",
   "engines": {
     "vscode": "^1.100.0"
@@ -18,9 +18,8 @@
     "Other"
   ],
   "keywords": [
-    "Creaion",
     "Dev Space",
-    "Node View",
+    "Package View",
     "Project Box",
     "Term Pad"
   ],
@@ -38,49 +37,53 @@
         {
           "id": "devspaceContainer",
           "title": "Dev Space",
-          "icon": "img/light/code.svg"
+          "icon": "$(devspace-code)"
         }
       ],
       "panel": [
         {
           "id": "termpadPanel",
           "title": "Terms",
-          "icon": "img/light/check.svg"
+          "icon": "$(devspace-check)"
         }
       ]
     },
     "views": {
       "devspaceContainer": [
         {
-          "id": "devspace.nodeView",
-          "name": "Node View",
-          "contextualTitle": "Node View",
-          "icon": "img/light/cells.svg"
+          "id": "devspace.packageView",
+          "name": "Package View",
+          "contextualTitle": "Package View",
+          "icon": "$(devspace-node-container)"
         },
         {
           "id": "devspace.hierarchyTree",
           "name": "Hierarchy Tree",
           "contextualTitle": "Hierarchy Tree",
-          "icon": "img/light/subTask.svg"
-       }
+          "icon": "$(devspace-sub-task)"
+        }
       ],
       "termpadPanel": [
         {
           "id": "devspace.termPad",
           "name": "Terms",
           "contextualTitle": "Terms",
-          "icon": "img/light/check.svg"
+          "icon": "$(devspace-check)"
         }
       ]
     },
     "viewsWelcome": [
       {
-        "view": "devspace.nodeView",
-        "contents": "Go to a workspace folder that has a package.json file to get started!\n[Open Folder](command:vscode.openFolder)\n[Add Folder](command:devspace.addFolders)\nYou will be able to see all the dependencies and update or uninstall them. Works with npm and yarn. To change to yarn go to the Dev Space settings."
+        "view": "devspace.packageView",
+        "contents": "Go to a workspace folder that has a package.json/pyproject.toml/Cargo.toml file to get started!\n[Open Folder](command:vscode.openFolder)\n[Add Folder](command:devspace.addFolders)\nYou will be able to see all the dependencies and update or uninstall them. Works with node (npm, bun, yarn), pip (pip, uv), and crate (cargo). To change package managers, go to the Dev Space settings."
       },
       {
         "view": "devspace.termPad",
         "contents": "No terms have been detected in the workspace."
+      },
+      {
+        "view": "devspace.hierarchyTree",
+        "contents": "The current file or page doesn't allow symbols. Open a file that has symbols to see the hierarchy tree, like a JS/TS/JSX/TSX file."
       }
     ],
     "commands": [
@@ -89,109 +92,83 @@
         "title": "Open Dev Space Settings"
       },
       {
-        "command": "devspace.refreshNodeView",
+        "command": "devspace.refreshPackageView",
         "title": "Refresh",
-        "icon": {
-          "dark": "img/dark/refresh.svg",
-          "light": "img/light/refresh.svg"
-        }
+        "icon": "$(devspace-refresh)"
       },
       {
-        "command": "devspace.openNodeFolder",
-        "title": "Open Node Folder",
-        "icon": {
-          "dark": "img/dark/openBlank.svg",
-          "light": "img/light/openBlank.svg"
-        }
+        "command": "devspace.openPackageFolder",
+        "title": "Open Package Folder",
+        "icon": "$(devspace-open-blank)"
       },
       {
-        "command": "devspace.changeNodeManager",
-        "title": "Change Node Manager",
-        "icon": {
-          "dark": "img/dark/gear.svg",
-          "light": "img/light/gear.svg"
-        }
+        "command": "devspace.changePackageManager",
+        "title": "Change Package Manager",
+        "icon": "$(devspace-gear)"
       },
       {
-        "command": "devspace.showNodeHistory",
-        "title": "Show Node History",
-        "icon": {
-          "dark": "img/dark/clock.svg",
-          "light": "img/light/clock.svg"
-        }
+        "command": "devspace.showPackageHistory",
+        "title": "Show Package History",
+        "icon": "$(devspace-clock)"
       },
       {
-        "command": "devspace.addNodeItem",
+        "command": "devspace.addPackageItemPrompt",
         "title": "Add",
-        "icon": {
-          "dark": "img/dark/filePlus.svg",
-          "light": "img/light/filePlus.svg"
-        }
+        "icon": "$(devspace-node-add)"
       },
       {
-        "command": "devspace.updateNodeItem",
+        "command": "devspace.addPackageItem",
+        "title": "Add",
+        "icon": "$(devspace-node-add)"
+      },
+      {
+        "command": "devspace.updatePackageItem",
         "title": "Update",
-        "icon": {
-          "dark": "img/dark/fileRedo.svg",
-          "light": "img/light/fileRedo.svg"
-        }
+        "icon": "$(devspace-node-change)"
       },
       {
-        "command": "devspace.removeNodeItem",
+        "command": "devspace.removePackageItem",
         "title": "Remove",
-        "icon": {
-          "dark": "img/dark/fileMinus.svg",
-          "light": "img/light/fileMinus.svg"
-        }
+        "icon": "$(devspace-node-remove)"
       },
       {
-        "command": "devspace.openNodeItem",
+        "command": "devspace.openPackageItem",
         "title": "Open",
-        "icon": {
-          "dark": "img/dark/fileSearch.svg",
-          "light": "img/light/fileSearch.svg"
-        }
+        "icon": "$(devspace-node-search)"
       },
       {
         "command": "devspace.showProjectBox",
         "title": "Show Project Box",
-        "icon": {
-          "dark": "img/dark/box.svg",
-          "light": "img/light/box.svg"
-        }
+        "icon": "$(devspace-project-container)"
       },
       {
         "command": "devspace.addFoldersBox",
-        "title": "Add Folders to Box",
-        "icon": "img/plus.svg"
+        "title": "Add Folders to Box"
       },
       {
         "command": "devspace.addFoldersBoxUri",
-        "title": "Add Folders to Box with URI",
-        "icon": "img/plus.svg"
+        "title": "Add Folders to Box with URI"
       },
       {
         "command": "devspace.removeFoldersBox",
-        "title": "Remove Folders from Box",
-        "icon": "img/minus.svg"
+        "title": "Remove Folders from Box"
       },
       {
         "command": "devspace.addFoldersWorkspace",
-        "title": "Add Folder to Workspace",
-        "icon": "img/folderPlus.svg"
+        "title": "Add Folder to Workspace"
       },
       {
         "command": "devspace.removeFoldersWorkspace",
-        "title": "Remove Folder from Workspace",
-        "icon": "img/folderMinus.svg"
+        "title": "Remove Folder from Workspace"
+      },
+      {
+        "command": "devspace.showCategories",
+        "title": "Show Categories"
       },
       {
         "command": "devspace.refreshTermPad",
         "title": "Refresh",
-        "icon": {
-          "dark": "img/dark/refresh.svg",
-          "light": "img/light/refresh.svg"
-        }
+        "icon": "$(devspace-refresh)"
       },
       {
         "command": "devspace.goToFile",
@@ -204,10 +181,7 @@
       {
         "command": "devspace.refreshHierarchyTree",
         "title": "Refresh",
-        "icon": {
-          "dark": "img/dark/refresh.svg",
-          "light": "img/light/refresh.svg"
-        }
+        "icon": "$(devspace-refresh)"
       },
       {
         "command": "devspace.goToSymbol",
@@ -229,7 +203,7 @@
       },
       {
         "key": "ctrl+alt+h",
-        "command": "devspace.showNodeHistory"
+        "command": "devspace.showPackageHistory"
       },
       {
         "key": "ctrl+alt+b",
@@ -251,28 +225,28 @@
     "menus": {
       "view/title": [
         {
-          "command": "devspace.refreshNodeView",
-          "when": "view == devspace.nodeView",
+          "command": "devspace.refreshPackageView",
+          "when": "view == devspace.packageView",
           "group": "navigation"
         },
         {
-          "command": "devspace.openNodeFolder",
-          "when": "view == devspace.nodeView",
+          "command": "devspace.openPackageFolder",
+          "when": "view == devspace.packageView",
           "group": "navigation"
         },
         {
-          "command": "devspace.changeNodeManager",
-          "when": "view == devspace.nodeView",
+          "command": "devspace.changePackageManager",
+          "when": "view == devspace.packageView",
           "group": "navigation"
         },
         {
-          "command": "devspace.showNodeHistory",
-          "when": "view == devspace.nodeView",
+          "command": "devspace.showPackageHistory",
+          "when": "view == devspace.packageView",
           "group": "navigation"
         },
         {
-          "command": "devspace.addNodeItem",
-          "when": "view == devspace.nodeView",
+          "command": "devspace.addPackageItemPrompt",
+          "when": "view == devspace.packageView",
           "group": "navigation"
         },
         {
@@ -293,23 +267,23 @@
       ],
       "view/item/context": [
         {
-          "command": "devspace.updateNodeItem",
-          "when": "view == devspace.nodeView && viewItem == depnode",
+          "command": "devspace.updatePackageItem",
+          "when": "view == devspace.packageView && viewItem == packageItem",
           "group": "inline"
         },
         {
-          "command": "devspace.removeNodeItem",
-          "when": "view == devspace.nodeView && viewItem == depnode",
+          "command": "devspace.removePackageItem",
+          "when": "view == devspace.packageView && viewItem == packageItem",
           "group": "inline"
         },
         {
-          "command": "devspace.openNodeItem",
-          "when": "view == devspace.nodeView && viewItem == depnode",
+          "command": "devspace.openPackageItem",
+          "when": "view == devspace.packageView && viewItem == packageItem",
           "group": "inline"
         },
         {
           "command": "devspace.goToFile",
-          "when": "view == devspace.termPad && viewItem == filenode"
+          "when": "view == devspace.termPad && viewItem == fileItem"
         }
       ],
       "touchBar": [
@@ -324,7 +298,7 @@
       "id": "devspace.settings",
       "title": "Dev Space",
       "properties": {
-        "devspace.nodeRoot": {
+        "devspace.packageRoot": {
           "type": [
             "string",
             "null"
@@ -336,30 +310,49 @@
         "devspace.securedRoot": {
           "type": "boolean",
           "default": false,
-          "description": "Whether to use 'sudo' for package manager",
+          "description": "Whether to use 'sudo' for the package manager",
           "ignoreSync": true
         },
-        "devspace.packageManager": {
-          "type": "string",
-          "default": "npm",
-          "description": "The package manager to use",
-          "enum": [
+        "devspace.packageManagers": {
+          "type": "array",
+          "default": [
             "npm",
-            "bun",
-            "yarn"
+            "uv",
+            "cargo"
           ],
+          "description": "The package managers to use for node, pip, and crate",
           "ignoreSync": true
         },
         "devspace.showNewVersions": {
           "type": "boolean",
           "default": true,
-          "description": "Whether to show the new version in Node View",
+          "description": "Whether to show the new version in Package View",
+          "ignoreSync": false
+        },
+        "devspace.showSections": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to show sections in Package View",
           "ignoreSync": false
         },
         "devspace.projects": {
           "type": "array",
           "default": [],
           "description": "The saved projects",
+          "ignoreSync": true
+        },
+        "devspace.categorizeProjects": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to categorize projects in the Project Box",
+          "ignoreSync": true
+        },
+        "devspace.projectCategories": {
+          "type": "array",
+          "default": [
+            "Uncategorized"
+          ],
+          "description": "The categories for projects",
           "ignoreSync": true
         },
         "devspace.terms": {
@@ -374,141 +367,252 @@
           ],
           "description": "The terms to look for",
           "ignoreSync": false
+        },
+        "devspace.autoCollapseTree": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to automatically collapse the hierarchy tree symbols that don't reveal the current symbol",
+          "ignoreSync": false
         }
       }
     },
     "icons": {
-      "devspace-box": {
-        "description": "Box",
+      "devspace-node": {
+        "description": "Node",
         "default": {
-          "fontPath": "img/devspace-v2.woff",
-          "fontCharacter": "\\e900"
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\E100"
+        }
+      },
+      "devspace-node-add": {
+        "description": "Node Add",
+        "default": {
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\E101"
+        }
+      },
+      "devspace-node-remove": {
+        "description": "Node Remove",
+        "default": {
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\E102"
+        }
+      },
+      "devspace-node-edit": {
+        "description": "Node Edit",
+        "default": {
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\E103"
+        }
+      },
+      "devspace-node-change": {
+        "description": "Node Change",
+        "default": {
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\E104"
+        }
+      },
+      "devspace-node-check": {
+        "description": "Node Check",
+        "default": {
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\E105"
+        }
+      },
+      "devspace-node-cross": {
+        "description": "Node Cross",
+        "default": {
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\E106"
+        }
+      },
+      "devspace-node-search": {
+        "description": "Node Search",
+        "default": {
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\E107"
+        }
+      },
+      "devspace-node-container": {
+        "description": "Node Container",
+        "default": {
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\E1FF"
+        }
+      },
+      "devspace-project": {
+        "description": "Project",
+        "default": {
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\E200"
+        }
+      },
+      "devspace-project-add": {
+        "description": "Project Add",
+        "default": {
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\E201"
+        }
+      },
+      "devspace-project-remove": {
+        "description": "Project Remove",
+        "default": {
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\E202"
+        }
+      },
+      "devspace-project-install": {
+        "description": "Project Install",
+        "default": {
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\E231"
+        }
+      },
+      "devspace-project-container": {
+        "description": "Project Container",
+        "default": {
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\E2FF"
+        }
+      },
+      "devspace-folder": {
+        "description": "Folder",
+        "default": {
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\E300"
+        }
+      },
+      "devspace-folder-add": {
+        "description": "Folder Add",
+        "default": {
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\E301"
+        }
+      },
+      "devspace-folder-remove": {
+        "description": "Folder Remove",
+        "default": {
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\E302"
+        }
+      },
+      "devspace-folder-switch": {
+        "description": "Folder Switch",
+        "default": {
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\E314"
+        }
+      },
+      "devspace-folder-container": {
+        "description": "Folder Container",
+        "default": {
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\E3FF"
+        }
+      },
+      "devspace-category": {
+        "description": "Category",
+        "default": {
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\E400"
+        }
+      },
+      "devspace-category-add": {
+        "description": "Category Add",
+        "default": {
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\E401"
+        }
+      },
+      "devspace-category-remove": {
+        "description": "Category Remove",
+        "default": {
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\E402"
+        }
+      },
+      "devspace-category-edit": {
+        "description": "Category Edit",
+        "default": {
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\E403"
+        }
+      },
+      "devspace-category-check": {
+        "description": "Category Check",
+        "default": {
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\E405"
+        }
+      },
+      "devspace-category-cross": {
+        "description": "Category Cross",
+        "default": {
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\E406"
+        }
+      },
+      "devspace-category-switch": {
+        "description": "Category Switch",
+        "default": {
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\E414"
+        }
+      },
+      "devspace-category-container": {
+        "description": "Category Container",
+        "default": {
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\E4FF"
         }
       },
       "devspace-check": {
         "description": "Check",
         "default": {
-          "fontPath": "img/devspace-v2.woff",
-          "fontCharacter": "\\e901"
-        }
-      },
-      "devspace-cross": {
-        "description": "Cross",
-        "default": {
-          "fontPath": "img/devspace-v2.woff",
-          "fontCharacter": "\\e902"
-        }
-      },
-      "devspace-plus": {
-        "description": "Plus",
-        "default": {
-          "fontPath": "img/devspace-v2.woff",
-          "fontCharacter": "\\e903"
-        }
-      },
-      "devspace-minus": {
-        "description": "Minus",
-        "default": {
-          "fontPath": "img/devspace-v2.woff",
-          "fontCharacter": "\\e904"
-        }
-      },
-      "devspace-folderPlus": {
-        "description": "Folder Add",
-        "default": {
-          "fontPath": "img/devspace-v2.woff",
-          "fontCharacter": "\\e905"
-        }
-      },
-      "devspace-folderMinus": {
-        "description": "Folder Remove",
-        "default": {
-          "fontPath": "img/devspace-v2.woff",
-          "fontCharacter": "\\e906"
-        }
-      },
-      "devspace-cabinet": {
-        "description": "Cabinet",
-        "default": {
-          "fontPath": "img/devspace-v2.woff",
-          "fontCharacter": "\\e907"
-        }
-      },
-      "devspace-user": {
-        "description": "User",
-        "default": {
-          "fontPath": "img/devspace-v2.woff",
-          "fontCharacter": "\\e908"
-        }
-      },
-      "devspace-slider": {
-        "description": "Slider",
-        "default": {
-          "fontPath": "img/devspace-v2.woff",
-          "fontCharacter": "\\e909"
-        }
-      },
-      "devspace-dots": {
-        "description": "Dots",
-        "default": {
-          "fontPath": "img/devspace-v2.woff",
-          "fontCharacter": "\\e90a"
-        }
-      },
-      "devspace-export": {
-        "description": "Export",
-        "default": {
-          "fontPath": "img/devspace-v2.woff",
-          "fontCharacter": "\\e90b"
-        }
-      },
-      "devspace-import": {
-        "description": "Import",
-        "default": {
-          "fontPath": "img/devspace-v2.woff",
-          "fontCharacter": "\\e90c"
-        }
-      },
-      "devspace-checkmark": {
-        "description": "Checkmark",
-        "default": {
-          "fontPath": "img/devspace-v2.woff",
-          "fontCharacter": "\\e90d"
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\EF05"
         }
       },
       "devspace-gear": {
         "description": "Gear",
         "default": {
-          "fontPath": "img/devspace-v2.woff",
-          "fontCharacter": "\\e90e"
-        }
-      },
-      "devspace-shipping": {
-        "description": "Shipping",
-        "default": {
-          "fontPath": "img/devspace-v2.woff",
-          "fontCharacter": "\\e90f"
-        }
-      },
-      "devspace-layers": {
-        "description": "Layers",
-        "default": {
-          "fontPath": "img/devspace-v2.woff",
-          "fontCharacter": "\\e910"
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\EFF0"
         }
       },
       "devspace-code": {
         "description": "Code",
         "default": {
-          "fontPath": "img/devspace-v2.woff",
-          "fontCharacter": "\\e911"
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\EFF3"
         }
       },
-      "devspace-box-closed": {
-        "description": "Box Closed",
+      "devspace-refresh": {
+        "description": "Refresh",
         "default": {
-          "fontPath": "img/devspace-v2.woff",
-          "fontCharacter": "\\e912"
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\EFF4"
+        }
+      },
+      "devspace-clock": {
+        "description": "Clock",
+        "default": {
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\EFF5"
+        }
+      },
+      "devspace-sub-task": {
+        "description": "Sub Task",
+        "default": {
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\EFF6"
+        }
+      },
+      "devspace-open-blank": {
+        "description": "Open Blank",
+        "default": {
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\EFF7"
         }
       }
     }
@@ -522,19 +626,20 @@
     "test": "node ./out/test/runTest.js"
   },
   "dependencies": {
-    "axios": "^1.11.0"
+    "axios": "^1.19.0",
+    "smol-toml": "^1.8.0"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.10",
-    "@types/node": "^24.5.2",
+    "@types/node": "^26.2.0",
     "@types/vscode": "^1.100.0",
-    "@typescript-eslint/eslint-plugin": "^8.44.0",
-    "@typescript-eslint/parser": "^8.44.0",
-    "@vscode/test-cli": "^0.0.11",
-    "@vscode/test-electron": "^2.5.2",
-    "eslint": "^8.57.1",
-    "glob": "^10.3.3",
-    "mocha": "^10.2.0",
-    "typescript": "^5.9.2"
+    "@typescript-eslint/eslint-plugin": "^8.67.0",
+    "@typescript-eslint/parser": "^8.67.0",
+    "@vscode/test-cli": "^0.0.15",
+    "@vscode/test-electron": "^3.1.0",
+    "eslint": "^10.8.1",
+    "glob": "^13.0.6",
+    "mocha": "^11.8.0",
+    "typescript": "^7.0.2"
   }
 }

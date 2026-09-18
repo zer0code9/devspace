@@ -18,82 +18,102 @@
     <img alt="Last Updated" src="https://img.shields.io/visual-studio-marketplace/last-updated/SlashDEV.devspace?label=updated&logo=vscodium">
 </p></a>
 
-> **WARNING**: Dev Space has crashed after the update v2.0.2 and I am trying to fix it. If it doesn't work when installed, go install the stable version v2.0.1. *Edit*: I may have found the problem and the new stable version is v2.0.7 if true.
-
 This is an extension to make VSCode better.
 
-It includes Node View, Project Box, Term Pad, and Hierarchy Tree.
+It includes Package View, a smart package manager, and Project Box, a box that contains projects by category or not.
+
+As well as Term Pad and Hierarchy Tree.
 
 Keybindings:
-- Show Command Prompt [Ctrl+Alt+C] [⌃ ⌥ C]
-- Open Dev Space Settings [Ctrl+Alt+S] [⌃ ⌥ S]
-- Focus Dev Space [Ctrl+Alt+D] [⌃ ⌥ D]
+- Show Command Prompt `[Ctrl+Alt+C]` `[⌃ ⌥ C]`
+- Open Dev Space Settings `[Ctrl+Alt+S]` `[⌃ ⌥ S]`
+- Focus Dev Space `[Ctrl+Alt+D]` `[⌃ ⌥ D]`
 
-## Node View
+## Package View
 
-Look at all your node dependencies in the Dev Space view container under Node View view. Switch between projects without breaking a sweat as it is done automatically!
+Look at all your packages in the Dev Space view container under Package View view. Switch between projects without breaking a sweat as it is done automatically!
 
-![Node View](./img/readme/nodeViewv2.0.2.png)
+![Package View](./img/readme/packageViewv3.0.png)
 
-![Node History](./img/readme/nodeHistoryv2.0.png)
+![Change Package Manager](./img/readme/changePackageManagerv3.0.png)
 
-Your workspace should contain workspace folders with node and package.json to be able to use it. Use `Ctrl+Alt+D | ⌃ ⌥ D` to open Node View and go right into it! There are little icons that appear on the right when you hover over the items to perform actions like opening in npmjs.com, installing, updating, and uninstalling. You can use either npm, bun, and yarn by clicking the setting icon or going to the Dev Space settings. If the root is secured, the package manager can use `sudo`. You can check your current node root by hovering the Node View status item. Node History permits you to switch back to a node project with one click but it will not be saved and is deleted when VSCode is closed (can hold up to 10 projects). By allowing Show New Version, Node View shows if a new version of a package is available.
+![Package Hisyory](./img/readme/packageHistoryv3.0.png)
 
-![Node Install](./img/readme/nodeInstallv2.0.2.png)
+Your workspace should contain workspace folders with a package file for node, pip, or crate to be able to use it. Use `Ctrl+Alt+D | ⌃ ⌥ D` to open Package View and go right into it! At the top, there are icons to allow actions like installing packages, changing the package manager, etc. There are little icons that appear on the right when you hover over the items to perform actions like opening package to the respective website, updating, and uninstalling. For node and pip, the package manager can be changed by clicking the setting icon or going to the Dev Space settings. If the root is secured, the package manager can use `sudo` (Not needed for cargo). You can check your current package root by hovering the Package View status item. Package History permits you to switch back to a packaged project with one click but it will not be saved and is deleted when VSCode is closed (can hold up to 10 projects). By allowing Show New Version, Package View shows if a new version of a package is available. By allowing Show Sections, Package View shows the packages in production and development seperately (on by default).
 
-When installing a new package, you can tell the program to either add it to the production dependencies (dependencies) or development dependencies (devDependencies) by clicking the icon in the top right. Packages can be in the following formats: `[<package>]` or `@[<category>]/[<package>]` (check npmjs.com for the name).
+Node (JS/TS): Requires the `package.json` file. Package managers are `npm`, `bun`, and `yarn`. [npmjs.com](npmjs.com)
+
+Pip (Python): Requires the `pyproject.toml` file. Package managers are `uv` and `poetry`. [pypi.org](pypi.org)
+
+Crate (Rust): Requires the `Cargo.toml` file. Package manager is `cargo`. [crates.io](crates.io)
+
+![Node Install](./img/readme/packageInstallv3.0.png)
+
+When installing a new package, you can tell the program to either add it to the production dependencies or development dependencies by clicking the icon in the top right. Packages can be in the following formats: `[<package>]` or `@[<category>]/[<package>]` (check the websites for the name).
 
 Keybindings:
-- Show Node History [Ctrl+Alt+H] [⌃ ⌥ H]
+- Show Package History `[Ctrl+Alt+H]` `[⌃ ⌥ H]`
 
 Configurations:
-- Node Root: The path to the workspace folder [string | null] (not synced)
-- Package Manager: The package manager to use ['npm' | 'bun' | 'yarn'] (not synced)
-- Secured Root: Whether to use 'sudo' for package manager [boolean] (not synced)
-- Show New Version: Whether to show the new version in Node View [boolean] (synced)
+- Package Root: The path to the workspace folder `[string | null]` (not synced)
+- Secured Root: Whether to use 'sudo' for the package manager `[boolean]` (not synced)
+- Package Managers: The package managers to use for node, pip, and crate `[string[] [('npm' | 'bun' | 'yarn'), ('uv' | 'poetry'), 'cargo']]` (not synced)
+- Show New Version: Whether to show the new version in Package View `[boolean]` (synced)
+- Show Sections: Whether to show sections in Package View `[boolean]` (synced)
 
 ## Project Box
 
-See your saved projects from your Project Box and add them to your Workspace. There are multiple commands that you can use; See them in the Project Box quick pick by using `Ctrl+Alt+B | ⌃ ⌥ B`.
+See your saved projects from your Project Box and add them to your Workspace. Categorize your projects from your Project Box. See your Project Box quick pick by using `Ctrl+Alt+B | ⌃ ⌥ B`.
 
-![Project Box](./img/readme/projectBoxv2.0.2.png)
+![Project Box](./img/readme/projectBoxv3.0.png)
 
-![Add Folder Uri](./img/readme/addFolderUriv2.0.2.png)
+![Add Folder Uri](./img/readme/addFolderUriv3.0.png)
 
-![Remove Folders From Workspace](./img/readme/removeFolderWorkspacev2.0.2.png)
+![Remove Folders From Workspace](./img/readme/removeFolderWorkspacev3.0.png)
 
-You can perform multiple actions like adding and removing folders to or from the Project Box and/or the Workspace. You can add a project to your Workspace with Project Box with one click instead of going through your file explorer. You can import projects into the Project Box from the workspace or with the project Uri. The project doesn't need to be a node project. Your projects are not synced across devices so that you can have different project groups for your different devices. There is a Project Box status item to quickly go to the Project Box and tells you how many projects there is in it.
+![Project Categories](./img/readme/projectCategoriesv3.0.png)
+
+You can perform multiple actions like adding and removing folders to or from the Project Box and/or the Workspace. You can add a project to your Workspace with Project Box with one click instead of going through your file explorer. You can import projects into the Project Box from the workspace or with the project Uri. Your projects are not synced across devices so that you can have different project groups for your different devices. There is a Project Box status item to quickly go to the Project Box and tells you how many projects there is in it.
+
+Projects can be categorized directly from the Box. Categories can be added, removed, or edited. A project's category can be switched. If a project doesn't have a user-made category, it will be put in the Uncategorized category.
 
 Keybindings:
-- Show Project Box [Ctrl+Alt+B] [⌃ ⌥ B]
-- Show Workspace [Ctrl+Alt+W] [⌃ ⌥ W]
+- Show Project Box `[Ctrl+Alt+B]` `[⌃ ⌥ B]`
+- Show Workspace `[Ctrl+Alt+W]` `[⌃ ⌥ W]`
 
 Configurations:
-- Projects: The saved projects [string[]] (not synced)
+- Projects: The saved projects `[interface Project { name: string, path: string, category: string }[]]` (not synced)
+- Categorize Projects: Whether to categorize projects in the Project Box `[boolean]` (not synced)
+- Project Categories: The categories for projects `[string[] ['Uncategorized', ...]]` (not synced)
 
 ## Term Pad
 
 See all the todos, fixmes, debugs, ... left by your cocoders from one click away. Understand them at a glance with the different icons. There is a status item indicating the the number of fixmes and todos.
 
-![Term Pad](./img/readme/termPadv2.0.2.png)
+![Term Pad](./img/readme/termPadv3.0.png)
 
-The term should be in the format of in a comment: `term: ...` (case insensitive). Terms work in JS/TS:JSX/TSX (`//`, `/* */`, `/** */`), Java + Kotlin + C + C++ (`//`, `/* */`), Python (`#`, `""" """`), Ruby (`#`, `=begin =end`), HTML (`<!-- -->`), CSS + SCSS (`/* */`). The file with the terms must be opened to see them (will change). Clicking a term will forward your cursor to where that term is. There is a Term Pad status item that the tells the number of fixmes and todos there are in your opened documents. Therefore, fixmes and todos are required to be in the Terms list.
+The term should be in the format of in a comment: `term: ...` (case insensitive). Terms work in JS/TS:JSX/TSX (`//`, `/* */`, `/** */`), Java + Kotlin + C + C++ + Rust + Go (`//`, `/* */`), Python (`#`, `""" """`), Ruby (`#`, `=begin =end`), HTML (`<!-- -->`), CSS + SCSS (`/* */`). The file with the terms must be opened to see them. Clicking a term will forward your cursor to where that term is. There is a Term Pad status item that the tells the number of fixmes and todos there are in your opened documents. Therefore, fixmes and todos are required to be in the Terms list.
 
 Keybindings:
-- Show Term Pad (Terms) [Ctrl+Alt+T] [⌃ ⌥ T]
-- Show Problem Pad (Problems) [Ctrl+Alt+P] [⌃ ⌥ P]
+- Show Term Pad (Terms) `[Ctrl+Alt+T]` `[⌃ ⌥ T]`
+- Show Problem Pad (Problems) `[Ctrl+Alt+P]` `[⌃ ⌥ P]`
 
 Configurations:
-- Terms: The terms to look for [string[] (('todo' & 'fixme') | 'debug' | 'review' | 'hack' | 'note')] (synced)
+- Terms: The terms to look for `[string[] ['todo', 'fixme', 'debug'?, 'review'?, 'hack'?, 'note'?]]` (synced)
 
-## Heirarchy Tree (not in v2.0.1)
+## Heirarchy Tree
 
-The full breadcrums list is right on your IDE with all the available information on the currently opened document file. It is available for multiple languages and is structured as a tree. Clicking any symbol will forward the curcor to where that symbol is.
+The full breadcrums list is right on your IDE with all the available information on the currently opened document file.
 
-![Heirarchy Tree](./img/readme/hierarchyTreev2.0.2.png)
+It is available for any language that allows symbols in VSCode and is structured as a tree. Clicking any symbol will forward the curcor to where that symbol is. Depending on where you click in the editor, the symbol closest is revealed in the tree. By allowing Auto Close Tree, Hierarchy Tree collapse all symbols that aren't used to reveal the current symbol (on by default).
+
+![Heirarchy Tree](./img/readme/hierarchyTreev3.0.png)
+
+Configurations:
+- Auto Collapse Tree: Whether to automatically collapse the hierarchy tree symbols that don't reveal the current symbol `[boolean]` (synced)
 
 **Hope you enjoy Dev Space!**
 
 > **WARNING**: May contain code.
 
-Powered by Creaion, Published by SlashDEV
+Powered by Devberry (SlashDEV)

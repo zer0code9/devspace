@@ -7,13 +7,34 @@ export class HierarchyTreeProvider implements vscode.TreeDataProvider<HierarchyI
     
     private currentDocument: vscode.TextDocument | undefined;
     private symbols: vscode.DocumentSymbol[] = [];
+    private allSymbols: vscode.DocumentSymbol[] = [];
+    private items: HierarchyItem[] = [];
 
     constructor() {
-        this.update();
+        this.scan();
     }
 
-    update(): void {
-        
+    getCurrentDocument(): vscode.TextDocument | undefined {
+        return this.currentDocument;
+    }
+
+    getAllSymbols(): vscode.DocumentSymbol[] {
+        return this.allSymbols;
+    }
+
+    scan(): void {
+        this.allSymbols = this.scanAllSymbols(this.symbols);
+    }
+
+    async ensureSymbolsForDocument(document: vscode.TextDocument): Promise<void> {
+        if (!document) { return; }
+        if (this.currentDocument && this.currentDocument.uri.toString() === document.uri.toString() && this.allSymbols.length > 0) {
+            return;
+        }
+        this.currentDocument = document;
+        await this.loadSymbols();
+        this.scan();
+        this.refresh();
     }
 
     refresh(): void {
@@ -25,22 +46,36 @@ export class HierarchyTreeProvider implements vscode.TreeDataProvider<HierarchyI
     }
 
     async getChildren(element?: HierarchyItem): Promise<HierarchyItem[]> {
+        // Rebuild items cache for each tree refresh
+        if (!element) {
+            this.items = [];
+        }
+
         if (element) {
-            const items = element.symbol.children.map(child =>
-                new HierarchyItem(child, child.children.length > 0 ? vscode.TreeItemCollapsibleState.Expanded : vscode.TreeItemCollapsibleState.None)
-            );
+            const items = element.symbol.children.map(child => {
+                const item = new HierarchyItem(child, child.children.length > 0 ? vscode.TreeItemCollapsibleState.Collapsed : vscode.TreeItemCollapsibleState.None, element, element.documentUri);
+                this.items.push(item);
+                return item;
+            });
             return items.filter(item => vscode.SymbolKind[item.symbol.kind] !== "Property");
         } else {
             const editor = vscode.window.activeTextEditor;
             if (!editor) { return []; }
-            
+
             this.currentDocument = editor.document;
             await this.loadSymbols();
-      
-            return this.symbols.map(symbol => 
-                new HierarchyItem(symbol, symbol.children.length > 0 ? vscode.TreeItemCollapsibleState.Expanded : vscode.TreeItemCollapsibleState.None)
-            );
+            this.scan();
+
+            return this.symbols.map(symbol => {
+                const item = new HierarchyItem(symbol, symbol.children.length > 0 ? vscode.TreeItemCollapsibleState.Collapsed : vscode.TreeItemCollapsibleState.None, undefined, this.currentDocument?.uri)
+                this.items.push(item);
+                return item;
+            });
         }
+    }
+
+    getParent(element: HierarchyItem): vscode.ProviderResult<HierarchyItem> {
+        return element.parent;
     }
 
     private async loadSymbols(): Promise<void> {
@@ -55,11 +90,84 @@ export class HierarchyTreeProvider implements vscode.TreeDataProvider<HierarchyI
                 this.currentDocument.uri
             );
       
-            this.symbols = symbols || [];
+            this.symbols = symbols ? this.sortSymbolsByDocumentOrder(symbols) : [];
         } catch (err) {
             console.error('Error loading symbols:', err);
             this.symbols = [];
         }
+    }
+
+    findClosestSymbol(position: vscode.Position): vscode.DocumentSymbol | undefined {
+        if (!this.allSymbols || this.allSymbols.length === 0) { return undefined; }
+
+        // Prefer symbols that contain the position (deepest one)
+        const containing = this.allSymbols.filter(sym => sym.range.contains(position));
+        if (containing.length > 0) {
+            return containing[containing.length - 1];
+        }
+
+        // Otherwise pick the symbol with the latest start before the position
+        let best: vscode.DocumentSymbol | undefined = undefined;
+        for (const symbol of this.allSymbols) {
+            const start = symbol.range.start;
+            if (!start.isAfter(position)) {
+                if (!best) { best = symbol; }
+                else if (start.isAfter(best.range.start)) { best = symbol; }
+            }
+        }
+
+        return best || this.allSymbols[0];
+    }
+
+    private sortSymbolsByDocumentOrder(symbols: vscode.DocumentSymbol[]): vscode.DocumentSymbol[] {
+        // Sort the array by line then column
+        symbols.sort((a, b) => {
+            if (a.range.start.line !== b.range.start.line) {
+                return a.range.start.line - b.range.start.line;
+            }
+            return a.range.start.character - b.range.start.character;
+        });
+
+        // Sort siblings
+        for (const symbol of symbols) {
+            if (symbol.children && symbol.children.length > 0) {
+                this.sortSymbolsByDocumentOrder(symbol.children);
+            }
+        }
+
+        return symbols;
+    }
+
+    private scanAllSymbols(symbols: vscode.DocumentSymbol[]): vscode.DocumentSymbol[] {
+        let allSymbols: vscode.DocumentSymbol[] = [];
+        for (const symbol of symbols) {
+            allSymbols.push(symbol);
+            if (symbol.children && symbol.children.length > 0) {
+                allSymbols = allSymbols.concat(this.scanAllSymbols(symbol.children));
+            }
+        }
+        return allSymbols;
+    }
+
+    getItemBySymbol(symbol: vscode.DocumentSymbol): HierarchyItem {
+        const matches = (a: vscode.DocumentSymbol, b: vscode.DocumentSymbol) => {
+            return a.name === b.name && a.range.start.line === b.range.start.line && a.range.start.character === b.range.start.character;
+        };
+
+        const findIn = (items: HierarchyItem[]): HierarchyItem | undefined => {
+            for (const item of items) {
+                if (matches(item.symbol, symbol)) { return item; }
+                const childItems = item.symbol.children.map(child => new HierarchyItem(child, child.children.length > 0 ? vscode.TreeItemCollapsibleState.Collapsed : vscode.TreeItemCollapsibleState.None, item, item.documentUri));
+                const found = findIn(childItems);
+                if (found) { return found; }
+            }
+            return undefined;
+        };
+
+        const found = findIn(this.items);
+        if (found) { return found; }
+
+        return new HierarchyItem(symbol, symbol.children.length > 0 ? vscode.TreeItemCollapsibleState.Collapsed : vscode.TreeItemCollapsibleState.None, undefined, this.currentDocument?.uri);
     }
 
     pathExists(path: string): boolean {
@@ -73,15 +181,15 @@ export class HierarchyTreeProvider implements vscode.TreeDataProvider<HierarchyI
 }
 
 export class HierarchyItem extends vscode.TreeItem {
-    constructor(public readonly symbol: vscode.DocumentSymbol, public readonly collapsibleState: vscode.TreeItemCollapsibleState) {
+    constructor(public readonly symbol: vscode.DocumentSymbol, public readonly collapsibleState: vscode.TreeItemCollapsibleState, public readonly parent?: HierarchyItem, public readonly documentUri?: vscode.Uri) {
         super(symbol.name, collapsibleState);
-        this.tooltip = `${this.symbol.name}`;
-        this.description = `${vscode.SymbolKind[symbol.kind]}`;
-        this.iconPath = new vscode.ThemeIcon(this.getIconForSymbolKind(symbol.kind));
+        this.tooltip = `${this.symbol.name} ${this.symbol.range.start.line + 1}:${this.symbol.range.start.character + 1} - ${this.symbol.range.end.line + 1}:${this.symbol.range.end.character + 1}`;
+        this.description = `${vscode.SymbolKind[this.symbol.kind]}`;
+        this.iconPath = new vscode.ThemeIcon(this.getIconForSymbolKind(this.symbol.kind));
         this.command = {
             command: 'devspace.goToSymbol',
             title: 'Go to Symbol',
-            arguments: [symbol.range]
+            arguments: [this.documentUri, this.symbol.range]
         };
     }
 

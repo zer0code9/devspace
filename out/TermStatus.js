@@ -10,9 +10,9 @@ class TermStatus {
     }
     async update() {
         let data = await this.getData();
-        this.statusBarItem.text = `$(devspace-gear) ${data[0]} $(devspace-checkmark) ${data[1]}`;
-        this.statusBarItem.command = 'devspace.termPad.focus';
+        this.statusBarItem.text = `$(devspace-gear) ${data[0]} $(devspace-check) ${data[1]}`;
         this.statusBarItem.tooltip = (data[0] + data[1]) ? `Issues: ${data[0] + data[1]}` : `No issues`;
+        this.statusBarItem.command = 'devspace.termPad.focus';
     }
     async getData() {
         let fixme = 0;

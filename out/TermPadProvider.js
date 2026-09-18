@@ -5,14 +5,16 @@ const fs = require("fs");
 const path = require("path");
 const vscode = require("vscode");
 const commentsSingle = {
-    primary: '//', // js/ts, java, kotlin, c, cpp
+    primary: '//', // js/ts, java, kotlin, c, cpp, rust
     python: '#',
-    ruby: '#'
+    ruby: '#',
+    sql: '--',
 };
 const commentsMulti = {
     primary: ['/*', '*/'],
     python: ['"""', '"""'],
     ruby: ['=begin', '=end'],
+    sql: ['/*', '*/'],
     html: ['<!--', '-->'],
     css: ['/*', '*/'] // css, scss
 };
@@ -20,9 +22,6 @@ class TermPadProvider {
     constructor() {
         this._onDidChangeTreeData = new vscode.EventEmitter();
         this.onDidChangeTreeData = this._onDidChangeTreeData.event;
-        this.update();
-    }
-    update() {
     }
     refresh() {
         this._onDidChangeTreeData.fire();
@@ -37,8 +36,8 @@ class TermPadProvider {
         return Promise.resolve(this.getFiles());
     }
     async getFiles() {
-        const toNode = (title, file) => {
-            return new FileTerm(title, file, "", vscode.TreeItemCollapsibleState.Expanded, "filenode");
+        const toFile = (title, file) => {
+            return new FileTerm(title, file, "", vscode.TreeItemCollapsibleState.Expanded, "fileItem");
         };
         const files = [];
         for (const group of vscode.window.tabGroups.all) {
@@ -56,12 +55,12 @@ class TermPadProvider {
                 }
             }
         }
-        const nodes = files.map(f => toNode(f.title, f.file));
-        return nodes;
+        const fileItems = files.map(f => toFile(f.title, f.file));
+        return fileItems;
     }
     async getTerms(filePath) {
-        const toNode = (text, location, file) => {
-            return new FileTerm(text, location, file, vscode.TreeItemCollapsibleState.None, "termnode");
+        const toTerm = (text, location, file) => {
+            return new FileTerm(text, location, file, vscode.TreeItemCollapsibleState.None, "termItem");
         };
         let single = commentsSingle.primary;
         let multi = commentsMulti.primary;
@@ -72,6 +71,10 @@ class TermPadProvider {
         else if (filePath.endsWith('.rb')) {
             single = commentsSingle.ruby;
             multi = commentsMulti.ruby;
+        }
+        else if (filePath.endsWith('.sql')) {
+            single = commentsSingle.sql;
+            multi = commentsMulti.sql;
         }
         else if (filePath.endsWith('.html')) {
             multi = commentsMulti.html;
@@ -146,8 +149,8 @@ class TermPadProvider {
                 endIndex = lines.findIndex((line, index) => line.includes(end) && index > endIndex);
             }
         }
-        const nodes = results.map(r => toNode(r.text, `[Ln ${r.line}, Col ${r.column}]`, r.file)).sort((a, b) => parseInt(a.info.split(' ')[1].replace(',', '')) - parseInt(b.info.split(' ')[1].replace(',', '')));
-        return nodes;
+        const termItems = results.map(r => toTerm(r.text, `[Ln ${r.line}, Col ${r.column}]`, r.file)).sort((a, b) => parseInt(a.info.split(' ')[1].replace(',', '')) - parseInt(b.info.split(' ')[1].replace(',', '')));
+        return termItems;
     }
 }
 exports.TermPadProvider = TermPadProvider;
@@ -171,13 +174,13 @@ class FileTerm extends vscode.TreeItem {
         this.extra = extra;
         this.collapsibleState = collapsibleState;
         this.context = context;
-        this.description = (this.context === "filenode") ? getBetterFilePath(this.info) : this.info;
+        this.description = (this.context === "fileItem") ? getBetterFilePath(this.info) : this.info;
         this.tooltip = `${this.title} ${this.info}`;
         this.contextValue = this.context;
         this.chooseIcon();
     }
     chooseIcon() {
-        if (this.context === "termnode") {
+        if (this.context === "termItem") {
             const term = this.title.split(':')[0].toLowerCase();
             this.iconPath = {
                 light: vscode.Uri.file(path.join(__filename, '..', '..', 'img', 'misc', `${term}.svg`)),

@@ -15,15 +15,17 @@ interface TermResult {
 }
 
 const commentsSingle = {
-    primary: '//', // js/ts, java, kotlin, c, cpp
+    primary: '//', // js/ts, java, kotlin, c, cpp, rust
     python: '#',
-    ruby: '#'
+    ruby: '#',
+    sql: '--',
 }
 
 const commentsMulti = {
     primary: ['/*', '*/'],
     python: ['"""', '"""'],
     ruby: ['=begin', '=end'],
+    sql: ['/*', '*/'],
     html: ['<!--', '-->'],
     css: ['/*', '*/'] // css, scss
 }
@@ -33,10 +35,6 @@ export class TermPadProvider implements vscode.TreeDataProvider<FileTerm> {
     readonly onDidChangeTreeData: vscode.Event<FileTerm | undefined | null | void> = this._onDidChangeTreeData.event;
 
     constructor() {
-        this.update();
-    }
-
-    update(): void {
         
     }
 
@@ -54,8 +52,8 @@ export class TermPadProvider implements vscode.TreeDataProvider<FileTerm> {
     }
 
     async getFiles(): Promise<FileTerm[]> {
-        const toNode = (title: string, file: string): FileTerm => {
-            return new FileTerm(title, file, "", vscode.TreeItemCollapsibleState.Expanded, "filenode");
+        const toFile = (title: string, file: string): FileTerm => {
+            return new FileTerm(title, file, "", vscode.TreeItemCollapsibleState.Expanded, "fileItem");
         }
 
         const files: FileResult[] = [];
@@ -71,13 +69,14 @@ export class TermPadProvider implements vscode.TreeDataProvider<FileTerm> {
                 if (terms.length > 0) { files.push({title: path.basename(filePath), file: filePath}); }
             }
         }
-        const nodes = files.map(f => toNode(f.title, f.file));
-        return nodes;
+
+        const fileItems = files.map(f => toFile(f.title, f.file));
+        return fileItems;
     }
 
     async getTerms(filePath: string): Promise<FileTerm[]> {
-        const toNode = (text: string, location: string, file: string): FileTerm => {
-            return new FileTerm(text, location, file, vscode.TreeItemCollapsibleState.None, "termnode");
+        const toTerm = (text: string, location: string, file: string): FileTerm => {
+            return new FileTerm(text, location, file, vscode.TreeItemCollapsibleState.None, "termItem");
         }
 
         let single = commentsSingle.primary;
@@ -88,6 +87,9 @@ export class TermPadProvider implements vscode.TreeDataProvider<FileTerm> {
         } else if (filePath.endsWith('.rb')) {
             single = commentsSingle.ruby;
             multi = commentsMulti.ruby;
+        } else if (filePath.endsWith('.sql')) {
+            single = commentsSingle.sql;
+            multi = commentsMulti.sql;
         } else if (filePath.endsWith('.html')) { multi = commentsMulti.html; }
         else if (filePath.endsWith('.css') || filePath.endsWith('.scss')) { multi = commentsMulti.css; }
 
@@ -156,8 +158,8 @@ export class TermPadProvider implements vscode.TreeDataProvider<FileTerm> {
             }
         }
 
-        const nodes = results.map(r => toNode(r.text, `[Ln ${r.line}, Col ${r.column}]`, r.file)).sort((a, b) => parseInt(a.info.split(' ')[1].replace(',', '')) - parseInt(b.info.split(' ')[1].replace(',', '')));
-        return nodes;
+        const termItems = results.map(r => toTerm(r.text, `[Ln ${r.line}, Col ${r.column}]`, r.file)).sort((a, b) => parseInt(a.info.split(' ')[1].replace(',', '')) - parseInt(b.info.split(' ')[1].replace(',', '')));
+        return termItems;
     }
 }
 
@@ -177,14 +179,14 @@ const getBetterFilePath = (path: string): string => {
 export class FileTerm extends vscode.TreeItem {
     constructor(public readonly title: string, public readonly info: string, public readonly extra: string, public readonly collapsibleState: vscode.TreeItemCollapsibleState, public readonly context: string) {
         super(title, collapsibleState);
-        this.description = (this.context === "filenode") ? getBetterFilePath(this.info) : this.info;
+        this.description = (this.context === "fileItem") ? getBetterFilePath(this.info) : this.info;
         this.tooltip = `${this.title} ${this.info}`;
         this.contextValue = this.context;
         this.chooseIcon();
     }
 
     chooseIcon() {
-        if (this.context === "termnode") {
+        if (this.context === "termItem") {
             const term = this.title.split(':')[0].toLowerCase();
             this.iconPath = {
                 light: vscode.Uri.file(path.join(__filename, '..', '..', 'img', 'misc', `${term}.svg`)),

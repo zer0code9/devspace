@@ -1,12 +1,13 @@
 import * as vscode from 'vscode';
-import { activateNodeView } from './activateNodeView';
+import { activatePackageView } from './activatePackageView';
 import { activateProjectBox } from './activateProjectBox';
 import { activateTermPad } from './activateTermPad';
 import { activateHierarchyTree } from './activateHierarchyTree';
 
 export function activate(context?: vscode.ExtensionContext) {
 	/* ACTIVATIONS */
-	activateNodeView();
+	
+	activatePackageView();
 	activateProjectBox();
 	activateTermPad();
 	activateHierarchyTree();
