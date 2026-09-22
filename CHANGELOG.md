@@ -2,6 +2,26 @@
 
 ## Current
 
+## 3.0.0
+
+- Added:
+    - View packages for python and rust projects using their TOML file
+    - Pip Python: uv and poetry package managers
+    - Crate Rust: cargo package manager
+    - Categorization for projects
+    - Either update or upgrade packages
+    - Included SQL to have terms (--)
+- Changed:
+    - It's packages now, not nodes
+    - Sections to seperate production and development packages
+    - Fixed Hierarchy Tree and made it work properly
+        - Read the readme file
+    - New icons for Package View and Project Box
+    - Fixed the colors of the icons for the terms
+    - Edited the readme file
+
+## Past
+
 ## 2.0.2 -> 2.0.7
 
 - Added:
@@ -20,8 +40,6 @@
 - Removed:
     - Snippets
     - Project Menu
-
-## Past
 
 ## 2.0.1
 

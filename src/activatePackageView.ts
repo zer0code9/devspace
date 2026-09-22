@@ -266,6 +266,28 @@ export function activatePackageView(): void {
     });
 
     /** 
+     * Upgrade Package Item
+     * Param: pkg: Package
+     * Function: Get Terminal Command
+     */
+    vscode.commands.registerCommand('devspace.upgradePackageItem', (pkg: Package) => {
+        const terminal = vscode.window.createTerminal({ name: `Devspace Terminal` });
+        terminal.show();
+        terminal.sendText(getTerminalCommand("upgrade", pkg.name, false, pkg.managerType), true);
+        vscode.window.onDidEndTerminalShellExecution(terminalE => {
+            if (terminalE.terminal.name === `Devspace Terminal`) {
+                if (terminalE.exitCode?.toString() === '0') {
+                    vscode.window.showInformationMessage(`Upgraded ${pkg.name}`);
+                    packageViewProvider.refresh();
+                } else {
+                    vscode.window.showErrorMessage(`Failed to upgrade ${pkg.name}`);
+                }
+                terminal.dispose();
+            }
+        });
+    });
+
+    /** 
      * Remove Package Item
      * Param: pkg: Package
      * Function: Get Terminal Command
@@ -407,7 +429,7 @@ function getTerminalCommand(action: string, pkg: string, dev?: boolean, packageM
             command += `${securedRoot ? 'sudo' : ''} npm `;
             if (action === "add") { command += `add ${dev ? `--save-dev` : ""} ${pkg}`; }
             else if (action === "update") { command += `update ${pkg}`; }
-            else if (action === "upgrade") { command += `install ${pkg}@latest`; }
+            else if (action === "upgrade") { command += `add ${pkg}@latest`; }
             else if (action === "remove") { command += `remove ${pkg}`; }
         } else if (packageManager === "bun") {
             command += `${securedRoot ? 'sudo' : ''} bun `;
@@ -427,8 +449,8 @@ function getTerminalCommand(action: string, pkg: string, dev?: boolean, packageM
         if (packageManager === "uv") {
             command += `${securedRoot ? 'sudo' : ''} uv `;
             if (action === "add") { command += `add ${pkg} ${dev ? `--dev` : ""}`; }
-            else if (action === "update") { command += `sync ${pkg}`; }
-            else if (action === "upgrade") { command += `sync --upgrade-package ${pkg}`; }
+            else if (action === "update") { command += `add ${pkg}`; }
+            else if (action === "upgrade") { command += `add --upgrade-package ${pkg}`; }
             else if (action === "remove") { command += `remove ${pkg}`; }
         } else if (packageManager === "poetry") {
             command += `${securedRoot ? 'sudo' : ''} poetry `;
@@ -440,7 +462,8 @@ function getTerminalCommand(action: string, pkg: string, dev?: boolean, packageM
     } else if (packageManagerType === "crate") {
         command += `cargo `;
         if (action === "add") { command += `add ${pkg} ${dev ? `--dev` : ""}`; }
-        else if (action === "update") { command += `update -p ${pkg}`; }
+        else if (action === "update") { command += `update ${pkg}`; }
+        else if (action === "upgrade") { command += `add ${pkg}`; }
         else if (action === "remove") { command += `remove ${pkg}`; }
         return command;
     }

@@ -54,7 +54,7 @@
           "id": "devspace.packageView",
           "name": "Package View",
           "contextualTitle": "Package View",
-          "icon": "$(devspace-node-container)"
+          "icon": "$(devspace-package-container)"
         },
         {
           "id": "devspace.hierarchyTree",
@@ -113,28 +113,33 @@
       },
       {
         "command": "devspace.addPackageItemPrompt",
-        "title": "Add",
-        "icon": "$(devspace-node-add)"
+        "title": "Add Package Item",
+        "icon": "$(devspace-package-add)"
       },
       {
         "command": "devspace.addPackageItem",
-        "title": "Add",
-        "icon": "$(devspace-node-add)"
+        "title": "Add Package Item",
+        "icon": "$(devspace-package-add)"
       },
       {
         "command": "devspace.updatePackageItem",
-        "title": "Update",
-        "icon": "$(devspace-node-change)"
+        "title": "Update Package Item",
+        "icon": "$(devspace-package-change)"
+      },
+      {
+        "command": "devspace.upgradePackageItem",
+        "title": "Upgrade Package Item",
+        "icon": "$(devspace-package-install)"
       },
       {
         "command": "devspace.removePackageItem",
-        "title": "Remove",
-        "icon": "$(devspace-node-remove)"
+        "title": "Remove Package Item",
+        "icon": "$(devspace-package-remove)"
       },
       {
         "command": "devspace.openPackageItem",
-        "title": "Open",
-        "icon": "$(devspace-node-search)"
+        "title": "Open Package Item",
+        "icon": "$(devspace-package-search)"
       },
       {
         "command": "devspace.showProjectBox",
@@ -272,6 +277,11 @@
           "group": "inline"
         },
         {
+          "command": "devspace.upgradePackageItem",
+          "when": "view == devspace.packageView && viewItem == packageItem",
+          "group": "inline"
+        },
+        {
           "command": "devspace.removePackageItem",
           "when": "view == devspace.packageView && viewItem == packageItem",
           "group": "inline"
@@ -377,64 +387,71 @@
       }
     },
     "icons": {
-      "devspace-node": {
-        "description": "Node",
+      "devspace-package": {
+        "description": "Package",
         "default": {
           "fontPath": "img/devspace.woff",
           "fontCharacter": "\\E100"
         }
       },
-      "devspace-node-add": {
-        "description": "Node Add",
+      "devspace-package-add": {
+        "description": "Package Add",
         "default": {
           "fontPath": "img/devspace.woff",
           "fontCharacter": "\\E101"
         }
       },
-      "devspace-node-remove": {
-        "description": "Node Remove",
+      "devspace-package-remove": {
+        "description": "Package Remove",
         "default": {
           "fontPath": "img/devspace.woff",
           "fontCharacter": "\\E102"
         }
       },
-      "devspace-node-edit": {
-        "description": "Node Edit",
+      "devspace-package-edit": {
+        "description": "Package Edit",
         "default": {
           "fontPath": "img/devspace.woff",
           "fontCharacter": "\\E103"
         }
       },
-      "devspace-node-change": {
-        "description": "Node Change",
+      "devspace-package-change": {
+        "description": "Package Change",
         "default": {
           "fontPath": "img/devspace.woff",
           "fontCharacter": "\\E104"
         }
       },
-      "devspace-node-check": {
-        "description": "Node Check",
+      "devspace-package-check": {
+        "description": "Package Check",
         "default": {
           "fontPath": "img/devspace.woff",
           "fontCharacter": "\\E105"
         }
       },
-      "devspace-node-cross": {
-        "description": "Node Cross",
+      "devspace-package-cross": {
+        "description": "Package Cross",
         "default": {
           "fontPath": "img/devspace.woff",
           "fontCharacter": "\\E106"
         }
       },
-      "devspace-node-search": {
-        "description": "Node Search",
+      "devspace-package-search": {
+        "description": "Package Search",
         "default": {
           "fontPath": "img/devspace.woff",
           "fontCharacter": "\\E107"
         }
       },
-      "devspace-node-container": {
-        "description": "Node Container",
+      "devspace-package-install": {
+        "description": "Package Install",
+        "default": {
+          "fontPath": "img/devspace.woff",
+          "fontCharacter": "\\E131"
+        }
+      },
+      "devspace-package-container": {
+        "description": "Package Container",
         "default": {
           "fontPath": "img/devspace.woff",
           "fontCharacter": "\\E1FF"
@@ -639,7 +656,7 @@
     "@vscode/test-electron": "^3.1.0",
     "eslint": "^10.8.1",
     "glob": "^13.0.6",
-    "mocha": "^11.8.0",
-    "typescript": "^7.0.2"
+    "mocha": "^12.0.2",
+    "typescript": "^6.0.3"
   }
 }

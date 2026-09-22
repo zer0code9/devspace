@@ -1,7 +1,0 @@
-<svg viewBox="0 0 24 24" stroke-width="2" stroke="#5c5c5c" stroke-linecap="round" stroke-linejoin="round" fill="none" width="32" height="32" class="lucide lucide-package-search-icon lucide-package-search" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <path d="M12 22V12" />
-    <path d="M20.27 18.27 22 20" />
-    <path d="M21 10.498V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.729l7 4a2 2 0 0 0 2 1e-3l0.98-0.559" />
-    <path d="M3.29 7 12 12l8.71-5" />
-    <circle cx="18.5" cy="16.5" r="2.5" />
-</svg>

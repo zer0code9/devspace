@@ -1,9 +1,42 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.activatePackageView = activatePackageView;
-const fs = require("fs");
-const path = require("path");
-const vscode = require("vscode");
+const fs = __importStar(require("fs"));
+const path = __importStar(require("path"));
+const vscode = __importStar(require("vscode"));
 const PackageViewProvider_1 = require("./PackageViewProvider");
 const PackageStatus_1 = require("./PackageStatus");
 function activatePackageView() {
@@ -259,6 +292,28 @@ function activatePackageView() {
         });
     });
     /**
+     * Upgrade Package Item
+     * Param: pkg: Package
+     * Function: Get Terminal Command
+     */
+    vscode.commands.registerCommand('devspace.upgradePackageItem', (pkg) => {
+        const terminal = vscode.window.createTerminal({ name: `Devspace Terminal` });
+        terminal.show();
+        terminal.sendText(getTerminalCommand("upgrade", pkg.name, false, pkg.managerType), true);
+        vscode.window.onDidEndTerminalShellExecution(terminalE => {
+            if (terminalE.terminal.name === `Devspace Terminal`) {
+                if (terminalE.exitCode?.toString() === '0') {
+                    vscode.window.showInformationMessage(`Upgraded ${pkg.name}`);
+                    packageViewProvider.refresh();
+                }
+                else {
+                    vscode.window.showErrorMessage(`Failed to upgrade ${pkg.name}`);
+                }
+                terminal.dispose();
+            }
+        });
+    });
+    /**
      * Remove Package Item
      * Param: pkg: Package
      * Function: Get Terminal Command
@@ -415,7 +470,7 @@ function getTerminalCommand(action, pkg, dev, packageManagerType = "node") {
                 command += `update ${pkg}`;
             }
             else if (action === "upgrade") {
-                command += `install ${pkg}@latest`;
+                command += `add ${pkg}@latest`;
             }
             else if (action === "remove") {
                 command += `remove ${pkg}`;
@@ -460,10 +515,10 @@ function getTerminalCommand(action, pkg, dev, packageManagerType = "node") {
                 command += `add ${pkg} ${dev ? `--dev` : ""}`;
             }
             else if (action === "update") {
-                command += `add --upgrade ${pkg}`;
+                command += `add ${pkg}`;
             }
             else if (action === "upgrade") {
-                command += `add --upgrade ${pkg}`;
+                command += `add --upgrade-package ${pkg}`;
             }
             else if (action === "remove") {
                 command += `remove ${pkg}`;
@@ -472,9 +527,12 @@ function getTerminalCommand(action, pkg, dev, packageManagerType = "node") {
         else if (packageManager === "poetry") {
             command += `${securedRoot ? 'sudo' : ''} poetry `;
             if (action === "add") {
-                command += `add ${pkg} ${dev ? `--group dev` : ""}`;
+                command += `install ${pkg} ${dev ? `--group dev` : ""}`;
             }
             else if (action === "update") {
+                command += `update --sync ${pkg}`;
+            }
+            else if (action === "upgrade") {
                 command += `add ${pkg}@latest`;
             }
             else if (action === "remove") {
@@ -488,7 +546,10 @@ function getTerminalCommand(action, pkg, dev, packageManagerType = "node") {
             command += `add ${pkg} ${dev ? `--dev` : ""}`;
         }
         else if (action === "update") {
-            command += `update -p ${pkg}`;
+            command += `update ${pkg}`;
+        }
+        else if (action === "upgrade") {
+            command += `add ${pkg}`;
         }
         else if (action === "remove") {
             command += `remove ${pkg}`;
